@@ -60,8 +60,12 @@ body {
   display: none;
 }
 
-input {
+input,
+select {
   font-family: "Poppins", sans-serif;
+  -webkit-box-shadow: 0px 11px 11px -7px rgba(75, 75, 224, 1);
+  -moz-box-shadow: 0px 11px 11px -7px rgba(75, 75, 224, 1);
+  box-shadow: 0px 11px 11px -7px rgba(75, 75, 224, 1);
 }
 
 button {
@@ -71,14 +75,54 @@ button {
   font-family: "Poppins", sans-serif;
   border-radius: 30px;
   color: white;
-  -webkit-box-shadow: 0px 11px 11px -7px rgba(75, 75, 224, 1);
-  -moz-box-shadow: 0px 11px 11px -7px rgba(75, 75, 224, 1);
-  box-shadow: 0px 11px 11px -7px rgba(75, 75, 224, 1);
+  -webkit-box-shadow: 0px 11px 11px -10px rgba(75, 75, 224, 1);
+  -moz-box-shadow: 0px 11px 11px -10px rgba(75, 75, 224, 1);
+  box-shadow: 0px 11px 11px -10px rgba(75, 75, 224, 1);
   background: $PrimaryColorDark;
   transition: 300ms all ease-in-out;
 
-  &:hover{
+  &:hover {
     background: #4b4be0c4;
     color: $white;
   }
+}
+
+h2 {
+  font-size: 30px;
+}
+
+/*For select*/
+select {
+  width: 100%;
+  height: auto;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.select-style select:focus {
+  outline: none;
+}
+
+.select-style {
+  position: relative;
+}
+
+.arrow {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 100;
+  color: $PrimaryColorDark;
+  line-height: 2;
+}
+
+.error-message {
+  color: red;
+  font-size: 10px;
+}
+
+.input-invalid {
+  -webkit-box-shadow: 0px 11px 11px -10px red;
+  -moz-box-shadow: 0px 11px 11px -10px red;
+  box-shadow: 0px 11px 11px -10px red;
 }
