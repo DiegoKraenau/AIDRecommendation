@@ -7,19 +7,27 @@ import {
 import Login from './components/Login/Login';
 import Register from './components/register/Register';
 import './sass/styles.scss';
+import { Provider } from 'react-redux';
+import generateStore from './redux/store';
 
 function App() {
+
+  const store = generateStore()
+
   return (
-    <Router>
-      <Switch>
-        <Route path="/" exact>
-          <Login></Login>
-        </Route>
-        <Route path="/register" exact>
-          <Register></Register>
-        </Route>
-      </Switch>
-    </Router>
+    <Provider store={store}>
+      <Router>
+        <Switch>
+          <Route path="/" exact>
+            <Login></Login>
+          </Route>
+          <Route path="/register" exact>
+            <Register></Register>
+          </Route>
+        </Switch>
+      </Router>
+    </Provider>
+
   );
 }
 

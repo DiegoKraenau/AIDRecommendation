@@ -1,12 +1,13 @@
 import styles from './_register.module.scss';
-import React from 'react';
+import {React,useState} from 'react';
 import '../../sass/styles.scss';
 import profile from '../../img/profile.svg';
 import doctorface from '../../img/doctorface2.svg';
 import pacientface from '../../img/pacientface.svg';
-import { useState } from 'react';
 import abslogin from '../../img/abslogin.svg';
 import { useForm } from 'react-hook-form';
+import Swal from 'sweetalert2';
+import { useHistory } from "react-router-dom";
 
 const Register = () => {
 
@@ -16,7 +17,21 @@ const Register = () => {
     */
     const [rolSelected, setRolSelect] = useState(1)
     const { register, errors, handleSubmit } = useForm()
-    const [value, setValue] = useState('')
+    const history = useHistory();
+    const [user, setUser] = useState({
+        "Nombre":'',
+        "Apellido":'',
+        "DNI":'',
+        "Edad": null,
+        "Correo":'',
+        "Usuario":'',
+        "Contraseña":'',
+        "PalabraSecreta":'',
+        "Sexo":'',
+        "Especialidad":'',
+        "Colegiatura":'',
+        "Rol":null
+    })
 
     const changeToDoctor = () => {
         setRolSelect(2)
@@ -27,15 +42,47 @@ const Register = () => {
     }
 
     const onSubmit = (data, e) => {
+
         data = {
             ...data,
-            "Rol": rolSelected
+            "Rol":rolSelected
         }
+
         console.log(data)
+        console.log(data.Contraseña)
         /*Make if to use the endpoint */
         e.target.reset()
+        /*Alert success */
+        Swal.fire(
+            'Buen Trabajo',
+            'Te has registrado con exito',
+            'success'
+        ).then((result)=>{
+            if(result.isConfirmed){
+                history.push('/')
+            }
+        })
     }
 
+    /*Validations */
+
+    const onChange = (e) => {
+        setUser(
+            {
+                ...user,
+                [e.target.name]:e.target.value.replace(/[^a-z, A-Z\s]/gi, "")
+            }
+        )
+    };
+
+    const onChangeNumbers = (e) =>{
+        setUser(
+            {
+                ...user,
+                [e.target.name]:e.target.value.replace(/[^0-9]/gi, "")
+            }
+        )
+    }
 
 
 
@@ -63,7 +110,8 @@ const Register = () => {
                             <div className={`${styles.input}`}>
                                 <span>Nombre</span>
                                 <input
-                                    name="Name"
+                                    type="string"
+                                    name="Nombre"
                                     placeholder="Ingrese un nombre"
                                     autoComplete="off"
                                     ref={
@@ -73,6 +121,8 @@ const Register = () => {
                                         })
                                     }
                                     className={`${errors.Name?.message ? 'input-invalid' : ''}`}
+                                    value={user.Nombre}
+                                    onChange={(e)=>onChange(e)}
                                 >
                                 </input>
                                 <div className="error-message">{errors.Name?.message}</div>
@@ -90,6 +140,8 @@ const Register = () => {
                                         })
                                     }
                                     className={`${errors.Apellido?.message ? 'input-invalid' : ''}`}
+                                    value={user.Apellido}
+                                    onChange={(e)=>onChange(e)}
                                 ></input>
                                 <div className="error-message">{errors.Apellido?.message}</div>
                             </div>
@@ -102,10 +154,13 @@ const Register = () => {
                                     ref={
                                         register({
                                             required: { value: true, message: 'Necesitas un dni' },
-                                            minLength: { value: 8, message: '8 letras minimas' }
+                                            minLength: { value: 8, message: 'El DNI debe tener 8 dígitos' },
+                                            maxLength: { value: 8, message: 'El DNI debe tener 8 dígitos' }
                                         })
                                     }
                                     className={`${errors.DNI?.message ? 'input-invalid' : ''}`}
+                                    value={user.DNI}
+                                    onChange={(e)=>onChangeNumbers(e)}
                                 ></input>
                                 <div className="error-message">{errors.DNI?.message}</div>
                             </div>
@@ -119,7 +174,7 @@ const Register = () => {
                                     ref={
                                         register({
                                             required: { value: true, message: 'Necesitas una edad' },
-                                            minLength: { value: 1, message: '1 letras minimas' }
+                                            minLength: { value: 1, message: '1 número minimo' }
                                         })
                                     }
                                     className={`${errors.Edad?.message ? 'input-invalid' : ''}`}
@@ -156,8 +211,10 @@ const Register = () => {
                                         })
                                     }
                                     className={`${errors.Usuario?.message ? 'input-invalid' : ''}`}
+                                    value={user.Usuario}
+                                    onChange={(e)=>onChange(e)}
                                 ></input>
-                                <div className="error-message">{errors.Edad?.message}</div>
+                                <div className="error-message">{errors.Usuario?.message}</div>
                             </div>
                             <div className={`${styles.input}`}>
                                 <span>Contraseña</span>
@@ -189,6 +246,8 @@ const Register = () => {
                                         })
                                     }
                                     className={`${errors.PalabraSecreta?.message ? 'input-invalid' : ''}`}
+                                    value={user.PalabraSecreta}
+                                    onChange={(e)=>onChange(e)}
                                 ></input>
                                 <div className="error-message">{errors.PalabraSecreta?.message}</div>
                             </div>
