@@ -9,7 +9,6 @@ import Register from './components/register/Register';
 import './sass/styles.scss';
 import { Provider } from 'react-redux';
 import generateStore from './redux/store';
-import Navbar from './components/Navbar/Navbar';
 import Consultas from './components/Consultas/Consultas';
 import HistorialMedico from './components/HistorialMedico/HistorialMedico';
 import Recomendaciones from './components/Recomendaciones/Recomendaciones';
@@ -22,7 +21,6 @@ import ProtectedRoutes from './Extras/ProtectedRoutes';
 function App() {
 
   const store = generateStore()
-  const [isAuth, setIsAuth] = useState(true)
 
   return (
     <Provider store={store}>
@@ -34,31 +32,35 @@ function App() {
           <Route path="/register" exact>
             <Register></Register>
           </Route>
+
           <ProtectedRoutes
             path="/consultas"
             component={Consultas}
-            isAuth={isAuth}
           ></ProtectedRoutes>
           <ProtectedRoutes
             path="/historialmedico"
             component={HistorialMedico}
-            isAuth={isAuth}
           ></ProtectedRoutes>
           <ProtectedRoutes
             path="/recomendaciones"
             component={Recomendaciones}
-            isAuth={isAuth}
           ></ProtectedRoutes>
           <ProtectedRoutes
             path="/foro"
             component={Foro}
-            isAuth={isAuth}
           ></ProtectedRoutes>
-          <ProtectedRoutes
+          <Route path="/perfil" exact>
+            <Perfil></Perfil>
+          </Route>
+          {
+            /*
+             <ProtectedRoutes
             path="/perfil"
             component={Perfil}
             isAuth={isAuth}
-          ></ProtectedRoutes>
+          ></ProtectedRoutes> */
+          }
+
 
         </Switch>
       </Router>

@@ -1,13 +1,24 @@
 import { React } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import '../../sass/styles.scss';
 import styles from './_navbar.module.scss';
 import Logo from '../../img/logo.svg';
 import '../../sass/styles.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {useDispatch} from 'react-redux'
+import { exitAction } from '../../redux/userDucks';
 
 
 const Navbar = () => {
+
+    let history = useHistory();
+    const dispatch = useDispatch();
+
+    const exit = () =>{
+        //localStorage.removeItem('token')
+        dispatch(exitAction())
+        history.push('/')
+    }
 
 
     return (
@@ -34,7 +45,7 @@ const Navbar = () => {
                         <NavLink activeClassName='active' to='/perfil' defaultChecked>Mi perfil</NavLink>
                     </li>
                     <li>
-                        <i className="icon"><FontAwesomeIcon icon="sign-out-alt" /></i>
+                        <i className="icon"><FontAwesomeIcon icon="sign-out-alt"  onClick={()=>exit()}/></i>
                     </li>
                 </ul>
 

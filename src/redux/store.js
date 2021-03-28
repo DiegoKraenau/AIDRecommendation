@@ -4,7 +4,7 @@ import thunk from 'redux-thunk';
 import userReducer from './userDucks';
 
 const rootReducer = combineReducers({
-    user: userReducer
+    usuario: userReducer
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;//only if u have the extension

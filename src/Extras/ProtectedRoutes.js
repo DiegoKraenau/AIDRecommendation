@@ -1,16 +1,18 @@
 import React from 'react'
-import { Route } from 'react-router-dom'
+import { Redirect, Route } from 'react-router-dom'
 import { useHistory } from "react-router-dom";
+import Login from '../components/Login/Login';
 
-export default function ProtectedRoutes({ isAuth, component: Component, ...rest }) {
+export default function ProtectedRoutes({component: Component, ...rest }) {
     let history = useHistory();
     return (
         <Route {...rest} render={(props) => {
-            if (isAuth) {
+            if (localStorage.getItem('token')) {
                 return <Component></Component>
             } else {
-                history.push('/')
-
+                return (
+                    <Redirect to={{ pathname: "/", state: { from: props.location } }} />
+                );
             }
         }}>
         </Route>

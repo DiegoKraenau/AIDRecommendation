@@ -1,19 +1,25 @@
 import styles from './_login.module.scss';
 import doctorLogin from '../../img/img-login4.svg';
-import { Link } from 'react-router-dom';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 import abslogin from '../../img/abslogin.svg';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { loginAction } from '../../redux/userDucks';
 import { useForm } from 'react-hook-form';
-import { React, useState, useEffect } from 'react';
+import { React, useState, useEffect, useLayoutEffect, useRef } from 'react';
 import '../../sass/styles.scss';
 
 
 
 const Login = () => {
 
-    const dispatch = useDispatch()
-    const { register, errors, handleSubmit } = useForm()
+
+    const test = useSelector(store => store.usuario.token)
+
+    const dispatch = useDispatch();
+    const { register, errors, handleSubmit } = useForm();
+    const history = useHistory();
+
+
     const [user, setUser] = useState(
         {
             "Usuario": '',
@@ -22,9 +28,10 @@ const Login = () => {
     )
 
 
-    const onSubmit = (data, e) => {
+    const onSubmit = async (data, e) => {
         console.log(user)
         dispatch(loginAction())
+        console.log(localStorage.getItem('token'))
     }
 
     /*Validations */
@@ -49,8 +56,11 @@ const Login = () => {
 
 
     useEffect(() => {
-        // console.log("afdñkasñlf")
-    }, [])
+        if (localStorage.getItem('token')) {
+            console.log("SE PASA")
+            history.push('/recomendaciones')
+        }
+    }, [test])
 
 
 
@@ -62,6 +72,9 @@ const Login = () => {
                     <div className={`${styles.login_text}`}>
                         <p>Bienvenido a</p>
                         <p>AID RECOMMENDATION</p>
+                        {
+                            <p>{test}</p>
+                        }
                     </div>
                     <div className={`${styles.login_img}`}>
                         <img src={doctorLogin} alt="login-img"></img>
@@ -115,6 +128,7 @@ const Login = () => {
                     </form>
                 </div>
             </section>
+
         </section>
     );
 }
