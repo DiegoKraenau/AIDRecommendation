@@ -1,0 +1,40 @@
+@import "../../sass/styles.scss";
+
+.navbar {
+  width: 100%;
+  height: 80px;
+  background: $PrimaryColorDark;
+  text-align: center;
+
+  &__content {
+    width: 100%;
+    height: 100%;
+  }
+  &__left {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      display: block;
+      width: 100%;
+      height: 40px;
+    }
+  }
+
+  &__right {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    list-style: none;
+
+    li:not(:last-child) {
+      margin-right: 20px;
+    }
+
+    li a {
+      color: $white;
+      text-decoration: none;
+    }
+  }
+}

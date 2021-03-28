@@ -10,9 +10,6 @@ import '../../sass/styles.scss';
 
 
 
-
-
-
 const Login = () => {
 
     const dispatch = useDispatch()
@@ -36,7 +33,7 @@ const Login = () => {
         setUser(
             {
                 ...user,
-                [e.target.name]:e.target.value.replace(/[^a-z, A-Z\s]/gi, "")
+                [e.target.name]: e.target.value.replace(/[^a-z, A-Z\s]/gi, "")
             }
         )
     };
@@ -45,14 +42,14 @@ const Login = () => {
         setUser(
             {
                 ...user,
-                [e.target.name]:e.target.value
+                [e.target.name]: e.target.value
             }
         )
     };
 
 
     useEffect(() => {
-     // console.log("afdñkasñlf")
+        // console.log("afdñkasñlf")
     }, [])
 
 
@@ -109,7 +106,7 @@ const Login = () => {
                                 }
                                 className={`${errors.Contraseña?.message ? 'input-invalid' : ''}`}
                                 value={user.Contraseña}
-                                onChange={(e)=>{onChangeAll(e)}}
+                                onChange={(e) => { onChangeAll(e) }}
                             ></input>
                             <div className="error-message">{errors.Contraseña?.message}</div>
                         </div>

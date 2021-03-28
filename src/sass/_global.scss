@@ -134,7 +134,7 @@ select {
 }
 
 .input_format {
-  span{
+  span {
     display: block;
     font-size: 10px;
     text-align: left !important;
@@ -152,4 +152,16 @@ select {
     display: block;
     width: 100%;
   }
+}
+
+.active {
+  background: $white;
+  padding: 5px;
+  color: $PrimaryColorDark !important;
+  border-radius: 10px;
+}
+
+.icon {
+  cursor: pointer;
+  color: $white;
 }
