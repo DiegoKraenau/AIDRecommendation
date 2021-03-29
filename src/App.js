@@ -17,6 +17,7 @@ import './Extras/FontAwsomeIcons';
 import ProtectedRoutes from './Extras/ProtectedRoutes';
 import ListaHistorialMedico from './components/ListaHistorialMedico/ListaHistorialMedico';
 import AgregarDeficit from './components/HistorialMedico/AgregarDeficit';
+import EditarDeficit from './components/EditarDeficit/EditarDeficit';
 
 
 function App() {
@@ -50,6 +51,10 @@ function App() {
           <ProtectedRoutes
             path="/foro"
             component={Foro}
+          ></ProtectedRoutes>
+          <ProtectedRoutes
+            path="/editarDeficit/:deficitId"
+            component={EditarDeficit}
           ></ProtectedRoutes>
           <Route path="/perfil" exact>
             <Perfil></Perfil>

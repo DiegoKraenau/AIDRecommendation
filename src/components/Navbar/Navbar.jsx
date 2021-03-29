@@ -21,6 +21,7 @@ const Navbar = () => {
     }
 
 
+
     return (
         <section className={`${styles.navbar}`}>
             <section className={`${styles.navbar__content} container flex flex-jc-sb`}>
@@ -36,7 +37,7 @@ const Navbar = () => {
                         <NavLink activeClassName='active' to='/historialmedico' defaultChecked>Historial Médico</NavLink>
                     </li>
                     <li>
-                        <NavLink activeClassName='active' to='/recomendaciones' defaultChecked>Recomendaciones COVID 19</NavLink>
+                        <NavLink activeClassName='active' to={`/recomendaciones`} defaultChecked>Recomendaciones COVID 19</NavLink>
                     </li>
                     <li>
                         <NavLink activeClassName='active' to='/foro' defaultChecked>Foro COVID 19</NavLink>

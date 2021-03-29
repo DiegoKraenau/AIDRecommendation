@@ -10,6 +10,8 @@
     width: 100%;
     height: 85%;
 
+  
+
     h2 {
       width: 100%;
       text-align: center;
@@ -54,4 +56,21 @@
   margin: 0 auto;
   width: 60%;
   text-align: right;
+}
+
+
+.content_nothing{
+    
+  width: 100%; 
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  p{
+    width: 100%;
+    height: 35px;
+    text-align: center;
+    font-size: 30px;
+  }
 }

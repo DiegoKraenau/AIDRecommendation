@@ -1,47 +1,78 @@
 import { Fragment, React, useEffect, useState } from 'react';
 import Navbar from '../Navbar/Navbar';
-import styles from './_agregarDeficit.module.scss';
+import styles from './_editarDeficit.module.scss';
 import { useForm } from 'react-hook-form';
 import '../../sass/styles.scss';
 import LoadingScreen from 'loading-screen-kraenau';
 import { useDispatch, useSelector } from 'react-redux';
-import { addDeficit, resetDeficitRegistered } from '../../redux/deficitDucks';
+import { addDeficit, getDeficit, resetDeficitUpdated, updateDeficit } from '../../redux/deficitDucks';
 import { getInfoUser } from '../../redux/userDucks';
 import Swal from 'sweetalert2';
 import { useHistory } from 'react-router';
+import { useParams } from 'react-router-dom';
 
 
-const AgregarDeficit = () => {
+const EditarDeficit = () => {
 
+    const { deficitId } = useParams();
     const { register, errors, handleSubmit } = useForm();
     const userInfo = useSelector(store => store.usuario.userInside)
-    const deficitRegistered = useSelector(store => store.deficit.deficitRegistered)
+    const deficitUpdated = useSelector(store => store.deficit.deficitUpdated)
     const dispatch = useDispatch();
     const loading = useSelector(store => store.global.loading);
     const history = useHistory();
+    const deficit = useSelector(store => store.deficit.deficitDetail)
+
+
     const [HistorialMedico, setHistorialMedico] = useState({
+        id:'',
         TipoDeficit: 'Enfermedad',
         Deficit: '',
-        EdadSufrioEnfermedad: 0,
+        EdadSufrioEnfermedad: '',
         Cronico: 'Si',
         Detalles: ''
     })
 
 
+    //Finish render and getDetailDeficit
+    useEffect(() => {
+        if (userInfo === null) {
+            dispatch(getInfoUser())
+        } else {
+            dispatch(getDeficit(userInfo.id, deficitId))
+        }
+    }, [])
 
-    //Form completed
+
+    //If userInfo finish
+    useEffect(() => {
+        if (userInfo !== null) {
+            dispatch(getDeficit(userInfo.id, deficitId))
+        }
+    }, [userInfo])
+
+    //If deficit finish
+    useEffect(() => {
+        if (deficit !== null) {
+            setHistorialMedico(
+                {
+                    id:deficit.id,
+                    TipoDeficit: deficit.TipoDeficit,
+                    Deficit: deficit.Deficit,
+                    EdadSufrioEnfermedad: deficit.EdadSufrioEnfermedad,
+                    Cronico: deficit.Cronico,
+                    Detalles: deficit.Detalles
+                }
+            )
+        }
+    }, [deficit])
+
+
+
+    //When the form is completed and push Edit
     const onSubmit = (data, e) => {
-        //dispatch(addDeficit(userInfo.id, HistorialMedico))
-        // console.log(HistorialMedico)
-        // console.log("hola entro aqui")
-        dispatch(addDeficit(userInfo.id, HistorialMedico))
+        dispatch(updateDeficit(userInfo.id, HistorialMedico))
         e.target.reset()
-        setHistorialMedico({
-            ...HistorialMedico,
-            "Deficit":'',
-            "EdadSufrioEnfermedad":'',
-            "Detalles":''
-        })
     }
 
 
@@ -75,33 +106,20 @@ const AgregarDeficit = () => {
         )
     }
 
-    //After rendered
     useEffect(() => {
-        if (userInfo === null) {
-            dispatch(getInfoUser())
-            //dispatch(listDeficits(userInfo.id))
-        }
-    }, [])
-
-    useEffect(() => {
-        if (deficitRegistered !== null) {
+        if (deficitUpdated !== null) {
             Swal.fire(
                 'Buen Trabajo',
                 'Agregó un deficit exitosamente',
                 'success'
             ).then((result) => {
                 if (result.isConfirmed) {
-                    dispatch(resetDeficitRegistered())
+                    dispatch(resetDeficitUpdated())
                     history.push('/historialmedico')
                 }
             })
         }
-    }, [deficitRegistered])
-
-
-
-
-
+    }, [deficitUpdated])
 
 
 
@@ -116,7 +134,7 @@ const AgregarDeficit = () => {
             <section className={`${styles.historialmedico} flex flex-jc-c flex-ai-c`}>
                 <section className={`${styles.historialmedico__content} container`}>
                     <div className={`${styles.historialmedico__form}`}>
-                        <h2>Registrar Deficit</h2>
+                        <h2>Editar Deficit</h2>
                         <form className={`${styles.hm_form}`} onSubmit={handleSubmit(onSubmit)}>
                             <div className={`${styles.input} input_format`}>
                                 <span>Tipo de déficit</span>
@@ -187,7 +205,7 @@ const AgregarDeficit = () => {
                                         }
                                         className={`${errors.Cronico?.message ? 'input-invalid' : 'select'}`}
                                         value={HistorialMedico.Cronico}
-                                        onChange={(e)=>onChangeNoChanges(e)}
+                                        onChange={(e) => onChangeNoChanges(e)}
                                     >
                                         <option value="Si">Si</option>
                                         <option value="No">No</option>
@@ -209,14 +227,14 @@ const AgregarDeficit = () => {
                                         })
                                     }
                                     className={`${errors.Detalles?.message ? 'input-invalid' : ''}`}
-                                    value={HistorialMedico.Detalle}
+                                    value={HistorialMedico.Detalles}
                                     onChange={(e) => onChangeNoChanges(e)}
                                 >
                                 </textarea>
                                 <div className="error-message">{errors.Detalles?.message}</div>
                             </div>
                             <div className="button__content">
-                                <button type="submit" className="button"> Registrar</button>
+                                <button type="submit" className="button"> Editar</button>
                             </div>
                         </form>
                     </div>
@@ -226,4 +244,4 @@ const AgregarDeficit = () => {
     );
 }
 
-export default AgregarDeficit;
+export default EditarDeficit;
