@@ -7,8 +7,6 @@ import {
 import Login from './components/Login/Login';
 import Register from './components/register/Register';
 import './sass/styles.scss';
-import { Provider } from 'react-redux';
-import generateStore from './redux/store';
 import Consultas from './components/Consultas/Consultas';
 import Recomendaciones from './components/Recomendaciones/Recomendaciones';
 import Foro from './components/Foro/Foro';
@@ -22,60 +20,60 @@ import EditarDeficit from './components/EditarDeficit/EditarDeficit';
 
 function App() {
 
-  const store = generateStore()
+  
+
 
   return (
 
-    <Provider store={store}>
-      <Router>
-        <Switch>
-          <Route path="/" exact>
-            <Login></Login>
-          </Route>
-          <Route path="/register" exact>
-            <Register></Register>
-          </Route>
 
-          <ProtectedRoutes
-            path="/consultas"
-            component={Consultas}
-          ></ProtectedRoutes>
-          <ProtectedRoutes
-            path="/historialmedico"
-            component={ListaHistorialMedico}
-          ></ProtectedRoutes>
-          <ProtectedRoutes
-            path="/recomendaciones"
-            component={Recomendaciones}
-          ></ProtectedRoutes>
-          <ProtectedRoutes
-            path="/foro"
-            component={Foro}
-          ></ProtectedRoutes>
-          <ProtectedRoutes
-            path="/editarDeficit/:deficitId"
-            component={EditarDeficit}
-          ></ProtectedRoutes>
-          <Route path="/perfil" exact>
-            <Perfil></Perfil>
-          </Route>
-          {
-            /*
-             <ProtectedRoutes
-            path="/perfil"
-            component={Perfil}
-            isAuth={isAuth}
-          ></ProtectedRoutes> */
-          }
+    <Router>
+      <Switch>
+        <Route path="/" exact>
+          <Login></Login>
+        </Route>
+        <Route path="/register" exact>
+          <Register></Register>
+        </Route>
 
-          <ProtectedRoutes
-            path="/agregarDeficit"
-            component={AgregarDeficit}
-          ></ProtectedRoutes>
+        <ProtectedRoutes
+          path="/consultas"
+          component={Consultas}
+        ></ProtectedRoutes>
+        <ProtectedRoutes
+          path="/historialmedico"
+          component={ListaHistorialMedico}
+        ></ProtectedRoutes>
+        <ProtectedRoutes
+          path="/recomendaciones"
+          component={Recomendaciones}
+        ></ProtectedRoutes>
+        <ProtectedRoutes
+          path="/foro"
+          component={Foro}
+        ></ProtectedRoutes>
+        <ProtectedRoutes
+          path="/editarDeficit/:deficitId"
+          component={EditarDeficit}
+        ></ProtectedRoutes>
+        <Route path="/perfil" exact>
+          <Perfil></Perfil>
+        </Route>
+        {
+          /*
+           <ProtectedRoutes
+          path="/perfil"
+          component={Perfil}
+          isAuth={isAuth}
+        ></ProtectedRoutes> */
+        }
 
-        </Switch>
-      </Router>
-    </Provider>
+        <ProtectedRoutes
+          path="/agregarDeficit"
+          component={AgregarDeficit}
+        ></ProtectedRoutes>
+
+      </Switch>
+    </Router>
 
   );
 }

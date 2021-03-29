@@ -33,7 +33,6 @@ const ListaHistorialMedico = () => {
     //Rendered finished
     useEffect(() => {
         // dispatch(listDeficits());
-        console.log("SE RENDERIZOOOOOOOOO")
         if (userInfo === null) {
             dispatch(getInfoUser())
             //dispatch(listDeficits(userInfo.id))
