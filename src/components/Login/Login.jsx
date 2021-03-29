@@ -25,15 +25,15 @@ const Login = () => {
     const [user, setUser] = useState(
         {
             "Usuario": '',
-            "Contraseña": ''
+            "Contrasenia": ''
         }
     )
 
 
     const onSubmit = async (data, e) => {
         console.log(user)
-        dispatch(loginAction())
-        console.log(localStorage.getItem('token'))
+        dispatch(loginAction(user))
+       // console.log(localStorage.getItem('token'))
     }
 
     /*Validations */
@@ -60,7 +60,6 @@ const Login = () => {
     useEffect(() => {
 
         if (localStorage.getItem('token')) {
-            console.log("SE PASA")
             history.push('/recomendaciones')
         }
 
@@ -115,7 +114,7 @@ const Login = () => {
                             <div className={`${styles.input} input_format`}>
                                 <span>Contraseña</span>
                                 <input
-                                    name="Contraseña"
+                                    name="Contrasenia"
                                     type="password"
                                     placeholder="Ingrese una contraseña"
                                     autoComplete="off"
@@ -125,11 +124,11 @@ const Login = () => {
                                             minLength: { value: 4, message: '4 letras minimas' }
                                         })
                                     }
-                                    className={`${errors.Contraseña?.message ? 'input-invalid' : ''}`}
+                                    className={`${errors.Contrasenia?.message ? 'input-invalid' : ''}`}
                                     value={user.Contraseña}
                                     onChange={(e) => { onChangeAll(e) }}
                                 ></input>
-                                <div className="error-message">{errors.Contraseña?.message}</div>
+                                <div className="error-message">{errors.Contrasenia?.message}</div>
                             </div>
                             <button type="submit" className="button">Log in</button>
                             <p>Si no tienes una cuenta , <Link to="/register">click aquí</Link></p>

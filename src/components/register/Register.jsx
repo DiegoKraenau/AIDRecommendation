@@ -8,8 +8,9 @@ import abslogin from '../../img/abslogin.svg';
 import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
 import { useHistory } from "react-router-dom";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import LoadingScreen from 'loading-screen-kraenau';
+import { registerUser } from '../../redux/userDucks';
 
 const Register = () => {
 
@@ -20,6 +21,7 @@ const Register = () => {
     const [rolSelected, setRolSelect] = useState(1)
     const { register, errors, handleSubmit } = useForm()
     const history = useHistory();
+    const dispatch = useDispatch();
     const [user, setUser] = useState({
         "Nombre": '',
         "Apellido": '',
@@ -27,7 +29,7 @@ const Register = () => {
         "Edad": null,
         "Correo": '',
         "Usuario": '',
-        "Contraseña": '',
+        "Contrasenia": '',
         "PalabraSecreta": '',
         "Sexo": '',
         "Especialidad": '',
@@ -51,10 +53,9 @@ const Register = () => {
             "Rol": rolSelected
         }
 
-        console.log(data)
-        console.log(data.Contraseña)
         /*Make if to use the endpoint */
         e.target.reset()
+        dispatch(registerUser(data));
         /*Alert success */
         Swal.fire(
             'Buen Trabajo',
@@ -92,7 +93,7 @@ const Register = () => {
     return (
         <Fragment>
             {
-                loading===true &&
+                loading === true &&
                 <LoadingScreen></LoadingScreen>
             }
             <section className={`${styles.register} flex flex-jc-c flex-ai-c`}>
@@ -228,7 +229,7 @@ const Register = () => {
                                 <div className={`${styles.input}`}>
                                     <span>Contraseña</span>
                                     <input
-                                        name="Contraseña"
+                                        name="Contrasenia"
                                         type="password"
                                         placeholder="Ingrese una contraseña"
                                         autoComplete="off"
@@ -238,7 +239,7 @@ const Register = () => {
                                                 minLength: { value: 5, message: '5 letras minimas' }
                                             })
                                         }
-                                        className={`${errors.Contraseña?.message ? 'input-invalid' : ''}`}
+                                        className={`${errors.Contrasenia?.message ? 'input-invalid' : ''}`}
                                     ></input>
                                     <div className="error-message">{errors.Edad?.message}</div>
                                 </div>
