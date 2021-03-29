@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -10,12 +10,13 @@ import './sass/styles.scss';
 import { Provider } from 'react-redux';
 import generateStore from './redux/store';
 import Consultas from './components/Consultas/Consultas';
-import HistorialMedico from './components/HistorialMedico/HistorialMedico';
 import Recomendaciones from './components/Recomendaciones/Recomendaciones';
 import Foro from './components/Foro/Foro';
 import Perfil from './components/Perfil/Perfil';
 import './Extras/FontAwsomeIcons';
 import ProtectedRoutes from './Extras/ProtectedRoutes';
+import ListaHistorialMedico from './components/ListaHistorialMedico/ListaHistorialMedico';
+import AgregarDeficit from './components/HistorialMedico/AgregarDeficit';
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
   const store = generateStore()
 
   return (
+
     <Provider store={store}>
       <Router>
         <Switch>
@@ -39,7 +41,7 @@ function App() {
           ></ProtectedRoutes>
           <ProtectedRoutes
             path="/historialmedico"
-            component={HistorialMedico}
+            component={ListaHistorialMedico}
           ></ProtectedRoutes>
           <ProtectedRoutes
             path="/recomendaciones"
@@ -61,6 +63,10 @@ function App() {
           ></ProtectedRoutes> */
           }
 
+          <ProtectedRoutes
+            path="/agregarDeficit"
+            component={AgregarDeficit}
+          ></ProtectedRoutes>
 
         </Switch>
       </Router>

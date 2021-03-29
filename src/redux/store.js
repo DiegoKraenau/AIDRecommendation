@@ -2,9 +2,14 @@ import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 
 import userReducer from './userDucks';
+import globalReducer from './globalDucks';
+import deficitReducer from './deficitDucks';
+
 
 const rootReducer = combineReducers({
-    usuario: userReducer
+    usuario: userReducer,
+    global:globalReducer,
+    deficit:deficitReducer
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;//only if u have the extension

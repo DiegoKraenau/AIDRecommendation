@@ -165,3 +165,52 @@ select {
   cursor: pointer;
   color: $white;
 }
+
+textarea {
+  width: 100%;
+  padding: 10px;
+  resize: vertical;
+  font-family: "Poppins", sans-serif;
+}
+
+.button__content {
+  width: 100%;
+
+  button {
+    height: 40px;
+    padding: 0px 45px;
+    display: block;
+    margin: 10px auto;
+  }
+}
+
+i {
+  color: $white;
+  padding: 0px 4px;
+}
+
+button {
+  height: 40px;
+  //padding: 0px 45px;
+  padding: 5px 10px;
+  margin: 10px auto;
+}
+
+.paginator_content {
+  width: 60%;
+  height: auto;
+  margin: 0 auto;
+
+  .paginator_list {
+    width: auto;
+    margin: 0 auto;
+
+    :not(:last-child){
+      margin-right: 2px;
+    }
+
+    button {
+      border-radius: 0px !important;
+    }
+  }
+}

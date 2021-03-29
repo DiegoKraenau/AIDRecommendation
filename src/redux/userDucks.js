@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useHistory } from 'react-router';
+
 
 const initialData = {
     token: ''
@@ -8,6 +8,7 @@ const initialData = {
 
 const LOGIN_SUCCESS = "LOGIN_SUCCESS"
 const EXIT_SUCCESS = "EXIT_SUCCESS"
+
 
 export default function userReducer(state = initialData, action) {
     switch (action.type) {
@@ -28,10 +29,23 @@ export default function userReducer(state = initialData, action) {
 
 
 export const loginAction = () => (distpach, getState) => {
+    let loading = true
     try {
         // const res = await axios.get('https://pokeapi.co/api/v2/pokemon?offset=00&limit=20')
         // console.log(res.data.results)
+        distpach({
+            type: 'LOADING',
+            payload: loading
+        })
+
         localStorage.setItem('token', 'AFASFKAJFLKA83I');
+
+        loading = false
+        distpach({
+            type: 'LOADING',
+            payload: loading
+        })
+
         distpach({
             type: LOGIN_SUCCESS
         })

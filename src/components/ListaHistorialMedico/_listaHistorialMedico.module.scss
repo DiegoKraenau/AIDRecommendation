@@ -1,0 +1,57 @@
+@import "../../sass/styles.scss";
+
+.listaHistorialMedico {
+  width: 100%;
+  height: 85vh;
+  min-height: 840px;
+  flex-wrap: wrap;
+
+  &__content {
+    width: 100%;
+    height: 85%;
+
+    h2 {
+      width: 100%;
+      text-align: center;
+    }
+
+    .list_deficit {
+      background: $grey;
+      width: 60%;
+      margin: 20px auto;
+
+      th,
+      td {
+        padding: 15px;
+        background-color: $white;
+        color: $grey;
+        
+
+        button {
+          display: block;
+          margin: 0 auto;
+          padding: 5px 10px;
+          color: $white;
+          background: $PrimaryColorDark;
+        }
+      }
+
+      th {
+        text-align: left;
+      }
+
+      thead {
+        th {
+          background-color: $PrimaryColorDark;
+          color: $white !important;
+        }
+      }
+    }
+  }
+}
+
+.button_add_section {
+  margin: 0 auto;
+  width: 60%;
+  text-align: right;
+}
