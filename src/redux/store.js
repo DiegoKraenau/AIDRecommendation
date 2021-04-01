@@ -4,12 +4,14 @@ import thunk from 'redux-thunk';
 import userReducer from './userDucks';
 import globalReducer from './globalDucks';
 import deficitReducer from './deficitDucks';
+import diseaseReducer from './diseaseDucks';
 
 
 const rootReducer = combineReducers({
     usuario: userReducer,
     global:globalReducer,
-    deficit:deficitReducer
+    deficit:deficitReducer,
+    disease:diseaseReducer
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;//only if u have the extension

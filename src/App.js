@@ -16,11 +16,12 @@ import ProtectedRoutes from './Extras/ProtectedRoutes';
 import ListaHistorialMedico from './components/ListaHistorialMedico/ListaHistorialMedico';
 import AgregarDeficit from './components/HistorialMedico/AgregarDeficit';
 import EditarDeficit from './components/EditarDeficit/EditarDeficit';
+import AgregarConsulta from './components/AgregarConsulta/AgregarConsulta';
 
 
 function App() {
 
-  
+
 
 
   return (
@@ -70,6 +71,10 @@ function App() {
         <ProtectedRoutes
           path="/agregarDeficit"
           component={AgregarDeficit}
+        ></ProtectedRoutes>
+        <ProtectedRoutes
+          path="/consultasPacientes"
+          component={AgregarConsulta}
         ></ProtectedRoutes>
 
       </Switch>

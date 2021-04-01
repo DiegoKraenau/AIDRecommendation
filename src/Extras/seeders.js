@@ -121,4 +121,82 @@ const deficitsSeeders = [
     }
 ]
 
-export {deficitsSeeders}
+
+const groupsSeeders = [
+    {
+        id:1,
+        Nombre:'grupo1'
+    },
+    {
+        id:2,
+        Nombre:'grupo2'
+    },{
+        id:3,
+        Nombre:'grupo3'
+    },
+    {
+        id:4,
+        Nombre:'grupo4'
+    },
+    {
+        id:5,
+        Nombre:'grupo5'
+    },
+    {
+        id:6,
+        Nombre:'grupo6'
+    },
+    {
+        id:7,
+        Nombre:'grupo7'
+    },{
+        id:8,
+        Nombre:'grupo8'
+    }
+]
+
+const diseasesSeeders=[
+    {
+        id:1,
+        Nombre:'disease1',
+        GrupoNombre:'grupo1',
+        GrupoId:1
+    },
+    {
+        id:2,
+        Nombre:'asfsafasf',
+        GrupoNombre:'grupo1',
+        GrupoId:1
+    },{
+        id:3,
+        Nombre:'disease2',
+        GrupoNombre:'grupo2',
+        GrupoId:2
+    },{
+        id:4,
+        Nombre:'disease2',
+        GrupoNombre:'grupo2',
+        GrupoId:2
+    },{
+        id:5,
+        Nombre:'disease3',
+        GrupoNombre:'grupo3',
+        GrupoId:3
+    },{
+        id:6,
+        Nombre:'disease3',
+        GrupoNombre:'grupo3',
+        GrupoId:3
+    },{
+        id:7,
+        Nombre:'disease4',
+        GrupoNombre:'grupo4',
+        GrupoId:4
+    },{
+        id:8,
+        Nombre:'disease5',
+        GrupoNombre:'grupo5',
+        GrupoId:5
+    }
+]
+export {deficitsSeeders,groupsSeeders,diseasesSeeders}

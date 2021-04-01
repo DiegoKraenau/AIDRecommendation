@@ -22,16 +22,19 @@ const Navbar = () => {
         history.push('/')
     }
 
-    /*
     useEffect(() => {
         if (userInfo === null) {
             dispatch(getInfoUser())
         } else {
             setRol(userInfo.Rol)
-            console.log(rol)
         }
     }, [])
-    */
+
+    useEffect(() => {
+        if (userInfo) {
+            setRol(userInfo.Rol)
+        }
+    }, [userInfo])
 
 
 
@@ -44,18 +47,49 @@ const Navbar = () => {
                 </div>
 
                 <ul className={`${styles.navbar__right} flex flex-ai-c`}>
-                    <li>
-                        <NavLink activeClassName='active' to='/consultas' defaultChecked>Consultas</NavLink>
-                    </li>
-                    <li>
-                        <NavLink activeClassName='active' to='/historialmedico' defaultChecked>Historial Médico</NavLink>
-                    </li>
-                    <li>
-                        <NavLink activeClassName='active' to={`/recomendaciones`} defaultChecked>Recomendaciones COVID 19</NavLink>
-                    </li>
-                    <li>
-                        <NavLink activeClassName='active' to='/foro' defaultChecked>Foro COVID 19</NavLink>
-                    </li>
+                    {
+                        (userInfo?.Rol === 1) ? (
+                            <li>
+                                <NavLink activeClassName='active' to='/consultasPacientes' defaultChecked>Consultas</NavLink>
+                            </li>
+
+                        ) : (
+                            <li>
+                                <NavLink activeClassName='active' to='/consultasDoctores' defaultChecked>Consultas</NavLink>
+                            </li>
+
+                        )
+                    }
+                    {
+                        (userInfo?.Rol === 1) &&
+                        <li>
+                            <NavLink activeClassName='active' to='/historialmedico' defaultChecked>Historial Médico</NavLink>
+                        </li>
+                    }
+                    {
+                        (userInfo?.Rol === 1) &&
+                        <li>
+                            <NavLink activeClassName='active' to={`/recomendaciones`} defaultChecked>Recomendaciones COVID 19</NavLink>
+                        </li>
+                    }
+                    {
+                        (userInfo?.Rol === 1) ? (
+                            <li>
+                                <NavLink activeClassName='active' to='/foro' defaultChecked>Foro COVID 19</NavLink>
+                            </li>
+
+                        ) : (
+                            <li>
+                                <NavLink activeClassName='active' to='/foroDoctores' defaultChecked>Foro COVID 19</NavLink>
+                            </li>
+                        )
+                    }
+                    {
+                        (userInfo?.Rol === 2) &&
+                        <li>
+                            <NavLink activeClassName='active' to='/foro' defaultChecked>Ranking doctores</NavLink>
+                        </li>
+                    }
                     <li>
                         <NavLink activeClassName='active' to='/perfil' defaultChecked>Mi perfil</NavLink>
                     </li>
@@ -63,12 +97,6 @@ const Navbar = () => {
                         <i className="icon"><FontAwesomeIcon icon="sign-out-alt" onClick={() => exit()} /></i>
                     </li>
                 </ul>
-                {
-                    /*
-                    userInfo !== null &&
-                    <p>{userInfo.Rol}</p>
-                    */
-                }
             </section>
         </section>
     );

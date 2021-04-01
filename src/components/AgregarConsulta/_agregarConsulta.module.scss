@@ -1,0 +1,123 @@
+@import "../../sass/styles.scss";
+
+.addQuery {
+  width: 100%;
+  height: calc(100vh - 80px);
+  min-height: 840px;
+
+
+  &__content {
+    width: 100%;
+    height: 85%;
+    text-align: center;
+
+    h2 {
+      width: 100%;
+      height: 10%;
+      text-align: center;
+    }
+
+    .formQuery {
+      height: 90%;
+      // max-height: 400px;
+
+      &__searchBar {
+        width: 350px;
+        height: 10%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;
+        position: relative;
+
+        input{
+          width: 100%;
+        }
+
+        i{
+          position: absolute;
+          color: $grey;
+          right: 0;
+        }
+      }
+
+      &__groups {
+        width: 100%;
+        height: auto;
+        flex-wrap: wrap;
+
+        > div {
+          background: $PrimaryColorDark;
+          height: 30px;
+          width: auto;
+          padding: 0px 20px;
+          margin: 10px 20px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          color: $white;
+          border-radius: 10px;
+          cursor: pointer;
+        }
+      }
+
+      &__results {
+        width: 100%;
+        height: 80%;
+        max-height: 500px;
+        padding: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        align-content: center;
+        justify-content: center;
+        -webkit-box-shadow: 0px 11px 11px -7px rgba(75, 75, 224, 1);
+        -moz-box-shadow: 0px 11px 11px -7px rgba(75, 75, 224, 1);
+        box-shadow: 0px 11px 11px -7px rgba(75, 75, 224, 1);
+        //   align-content: center;
+        //   justify-items: start;
+        //   align-content: center;
+        //   justify-content: center;
+
+        > div {
+          width: auto;
+          height: 40px;
+          padding: 0px 20px;
+          background: $white;
+          border: 2px solid $PrimaryColorDark;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          color: $PrimaryColorDark;
+          margin: 10px 20px;
+          cursor: pointer;
+          transition: 300ms all ease-in-out;
+
+          // &:focus {
+          //   background: #4b4be0c4 !important;
+          //   color: white;
+          // }
+        }
+      }
+    }
+  }
+}
+
+.button__content {
+  width: 100%;
+  padding: 5px 0;
+
+  button{
+    padding: 5px 10px;
+  }
+}
+
+.clicked {
+  background: #4b4be0c4 !important;
+}
+
+.selectedDisease {
+  background: #4b4be0c4 !important;
+  color: white  !important;
+}
+
+

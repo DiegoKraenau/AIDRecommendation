@@ -3,8 +3,6 @@ import Navbar from "../Navbar/Navbar";
 import styles from './_listaHistorialMedico.module.scss';
 import '../../sass/styles.scss';
 import { React, useState, useEffect } from 'react';
-import axios from "axios";
-import { deficitsSeeders } from '../../Extras/seeders';
 import { useDispatch, useSelector } from 'react-redux';
 import { listDeficits, deleteDeficit } from "../../redux/deficitDucks";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
