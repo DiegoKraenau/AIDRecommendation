@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { diseasesSeeders, groupsSeeders } from '../Extras/seeders';
 
 const initialData = {
@@ -9,7 +10,7 @@ const initialData = {
 const GET_GROUPS_SUCCES = "GET_GROUPS_SUCCES";
 const GET_DISEASES_SUCCESS = "GET_DISEASES_SUCCESS"
 
-export default function globalReducer(state = initialData, action) {
+export default function diseaseReducer(state = initialData, action) {
     switch (action.type) {
         case GET_GROUPS_SUCCES:
             return {
@@ -27,26 +28,78 @@ export default function globalReducer(state = initialData, action) {
 }
 
 
-export const getGroups = () => (distpach, getState) => {
+export const getGroups = () => async (distpach, getState) => {
+    let loading = true
     try {
+        // distpach({
+        //     type: 'GET_GROUPS_SUCCES',
+        //     payload: groupsSeeders
+        // })
         distpach({
-            type: 'GET_GROUPS_SUCCES',
-            payload: groupsSeeders
+            type: 'LOADING',
+            payload: loading
         })
+
+        await axios.get(`http://localhost:5000/api/categoriesDeseases`, { headers: { "token": `${localStorage.getItem('token')}` } })
+            .then(response => {
+                if (response.data.data) {
+                    distpach({
+                        type: 'GET_GROUPS_SUCCES',
+                        payload: response.data.data
+                    })
+                }
+            })
+            .catch(error => {
+                console.log(error)
+            })
     } catch (error) {
         console.log(error)
+        loading = false
+        distpach({
+            type: 'LOADING',
+            payload: loading
+        })
     }
 }
 
 
-export const getDiseases = () => (distpach, getState) => {
+export const getDiseases = () => async (distpach, getState) => {
+    let loading = true
     try {
         distpach({
-            type: 'GET_DISEASES_SUCCESS',
-            payload: diseasesSeeders
+            type: 'LOADING',
+            payload: loading
         })
+
+
+
+        await axios.get(`http://localhost:5000/api/categoriesDeseases/deseases`, { headers: { "token": `${localStorage.getItem('token')}` } })
+            .then(response => {
+                if (response.data.data) {
+                    distpach({
+                        type: 'GET_DISEASES_SUCCESS',
+                        payload: response.data.data
+                    })
+
+                    loading = false
+                    distpach({
+                        type: 'LOADING',
+                        payload: loading
+                    })
+                }
+            })
+            .catch(error => {
+                console.log(error)
+            })
+
+
     } catch (error) {
         console.log(error)
+        loading = false
+        distpach({
+            type: 'LOADING',
+            payload: loading
+        })
     }
 }
 

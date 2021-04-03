@@ -1,6 +1,6 @@
 @import "../../sass/styles.scss";
 
-.listaHistorialMedico {
+.listaConsultas {
   width: 100%;
   height: 85vh;
   min-height: 840px;
@@ -10,13 +10,14 @@
     width: 100%;
     height: 85%;
 
+  
 
     h2 {
       width: 100%;
       text-align: center;
     }
 
-    .list_deficit {
+    .list_consultation {
       background: $grey;
       width: 60%;
       margin: 20px auto;

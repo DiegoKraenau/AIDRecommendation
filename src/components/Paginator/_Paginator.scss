@@ -1,0 +1,26 @@
+@import '../../sass/styles.scss';
+
+.paginator_content {
+    width: 60%;
+    height: auto;
+    margin: 0 auto;
+  
+    .paginator_list {
+      width: auto;
+      margin: 0 auto;
+  
+      :not(:last-child){
+        margin-right: 2px;
+      }
+  
+      button {
+        border-radius: 0px !important;
+      }
+    }
+  }
+  
+  
+  .center{
+    text-align: center;
+    font-size: 20px;
+  }

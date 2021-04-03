@@ -26,7 +26,7 @@ const AgregarConsulta = () => {
     const [listDiseasesSelected, setListDiseasesSelected] = useState([]);
     const [consultation, setConsultation] = useState({
         usuarioId: '',
-        diseases: []
+        dolencias: []
     })
 
 
@@ -70,8 +70,9 @@ const AgregarConsulta = () => {
         } else {
             setConsultation({
                 ...consultation,
-                diseases: listDiseasesSelected
+                dolencias: listDiseasesSelected
             })
+            console.log(consultation)
         }
     }
 
@@ -108,7 +109,7 @@ const AgregarConsulta = () => {
     }, [userInfo])
 
     useEffect(() => {
-        if (consultation.diseases.length !== 0) {
+        if (consultation.dolencias.length !== 0) {
             Swal.fire(
                 'Buena trabajo!',
                 'Agregaste tu consulta con éxito',
@@ -160,12 +161,11 @@ const AgregarConsulta = () => {
                                 )
                             }
                         </div>
-                        <div className={`${styles.button__content}`}>
+                        <div className={`button__content`}>
                             <button
                                 onClick={() => addConsultation()}
                             >
-                                <i><FontAwesomeIcon icon="plus-square" /></i>
-                                Agregar Consutla
+                                Agregar Consulta
                             </button>
                         </div>
                     </div>

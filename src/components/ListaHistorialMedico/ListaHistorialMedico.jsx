@@ -8,7 +8,7 @@ import { listDeficits, deleteDeficit } from "../../redux/deficitDucks";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useHistory } from "react-router";
 import { getInfoUser } from "../../redux/userDucks";
-import LoadinScreen from 'loading-screen-kraenau';
+import LoadingScreen from 'loading-screen-kraenau';
 import Swal from "sweetalert2";
 
 const ListaHistorialMedico = () => {
@@ -99,7 +99,7 @@ const ListaHistorialMedico = () => {
         <Fragment>
             {
                 loading &&
-                <LoadinScreen></LoadinScreen>
+                <LoadingScreen></LoadingScreen>
             }
             <Navbar></Navbar>
             <section className={`${styles.listaHistorialMedico} flex flex-jc-c flex-ai-c`}>

@@ -48,6 +48,13 @@ const Navbar = () => {
 
                 <ul className={`${styles.navbar__right} flex flex-ai-c`}>
                     {
+                        userInfo?.Rol === 2 &&
+                        <li>
+                            <NavLink activeClassName='active' to='/misConsultas' defaultChecked>Mis Consultas</NavLink>
+                        </li>
+
+                    }
+                    {
                         (userInfo?.Rol === 1) ? (
                             <li>
                                 <NavLink activeClassName='active' to='/consultasPacientes' defaultChecked>Consultas</NavLink>
@@ -55,7 +62,7 @@ const Navbar = () => {
 
                         ) : (
                             <li>
-                                <NavLink activeClassName='active' to='/consultasDoctores' defaultChecked>Consultas</NavLink>
+                                <NavLink activeClassName='active' to='/consultaDoctores' defaultChecked>Consultas</NavLink>
                             </li>
 
                         )

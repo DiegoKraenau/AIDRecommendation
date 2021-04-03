@@ -1,0 +1,16 @@
+@import '../../sass/styles.scss';
+
+.details {
+  width: 100%;
+  width: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  .information {
+    width: 40%;
+    height: auto;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+}
