@@ -3,14 +3,12 @@ import Navbar from "../Navbar/Navbar";
 import styles from './_listaHistorialMedico.module.scss';
 import '../../sass/styles.scss';
 import { React, useState, useEffect } from 'react';
-import axios from "axios";
-import { deficitsSeeders } from '../../Extras/seeders';
 import { useDispatch, useSelector } from 'react-redux';
 import { listDeficits, deleteDeficit } from "../../redux/deficitDucks";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useHistory } from "react-router";
 import { getInfoUser } from "../../redux/userDucks";
-import LoadinScreen from 'loading-screen-kraenau';
+import LoadingScreen from 'loading-screen-kraenau';
 import Swal from "sweetalert2";
 
 const ListaHistorialMedico = () => {
@@ -101,7 +99,7 @@ const ListaHistorialMedico = () => {
         <Fragment>
             {
                 loading &&
-                <LoadinScreen></LoadinScreen>
+                <LoadingScreen></LoadingScreen>
             }
             <Navbar></Navbar>
             <section className={`${styles.listaHistorialMedico} flex flex-jc-c flex-ai-c`}>

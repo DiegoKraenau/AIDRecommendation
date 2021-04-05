@@ -1,0 +1,23 @@
+@import "../../sass/styles.scss";
+
+.observations {
+  width: 100%;
+  height: auto;
+  padding-top: 20px;
+  text-align: center;
+
+  p {
+    height: 39px;
+  }
+}
+
+.input {
+  margin: 0 auto;
+  width: 70%;
+  max-height: 44px;
+
+  input {
+    width: 90%;
+    height: 44px;
+  }
+}

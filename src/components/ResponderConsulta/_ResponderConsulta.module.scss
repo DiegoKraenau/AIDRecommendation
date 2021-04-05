@@ -1,0 +1,59 @@
+@import "../../sass/styles.scss";
+
+.detailConsultation {
+  width: 100%;
+  height: 90vh;
+  min-height: 840px;
+  flex-wrap: wrap;
+
+  &__content {
+    width: 100%;
+    height: 97%;
+    // max-height: 900px;
+
+    h2 {
+      width: 100%;
+      height: 80px;
+      text-align: center;
+    }
+
+    &__information {
+      width: 100%;
+      height: 80%;
+    }
+
+    .observations {
+      width: 100%;
+      height: auto;
+      padding-top: 20px;
+      text-align: center;
+
+      p {
+        height: 39px;
+      }
+    }
+  }
+}
+
+p {
+  margin-top: 5px;
+  color: black;
+  letter-spacing: 1px;
+}
+
+.textArea_format {
+  width: 100% !important;
+  height: auto !important;
+
+  textarea {
+    height: 40px;
+    min-height: 40px;
+    max-height: 40px;
+    border-radius: 10px;
+    outline: none;
+    border: none;
+    -webkit-box-shadow: 0px 11px 11px -10px rgba(75, 75, 224, 1);
+    -moz-box-shadow: 0px 11px 11px -10px rgba(75, 75, 224, 1);
+    box-shadow: 0px 11px 11px -10px rgba(75, 75, 224, 1);
+  }
+}

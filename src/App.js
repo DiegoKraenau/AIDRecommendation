@@ -16,11 +16,17 @@ import ProtectedRoutes from './Extras/ProtectedRoutes';
 import ListaHistorialMedico from './components/ListaHistorialMedico/ListaHistorialMedico';
 import AgregarDeficit from './components/HistorialMedico/AgregarDeficit';
 import EditarDeficit from './components/EditarDeficit/EditarDeficit';
+import AgregarConsulta from './components/AgregarConsulta/AgregarConsulta';
+import ListaConsultas from './components/ListaConsultas/ListaConsultas';
+import DetalleConsulta from './components/DetalleConsulta/DetalleConsulta';
+import ConsultaDoctores from './components/ConsultaDoctores/ConsultaDoctores';
+import MisConsultas from './components/MisConsultas/MisConsultas';
+import ResponderConsulta from './components/ResponderConsulta/ResponderConsulta';
 
 
 function App() {
 
-  
+
 
 
   return (
@@ -71,7 +77,30 @@ function App() {
           path="/agregarDeficit"
           component={AgregarDeficit}
         ></ProtectedRoutes>
-
+        <ProtectedRoutes
+          path="/consultasPacientes"
+          component={ListaConsultas}
+        ></ProtectedRoutes>
+        <ProtectedRoutes
+          path="/agregarConsulta"
+          component={AgregarConsulta}
+        ></ProtectedRoutes>
+        <ProtectedRoutes
+          path="/detalleConsulta/:id"
+          component={DetalleConsulta}
+        ></ProtectedRoutes>
+        <ProtectedRoutes
+          path="/consultaDoctores"
+          component={ConsultaDoctores}
+        ></ProtectedRoutes>
+        <ProtectedRoutes
+          path="/misConsultas"
+          component={MisConsultas}
+        ></ProtectedRoutes>
+        <ProtectedRoutes
+          path="/validarConsulta/:id"
+          component={ResponderConsulta}
+        ></ProtectedRoutes>
       </Switch>
     </Router>
 

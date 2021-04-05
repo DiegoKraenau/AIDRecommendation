@@ -60,7 +60,7 @@ const Login = () => {
     useEffect(() => {
 
         if (localStorage.getItem('token')) {
-            history.push('/recomendaciones')
+            history.push('/perfil')
         }
 
     }, [test])
