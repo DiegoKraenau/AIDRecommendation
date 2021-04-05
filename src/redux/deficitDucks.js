@@ -39,7 +39,7 @@ export default function deficitReducer(state = initialData, action) {
         case DELETE_DEFICIT_SUCCES:
             return {
                 ...state,
-                deficitDeleted:action.payload.deleted,
+                deficitDeleted: action.payload.deleted,
                 list: action.payload.list
             }
         case UPDATE_DEFICIT_SUCCESS:
@@ -109,7 +109,6 @@ export const listDeficits = (userId) => async (distpach, getState) => {
 export const addDeficit = (userId, deficit) => async (distpach, getState) => {
 
     let loading = true;
-    let added = false;
     try {
         distpach({
             type: 'LOADING',
@@ -120,41 +119,37 @@ export const addDeficit = (userId, deficit) => async (distpach, getState) => {
             { headers: { "token": `${localStorage.getItem('token')}` } })
             .then(response => {
                 if (response.data.payload) {
-                    added = true;
+                    console.log("ENTRANDOOOOOOO")
                     distpach({
                         type: 'ADD_DEFICIT_SUCCESS',
                         payload: response.data.payload
                     })
+
+                    loading = false
+                    distpach({
+                        type: 'LOADING',
+                        payload: loading
+                    })
                 }
 
+            })
+            .catch(error => {
+                console.log(error)
                 loading = false
                 distpach({
                     type: 'LOADING',
                     payload: loading
                 })
-
-            })
-            .catch(error => {
-                console.log(error)
             })
 
-        if (added === false) {
-
-            loading = false
-            distpach({
-                type: 'LOADING',
-                payload: loading
-            })
-
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Ocurrior un error'
-            })
-        }
 
     } catch (error) {
         console.log(error)
+        loading = false
+        distpach({
+            type: 'LOADING',
+            payload: loading
+        })
     }
 
 
@@ -264,8 +259,8 @@ export const deleteDeficit = (pacientId, deficitId) => async (distpach, getState
                     distpach({
                         type: 'DELETE_DEFICIT_SUCCES',
                         payload: {
-                            deleted:1,
-                            list:getState().deficit.list.filter(x=>x.id!==deficitId)
+                            deleted: 1,
+                            list: getState().deficit.list.filter(x => x.id !== deficitId)
                         }
                     })
                     loading = false

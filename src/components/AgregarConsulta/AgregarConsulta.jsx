@@ -7,6 +7,7 @@ import { getDiseases, getGroups } from '../../redux/diseaseDucks';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Swal from 'sweetalert2';
 import { getInfoUser } from '../../redux/userDucks';
+import { addConsultationPacient } from '../../redux/consultationDucks'
 
 
 
@@ -72,7 +73,6 @@ const AgregarConsulta = () => {
                 ...consultation,
                 dolencias: listDiseasesSelected
             })
-            console.log(consultation)
         }
     }
 
@@ -110,6 +110,7 @@ const AgregarConsulta = () => {
 
     useEffect(() => {
         if (consultation.dolencias.length !== 0) {
+            distpach(addConsultationPacient(userInfo.id, consultation))
             Swal.fire(
                 'Buena trabajo!',
                 'Agregaste tu consulta con éxito',

@@ -5,6 +5,7 @@ import '../../sass/styles.scss';
 import { useDispatch, useSelector } from "react-redux";
 import { getInfoUser } from "../../redux/userDucks";
 import { getConsultation } from "../../redux/consultationDucks";
+import { useParams } from "react-router";
 
 const DetalleConsulta = () => {
 
@@ -12,6 +13,7 @@ const DetalleConsulta = () => {
     const distpach = useDispatch();
     const userInfo = useSelector(store => store.usuario.userInside)
     const consultationInformation = useSelector(store => store.consultation.consultationDetail)
+    let { id } = useParams();
 
     //States
     const [consultation, setConsultation] = useState({
@@ -33,14 +35,15 @@ const DetalleConsulta = () => {
         if (userInfo === null) {
             distpach(getInfoUser())
         } else {
-            distpach(getConsultation(userInfo.id, consultationInformation))
+            console.log("Entro al else")
+            distpach(getConsultation(userInfo.id, id))
             // distpach(getDiseases())
         }
     }, [])
 
     useEffect(() => {
         if (userInfo !== null) {
-            distpach(getConsultation(userInfo.id, consultationInformation))
+            distpach(getConsultation(userInfo.id, id))
         }
     }, [userInfo])
 
@@ -62,7 +65,7 @@ const DetalleConsulta = () => {
                         <div className={`${styles.details}`}>
                             <div className={`${styles.information}`}>
                                 <h4>Fecha de Consulta:</h4>
-                                <p>{consultation.Fecha}</p>
+                                <p>{consultation.createdAt}</p>
                             </div>
                             <div className={`${styles.information}`}>
                                 <h4>Dolencia:</h4>
@@ -70,11 +73,17 @@ const DetalleConsulta = () => {
                             </div>
                             <div className={`${styles.information}`}>
                                 <h4>Estado de la consulta:</h4>
-                                <p>{consultation.EstadoDeConsulta}</p>
+                                {
+                                    consultation.Estado === 0 ? (
+                                        <p>Pendiente</p>
+                                    ) : (
+                                        <p>{consultation.EstadoDeConsulta}</p>
+                                    )
+                                }
                             </div>
                             <div className={`${styles.information}`}>
                                 <h4>Doctor asignado:</h4>
-                                <p>{consultation.DoctorNombre}</p>
+                                <p>{consultation.Doctor}</p>
                             </div>
                             <div className={`${styles.information}`}>
                                 <h4>Prescripción:</h4>
@@ -131,7 +140,7 @@ const DetalleConsulta = () => {
                     </div>
                 </section>
             </section>
-        </Fragment>
+        </Fragment >
     );
 }
 

@@ -23,7 +23,7 @@ const ListaConsultas = () => {
     //States
     const [currentPage, setcurrentPage] = useState(1)
     const [consultationsPerPage] = useState(3);
-    
+
 
 
     //For paginator
@@ -59,7 +59,7 @@ const ListaConsultas = () => {
         })
     }
 
-    const addConsultation = () =>{
+    const addConsultation = () => {
         history.push('/agregarConsulta')
     }
 
@@ -82,7 +82,7 @@ const ListaConsultas = () => {
 
     }, [userInfo])
 
-    
+
 
 
     return (
@@ -117,10 +117,17 @@ const ListaConsultas = () => {
                                     {
                                         currentConsultations.map(consultation => (
                                             <tr key={consultation.id}>
-                                                <td>{consultation.Fecha}</td>
+                                                <td>{consultation.createdAt}</td>
                                                 <td>{consultation.Dolencia}</td>
-                                                <td>{consultation.EstadoDeConsulta}</td>
-                                                <td>{consultation.DoctorNombre}</td>
+                                                {
+                                                    consultation.Estado !== 0 ? (
+                                                        <td>{consultation.Estado}</td>
+                                                    ) : (
+
+                                                        <td>Pendiente</td>
+                                                    )
+                                                }
+                                                <td>{consultation.Doctor}</td>
                                                 <td><button onClick={() => changeToDetails(consultation.id)}><i><FontAwesomeIcon icon="edit" /></i>Detalles</button></td>
                                                 <td><button onClick={() => deleteConsultation(consultation.id)}><i><FontAwesomeIcon icon="trash-alt" /></i>Eliminar</button></td>
                                             </tr>
@@ -143,7 +150,7 @@ const ListaConsultas = () => {
                                 <tbody>
                                     {
                                         <tr>
-                                            <td colSpan="5" className="center">No tiene ni una consulta registrada</td>
+                                            <td colSpan="6" className="center">No tiene ni una consulta registrada</td>
                                         </tr>
                                     }
                                 </tbody>

@@ -1,5 +1,7 @@
 // import axios from 'axios';
 // import Swal from 'sweetalert2';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 import { consultationsSeeders } from '../Extras/seeders';
 
 const initialData = {
@@ -76,6 +78,13 @@ export default function consultationReducer(state = initialData, action) {
     }
 }
 
+const turnLoading = (loading, distpach) => {
+    distpach({
+        type: 'LOADING',
+        payload: loading
+    })
+}
+
 
 export const listConsultations = (userId) => async (distpach, getState) => {
 
@@ -87,42 +96,39 @@ export const listConsultations = (userId) => async (distpach, getState) => {
             payload: loading
         })
 
-        // await axios.get(`http://localhost:5000/api/patients/${userId}/medicalHistories/1/consultations`, { headers: { "token": `${localStorage.getItem('token')}` } })
-        //     .then(response => {
-        //         if (response.data.data) {
-        //             distpach({
-        //                 type: 'LIST_consultationS_SUCCES',
-        //                 payload: response.data.data
-        //             })
-        //         } else {
-        //             distpach({
-        //                 type: 'LIST_consultationS_SUCCES',
-        //                 payload: []
-        //             })
-        //         }
-        //     })
-        //     .catch(error => {
-        //         console.log(error)
-        //         distpach({
-        //             type: 'LIST_consultationS_SUCCES',
-        //             payload: []
-        //         })
-        //     })
-        distpach({
-            type: 'LIST_CONSULTATIONS_SUCCES',
-            payload: consultationsSeeders
-        })
+        await axios.get(`http://localhost:5000/api/patients/${userId}/medicalHistories/1/medicalConsultations`, { headers: { "token": `${localStorage.getItem('token')}` } })
+            .then(response => {
+                if (response.data.data) {
+                    distpach({
+                        type: 'LIST_CONSULTATIONS_SUCCES',
+                        payload: response.data.data
+                    })
+
+                    loading = false
+                    distpach({
+                        type: 'LOADING',
+                        payload: loading
+                    })
+                }
+
+            }
+            )
+            .catch(error => {
+                console.log(error)
+            })
 
     } catch (error) {
         console.log(error)
+        loading = false
+        distpach({
+            type: 'LOADING',
+            payload: loading
+        })
     }
-
-    loading = false
-    distpach({
-        type: 'LOADING',
-        payload: loading
-    })
 }
+
+
+
 
 
 
@@ -172,100 +178,81 @@ export const pendingQueryList = () => async (distpach, getState) => {
     })
 }
 
-// export const addconsultation = (userId, consultation) => async (distpach, getState) => {
+export const addConsultationPacient = (userId, consultation) => async (distpach, getState) => {
 
-//     let loading = true;
-//     let added = false;
-//     try {
-//         distpach({
-//             type: 'LOADING',
-//             payload: loading
-//         })
-//         await axios.post(`http://localhost:5000/api/patients/${userId}/medicalHistories/1/consultations`,
-//             consultation,
-//             { headers: { "token": `${localStorage.getItem('token')}` } })
-//             .then(response => {
-//                 if (response.data.payload) {
-//                     added = true;
-//                     distpach({
-//                         type: 'ADD_consultation_SUCCESS',
-//                         payload: response.data.payload
-//                     })
-//                 }
-
-//                 loading = false
-//                 distpach({
-//                     type: 'LOADING',
-//                     payload: loading
-//                 })
-
-//             })
-//             .catch(error => {
-//                 console.log(error)
-//             })
-
-//         if (added === false) {
-
-//             loading = false
-//             distpach({
-//                 type: 'LOADING',
-//                 payload: loading
-//             })
-
-//             Swal.fire({
-//                 icon: 'error',
-//                 title: 'Oops...',
-//                 text: 'Ocurrior un error'
-//             })
-//         }
-
-//     } catch (error) {
-//         console.log(error)
-//     }
-
-
-
-
-// }
-
-export const getConsultation = (pacientId, consultationId) => async (distpach, getState) => {
-    // let loading = true;
+    let loading = true;
     try {
-        // distpach({
-        //     type: 'LOADING',
-        //     payload: loading
-        // })
-        // await axios.get(`http://localhost:5000/api/patients/${pacientId}/medicalHistories/1/consultations/${consultationId}`, { headers: { "token": `${localStorage.getItem('token')}` } })
-        //     .then(response => {
-        //         if (response.data.payload) {
-        //             distpach({
-        //                 type: 'GET_DETAIL_SUCCESS',
-        //                 payload: response.data.payload
-        //             })
-
-        //             loading = false
-        //             distpach({
-        //                 type: 'LOADING',
-        //                 payload: loading
-        //             })
-        //         }
-        //     })
-        //     .catch(error => {
-        //         console.log(error)
-        //     })
         distpach({
-            type: 'GET_CONSULTATIONSDETAIL_SUCCESS',
-            payload: consultationsSeeders[0]
+            type: 'LOADING',
+            payload: loading
         })
+        await axios.post(`http://localhost:5000/api/patients/${userId}/medicalHistories/1/medicalConsultations`,
+            consultation,
+            { headers: { "token": `${localStorage.getItem('token')}` } })
+            .then(response => {
+                if (response.data.data) {
+                    distpach({
+                        type: 'ADD_CONSULTATIONS_SUCCESS',
+                        payload: response.data.data
+                    })
+                }
+
+                loading = false
+                distpach({
+                    type: 'LOADING',
+                    payload: loading
+                })
+
+            })
+            .catch(error => {
+                console.log(error)
+            })
 
     } catch (error) {
         console.log(error)
+        loading = false;
+        distpach({
+            type: 'LOADING',
+            payload: loading
+        })
+    }
+
+
+
+
+}
+
+export const getConsultation = (pacientId, consultationId) => async (distpach, getState) => {
+    let loading = true;
+    try {
+        turnLoading(loading, distpach)
+        await axios.get(`http://localhost:5000/api/patients/${pacientId}}/medicalHistories/1/medicalConsultations/${consultationId}`, { headers: { "token": `${localStorage.getItem('token')}` } })
+            .then(response => {
+                if (response.data.data) {
+                    distpach({
+                        type: 'GET_CONSULTATIONSDETAIL_SUCCESS',
+                        payload: response.data.data
+                    })
+
+                    loading = false
+                    turnLoading(loading, distpach)
+                }
+            })
+            .catch(error => {
+                console.log(error)
+                loading = false
+                turnLoading(loading, distpach)
+            })
+    } catch (error) {
+        console.log(error)
+        loading = false
+        turnLoading(loading, distpach)
     }
 
 }
 
 
-export const addConsultationSelected = (doctorId,consultation) => async (distpach, getState) => {
+export const addConsultationSelected = (doctorId, consultation) => async (distpach, getState) => {
 
     let loading = true;
     const pendingList = getState().consultation.pendingQueryList;
@@ -307,7 +294,7 @@ export const addConsultationSelected = (doctorId,consultation) => async (distpac
 
         distpach({
             type: 'ADD_CONSULTATION_SELECTED',
-            payload: pendingList.filter(x=>x.id!==consultation.id)
+            payload: pendingList.filter(x => x.id !== consultation.id)
         })
 
     } catch (error) {
@@ -327,6 +314,8 @@ export const addConsultationSelected = (doctorId,consultation) => async (distpac
 
 
 }
+
+
 
 
 // export const deleteconsultation = (pacientId, consultationId) => async (distpach, getState) => {
