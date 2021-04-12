@@ -212,14 +212,6 @@ const consultationsSeeders = [
         Preguntas: [
             {
                 pregunta: '¿Que es Dota?',
-                respuesta: 'asfasfasf'
-            },
-            {
-                pregunta: '¿Que es Fornite?',
-                respuesta: ''
-            },
-            {
-                pregunta: '¿Que es Fornite?',
                 respuesta: ''
             }
         ]

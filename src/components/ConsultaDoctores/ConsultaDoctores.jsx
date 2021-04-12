@@ -41,7 +41,7 @@ const ConsultaDoctores = () => {
             'success'
         ).then((result) => {
             if (result.isConfirmed) {
-                distpach(addConsultationSelected(userInfo.id,consultation))
+                distpach(addConsultationSelected(userInfo.patientOdoctor.id,consultation))
                 // history.push('/historialmedico')
                 console.log("ACEPTO")
             }
@@ -55,14 +55,14 @@ const ConsultaDoctores = () => {
             distpach(getInfoUser())
             //dispatch(listDeficits(userInfo.id))
         } else {
-            distpach(pendingQueryList())
+            distpach(pendingQueryList(userInfo.patientOdoctor.id))
             //console.log(userInfo.id)
         }
     }, [])
 
     useEffect(() => {
         if (userInfo !== null) {
-            distpach(pendingQueryList())
+            distpach(pendingQueryList(userInfo.patientOdoctor.id))
         }
 
     }, [userInfo])
@@ -95,9 +95,9 @@ const ConsultaDoctores = () => {
                                     {
                                         currentConsultations.map(consultation => (
                                             <tr key={consultation.id}>
-                                                <td>{consultation.Fecha}</td>
+                                                <td>{consultation.createdAt}</td>
                                                 <td>{consultation.Dolencia}</td>
-                                                <td>{consultation.PacienteNombre}</td>
+                                                <td>{consultation.Paciente}</td>
                                                 <td>{consultation.Prescripcion}</td>
                                                 <td><button onClick={() => selectConsultation(consultation)}><i><FontAwesomeIcon icon="edit" /></i>Seleccionar</button></td>
                                             </tr>

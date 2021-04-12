@@ -31,7 +31,7 @@ const Navbar = () => {
     }, [])
 
     useEffect(() => {
-        if (userInfo) {
+        if (userInfo!==null) {
             setRol(userInfo.Rol)
         }
     }, [userInfo])

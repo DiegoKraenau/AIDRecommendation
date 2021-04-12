@@ -31,7 +31,6 @@ const Login = () => {
 
 
     const onSubmit = async (data, e) => {
-        console.log(user)
         dispatch(loginAction(user))
        // console.log(localStorage.getItem('token'))
     }

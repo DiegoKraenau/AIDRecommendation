@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import Swal from "sweetalert2";
-import { addConsultationSelected, pendingQueryList } from "../../redux/consultationDucks";
+import { addConsultationSelected, consultationsDoctor, pendingQueryList } from "../../redux/consultationDucks";
 import { getInfoUser } from "../../redux/userDucks";
 import Navbar from "../Navbar/Navbar";
 import LoadingScreen from 'loading-screen-kraenau';
@@ -15,7 +15,7 @@ const MisConsultas = () => {
 
     //Redux
     const distpach = useDispatch();
-    const consultations = useSelector(store => store.consultation.pendingQueryList)
+    const consultations = useSelector(store => store.consultation.pendingQueryListSelected)
     const userInfo = useSelector(store => store.usuario.userInside)
     const loading = useSelector(store => store.global.loading);
     const history = useHistory();
@@ -45,14 +45,14 @@ const MisConsultas = () => {
             distpach(getInfoUser())
             //dispatch(listDeficits(userInfo.id))
         } else {
-            distpach(pendingQueryList())
+            distpach(consultationsDoctor(userInfo.patientOdoctor.id))
             //console.log(userInfo.id)
         }
     }, [])
 
     useEffect(() => {
         if (userInfo !== null) {
-            distpach(pendingQueryList())
+            distpach(consultationsDoctor(userInfo.patientOdoctor.id))
         }
 
     }, [userInfo])
@@ -68,7 +68,7 @@ const MisConsultas = () => {
             <Navbar></Navbar>
             <section className={`${styles.listaConsultas} flex flex-jc-c flex-ai-c`}>
                 <section className={`${styles.listaConsultas__content} container`}>
-                    <h2>Consultas</h2>
+                    <h2>Mis Consultas</h2>
                     {
 
                         consultations.length !== 0 ? (
@@ -86,9 +86,9 @@ const MisConsultas = () => {
                                     {
                                         currentConsultations.map(consultation => (
                                             <tr key={consultation.id}>
-                                                <td>{consultation.Fecha}</td>
+                                                <td>{consultation.createdAt}</td>
                                                 <td>{consultation.Dolencia}</td>
-                                                <td>{consultation.PacienteNombre}</td>
+                                                <td>{consultation.Paciente}</td>
                                                 <td>{consultation.Prescripcion}</td>
                                                 <td><button onClick={() => validConsultation(consultation)}><i><FontAwesomeIcon icon="edit" /></i>Responder</button></td>
                                             </tr>

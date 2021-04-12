@@ -1,8 +1,8 @@
 // import axios from 'axios';
 // import Swal from 'sweetalert2';
 import axios from 'axios';
-import Swal from 'sweetalert2';
 import { consultationsSeeders } from '../Extras/seeders';
+import { showPopUpError } from '../Extras/Validations';
 
 const initialData = {
     list: [],
@@ -11,7 +11,8 @@ const initialData = {
     consultationUpdated: null,
     consultationDeleted: '0',
     pendingQueryList: [],
-    pendingQueryListSelected: []
+    pendingQueryListSelected: [],
+    consultationQOUpdated: null
 }
 
 
@@ -24,6 +25,9 @@ const RESET_CONSULTATIONS_REGISTERED = "RESET_CONSULTATIONS_REGISTERED"
 const RESET_CONSULTATIONS_UPDATED = "RESET_CONSULTATIONS_UPDATED"
 const GET_CONSULTATIONSPENDING_SUCCESS = "GET_CONSULTATIONSPENDING_SUCCESS"
 const ADD_CONSULTATION_SELECTED = "ADD_CONSULTATION_SELECTED"
+const GET_CONSULTATIONS_DOCTOR = "GET_CONSULTATIONS_DOCTOR"
+const ADD_QUESTIONS_OBSERVATIONS = "ADD_QUESTIONS_OBSERVATIONS"
+
 
 export default function consultationReducer(state = initialData, action) {
     switch (action.type) {
@@ -47,10 +51,20 @@ export default function consultationReducer(state = initialData, action) {
                 ...state,
                 pendingQueryList: action.payload
             }
+        case GET_CONSULTATIONS_DOCTOR:
+            return {
+                ...state,
+                pendingQueryListSelected: action.payload
+            }
         case ADD_CONSULTATION_SELECTED:
             return {
                 ...state,
                 pendingQueryList: action.payload
+            }
+        case ADD_QUESTIONS_OBSERVATIONS:
+            return {
+                ...state,
+                consultationQOUpdated: action.payload
             }
         case DELETE_CONSULTATIONS_SUCCES:
             return {
@@ -86,17 +100,15 @@ const turnLoading = (loading, distpach) => {
 }
 
 
-export const listConsultations = (userId) => async (distpach, getState) => {
+export const listConsultations = (patientOdoctorId) => async (distpach, getState) => {
 
     let loading = true
     try {
-        console.log("ENTRO A CONSULTATIONS")
         distpach({
             type: 'LOADING',
             payload: loading
         })
-
-        await axios.get(`http://localhost:5000/api/patients/${userId}/medicalHistories/1/medicalConsultations`, { headers: { "token": `${localStorage.getItem('token')}` } })
+        await axios.get(`http://localhost:5000/api/patients/${patientOdoctorId}/medicalHistories/${patientOdoctorId}/medicalConsultations`, { headers: { "token": `${localStorage.getItem('token')}` } })
             .then(response => {
                 if (response.data.data) {
                     distpach({
@@ -130,55 +142,74 @@ export const listConsultations = (userId) => async (distpach, getState) => {
 
 
 
-
-
-export const pendingQueryList = () => async (distpach, getState) => {
+export const pendingQueryList = (doctorId) => async (distpach, getState) => {
 
     let loading = true
     try {
-        distpach({
-            type: 'LOADING',
-            payload: loading
-        })
+        turnLoading(loading, distpach)
 
-        // await axios.get(`http://localhost:5000/api/patients/${userId}/medicalHistories/1/consultations`, { headers: { "token": `${localStorage.getItem('token')}` } })
-        //     .then(response => {
-        //         if (response.data.data) {
-        //             distpach({
-        //                 type: 'LIST_consultationS_SUCCES',
-        //                 payload: response.data.data
-        //             })
-        //         } else {
-        //             distpach({
-        //                 type: 'LIST_consultationS_SUCCES',
-        //                 payload: []
-        //             })
-        //         }
-        //     })
-        //     .catch(error => {
-        //         console.log(error)
-        //         distpach({
-        //             type: 'LIST_consultationS_SUCCES',
-        //             payload: []
-        //         })
-        //     })
-        distpach({
-            type: 'GET_CONSULTATIONSPENDING_SUCCESS',
-            payload: consultationsSeeders
-        })
+        await axios.get(`http://localhost:5000/api/doctors/${doctorId}/medicalConsultations`, { headers: { "token": `${localStorage.getItem('token')}` } })
+            .then(response => {
+                if (response.data.data) {
+                    distpach({
+                        type: 'GET_CONSULTATIONSPENDING_SUCCESS',
+                        payload: response.data.data
+                    })
+                    let loading = false
+                    turnLoading(loading, distpach)
+                }
+            })
+            .catch(error => {
+                console.log(error)
+                let loading = false
+                turnLoading(loading, distpach)
+                showPopUpError()
+            })
 
     } catch (error) {
-        console.log(error)
+        let loading = false
+        turnLoading(loading, distpach)
+        showPopUpError()
     }
 
-    loading = false
-    distpach({
-        type: 'LOADING',
-        payload: loading
-    })
+
 }
 
-export const addConsultationPacient = (userId, consultation) => async (distpach, getState) => {
+
+export const consultationsDoctor = (patientOdoctorId) => async (distpach, getState) => {
+
+    let loading = true
+    try {
+        turnLoading(loading, distpach)
+
+        await axios.get(`http://localhost:5000/api/doctors/${patientOdoctorId}/acceptedMedicalConsultations`, { headers: { "token": `${localStorage.getItem('token')}` } })
+            .then(response => {
+                if (response.data.data) {
+                    distpach({
+                        type: 'GET_CONSULTATIONS_DOCTOR',
+                        payload: response.data.data
+                    })
+                    let loading = false
+                    turnLoading(loading, distpach)
+                }
+            })
+            .catch(error => {
+                console.log(error)
+                let loading = false
+                turnLoading(loading, distpach)
+                showPopUpError()
+            })
+
+    } catch (error) {
+        let loading = false
+        turnLoading(loading, distpach)
+        showPopUpError()
+    }
+
+
+}
+
+export const addConsultationPacient = (patientOdoctorId, consultation) => async (distpach, getState) => {
 
     let loading = true;
     try {
@@ -186,7 +217,7 @@ export const addConsultationPacient = (userId, consultation) => async (distpach,
             type: 'LOADING',
             payload: loading
         })
-        await axios.post(`http://localhost:5000/api/patients/${userId}/medicalHistories/1/medicalConsultations`,
+        await axios.post(`http://localhost:5000/api/patients/${patientOdoctorId}/medicalHistories/${patientOdoctorId}/medicalConsultations`,
             consultation,
             { headers: { "token": `${localStorage.getItem('token')}` } })
             .then(response => {
@@ -232,6 +263,38 @@ export const getConsultation = (pacientId, consultationId) => async (distpach, g
                     distpach({
                         type: 'GET_CONSULTATIONSDETAIL_SUCCESS',
                         payload: response.data.data
+                        // response.data.data
+                    })
+
+                    loading = false
+                    turnLoading(loading, distpach)
+                }
+            })
+            .catch(error => {
+                console.log(error)
+                loading = false
+                turnLoading(loading, distpach)
+            })
+    } catch (error) {
+        console.log(error)
+        loading = false
+        turnLoading(loading, distpach)
+    }
+
+}
+
+export const addingQuestionsAndObservations = (patientOdoctorId, consultation) => async (distpach, getState) => {
+    let loading = true;
+    console.log(consultation)
+    try {
+        turnLoading(loading, distpach)
+        await axios.put(`http://localhost:5000/api/doctors/${patientOdoctorId}/medicalConsultations/${consultation.id}/questions`, consultation, { headers: { "token": `${localStorage.getItem('token')}` } })
+            .then(response => {
+                if (response.data.data) {
+                    distpach({
+                        type: 'ADD_QUESTIONS_OBSERVATIONS',
+                        payload: 1
+                        // response.data.data
                     })
 
                     loading = false
@@ -252,135 +315,151 @@ export const getConsultation = (pacientId, consultationId) => async (distpach, g
 }
 
 
-export const addConsultationSelected = (doctorId, consultation) => async (distpach, getState) => {
+export const addConsultationSelected = (patientOdoctorId, consultation) => async (distpach, getState) => {
 
     let loading = true;
     const pendingList = getState().consultation.pendingQueryList;
     try {
-        distpach({
-            type: 'LOADING',
-            payload: loading
-        })
-        // await axios.put(`http://localhost:5000/api/patients/${pacientId}/medicalHistories/1/consultations/${consultation.id}`,
-        //     consultation,
-        //     { headers: { "token": `${localStorage.getItem('token')}` } })
-        //     .then(response => {
-        //         if (response.data.payload) {
-        //             distpach({
-        //                 type: 'UPDATE_consultation_SUCCESS',
-        //                 payload: response.data.payload
-        //             })
-        //             loading = false
-        //             distpach({
-        //                 type: 'LOADING',
-        //                 payload: loading
-        //             })
-        //         } else {
-        //             Swal.fire({
-        //                 icon: 'error',
-        //                 title: 'Oops...',
-        //                 text: 'Ocurrior un error'
-        //             })
-        //         }
-        //     })
-        //     .catch(error => {
-        //         console.log(error)
-        //         Swal.fire({
-        //             icon: 'error',
-        //             title: 'Oops...',
-        //             text: 'Ocurrior un error'
-        //         })
-        //     })
+        turnLoading(loading, distpach)
+        await axios.put(`http://localhost:5000/api/doctors/${patientOdoctorId}/medicalConsultations/${consultation.id}`,
+            consultation,
+            { headers: { "token": `${localStorage.getItem('token')}` } })
+            .then(response => {
+                if (response.data.payload) {
+                    distpach({
+                        type: 'ADD_CONSULTATION_SELECTED',
+                        payload: pendingList.filter(x => x.id !== consultation.id)
+                    })
+                    loading = false
+                    turnLoading(loading, distpach)
+                }
+            })
+            .catch(error => {
+                console.log(error)
+                loading = false;
+                showPopUpError()
+            })
 
-        distpach({
-            type: 'ADD_CONSULTATION_SELECTED',
-            payload: pendingList.filter(x => x.id !== consultation.id)
-        })
+
 
     } catch (error) {
         console.log(error)
-        // Swal.fire({
-        //     icon: 'error',
-        //     title: 'Oops...',
-        //     text: 'Ocurrior un error'
-        // })
+        loading = false;
+        showPopUpError()
     }
-
-    loading = false
-    distpach({
-        type: 'LOADING',
-        payload: loading
-    })
-
 
 }
 
 
 
 
-// export const deleteconsultation = (pacientId, consultationId) => async (distpach, getState) => {
+export const deleteconsultation = (pacientId, consultationId) => async (distpach, getState) => {
 
-//     let loading = true;
-//     let deleted = false;
-//     try {
-//         distpach({
-//             type: 'LOADING',
-//             payload: loading
-//         })
-//         await axios.delete(`http://localhost:5000/api/patients/${pacientId}/medicalHistories/1/consultations/${consultationId}`, { headers: { "token": `${localStorage.getItem('token')}` } })
-//             .then(response => {
-//                 if (response.data.payload) {
-//                     distpach({
-//                         type: 'DELETE_consultation_SUCCES',
-//                         payload: {
-//                             deleted:1,
-//                             list:getState().consultation.list.filter(x=>x.id!==consultationId)
-//                         }
-//                     })
-//                     loading = false
-//                     distpach({
-//                         type: 'LOADING',
-//                         payload: loading
-//                     })
-//                     deleted = true;
-//                 }
-//             })
-//             .catch(error => {
-//                 console.log(error)
-//             })
+    let loading = true;
+    try {
+        turnLoading(loading, distpach);
+        distpach({
+            type: 'DELETE_CONSULTATIONS_SUCCES',
+            payload: {
+                deleted: 1,
+                list: getState().consultation.list.filter(x => x.id !== consultationId)
+            }
+        })
 
-//         if (deleted === false) {
-//             Swal.fire({
-//                 icon: 'error',
-//                 title: 'Oops...',
-//                 text: 'Ocurrior un error'
-//             })
-//         }
+        loading = false;
+        turnLoading(loading, distpach);
 
-//     } catch (error) {
-//         console.log(error)
-//         // Swal.fire({
-//         //     icon: 'error',
-//         //     title: 'Oops...',
-//         //     text: 'Ocurrior un error'
-//         // })
-//     }
+        // await axios.delete(`http://localhost:5000/api/patients/${pacientId}/medicalHistories/1/consultations/${consultationId}`, { headers: { "token": `${localStorage.getItem('token')}` } })
+        //     .then(response => {
+        //         if (response.data.payload) {
+        //             distpach({
+        //                 type: 'DELETE_consultation_SUCCES',
+        //                 payload: {
+        //                     deleted:1,
+        //                     list:getState().consultation.list.filter(x=>x.id!==consultationId)
+        //                 }
+        //             })
+        //             loading = false
+        //             distpach({
+        //                 type: 'LOADING',
+        //                 payload: loading
+        //             })
+        //             deleted = true;
+        //         }
+        //     })
+        //     .catch(error => {
+        //         console.log(error)
+        //     })
+
+        // if (deleted === false) {
+        //     Swal.fire({
+        //         icon: 'error',
+        //         title: 'Oops...',
+        //         text: 'Ocurrior un error'
+        //     })
+        // }
+
+    } catch (error) {
+        console.log(error);
+        loading = false;
+        turnLoading(loading, distpach);
+        showPopUpError();
+    }
 
 
-// }
+}
+
+export const updateAnswersPacient = (patientOdoctorId, consultation) => async (distpach, getState) => {
+
+    let loading = true;
+    try {
+        turnLoading(loading, distpach);
+        await axios.put(`http://localhost:5000/api/patients/${patientOdoctorId}/medicalHistories/${patientOdoctorId}/medicalConsultations/${consultation.id}/questions`,
+            consultation, { headers: { "token": `${localStorage.getItem('token')}` } })
+            .then(response => {
+                if (response.data.data) {
+                    distpach({
+                        type: 'UPDATE_CONSULTATIONS_SUCCESS',
+                        payload: 1
+                    })
+                    loading = false
+                    turnLoading(loading, distpach)
+                }
+            })
+            .catch(error => {
+                loading = false
+                turnLoading(loading, distpach)
+                console.log(error)
+                showPopUpError()
+            })
+    } catch (error) {
+        console.log(error);
+        loading = false
+        turnLoading(loading, distpach)
+        // showPopUpError()
+    }
+
+
+}
 
 // //Reset states
-// export const resetconsultationRegistered = () => (distpach, getState) => {
-//     distpach({
-//         type: 'RESET_consultation_REGISTERED',
-//         payload: null
-//     })
-// }
+export const resetConsultationUpdated = () => (distpach, getState) => {
+    distpach({
+        type: 'RESET_CONSULTATIONS_UPDATED',
+        payload: null
+    })
+}
+export const resetConsultationQOUpdated = () => (distpach, getState) => {
+    distpach({
+        type: 'ADD_QUESTIONS_OBSERVATIONS',
+        payload: null
+    })
+}
 
+export const resetAnswersUpdated = () => (distpach, getState) => {
+    distpach({
+        type: 'UPDATE_CONSULTATIONS_SUCCESS',
+        payload: null
+    })
+}
 
-// export const resetconsultationUpdated = () => (distpach, getState) => {
-//     distpach({
-//         type: 'RESET_consultation_UPDATED',
-//         payload: null
-//     })
-// }

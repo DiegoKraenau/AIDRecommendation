@@ -4,8 +4,10 @@ import styles from './_DetalleConsulta.module.scss';
 import '../../sass/styles.scss';
 import { useDispatch, useSelector } from "react-redux";
 import { getInfoUser } from "../../redux/userDucks";
-import { getConsultation } from "../../redux/consultationDucks";
-import { useParams } from "react-router";
+import { getConsultation, updateAnswersPacient, resetAnswersUpdated } from "../../redux/consultationDucks";
+import { useHistory, useParams } from "react-router";
+import { emptyInputs } from '../../Extras/Validations';
+import Swal from "sweetalert2";
 
 const DetalleConsulta = () => {
 
@@ -13,15 +15,17 @@ const DetalleConsulta = () => {
     const distpach = useDispatch();
     const userInfo = useSelector(store => store.usuario.userInside)
     const consultationInformation = useSelector(store => store.consultation.consultationDetail)
-    let { id } = useParams();
+    const history = useHistory();
+    const consultationUpdated = useSelector(store => store.consultation.consultationUpdated)
+    let { id } = useParams();//Obtain param from URL
 
     //States
     const [consultation, setConsultation] = useState({
         id: '',
-        Fecha: '',
+        createdAt: '',
         Dolencia: '',
-        EstaDeConsulta: '',
-        DoctorNombre: '',
+        Estado: '',
+        DoctorName: '',
         Prescripcion: '',
         Observaciones: '',
         Preguntas: []
@@ -30,13 +34,35 @@ const DetalleConsulta = () => {
 
     //Functions
 
+
+
+    const updateAnswers = () => {
+        let foundEmptyInputs = emptyInputs(consultation.Preguntas, 'respuesta')
+        if (foundEmptyInputs) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Necesita rellenar todos los campos'
+            })
+        } else if (consultation.Preguntas.length === 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'No tienes nada que responder'
+            })
+        } else {
+            // console.log(consultation)
+            distpach(updateAnswersPacient(id, consultation))
+
+        }
+    }
+
     //Hooks
     useEffect(() => {
         if (userInfo === null) {
             distpach(getInfoUser())
         } else {
-            console.log("Entro al else")
-            distpach(getConsultation(userInfo.id, id))
+            distpach(getConsultation(userInfo.patientOdoctor.id, id))
             // distpach(getDiseases())
         }
     }, [])
@@ -53,6 +79,39 @@ const DetalleConsulta = () => {
         }
     }, [consultationInformation])
 
+
+    useEffect(() => {
+
+        if (consultationUpdated === 1) {
+            console.log(consultationUpdated)
+            Swal.fire(
+                'Buen Trabajo',
+                'Respondio las preguntas exitosamente',
+                'success'
+            ).then((result) => {
+                if (result.isConfirmed) {
+                    // console.log(consultationInformation)
+                    distpach(updateAnswersPacient(userInfo.patientOdoctor.id), consultationInformation)
+                    distpach(resetAnswersUpdated())
+                    history.push('/consultasPacientes')
+                }
+            })
+
+        } else {
+            distpach(resetAnswersUpdated())
+        }
+    }, [consultationUpdated])
+
+    //Validations
+    const onChangeAnswers = (e, position) => {
+        let newArr = [...consultation.Preguntas];
+        newArr[position].respuesta = e.target.value;
+        setConsultation({
+            ...consultation,
+            Preguntas: newArr
+        })
+
+    }
 
 
     return (
@@ -77,13 +136,20 @@ const DetalleConsulta = () => {
                                     consultation.Estado === 0 ? (
                                         <p>Pendiente</p>
                                     ) : (
-                                        <p>{consultation.EstadoDeConsulta}</p>
+                                        <p>Positivo</p>
                                     )
                                 }
                             </div>
                             <div className={`${styles.information}`}>
                                 <h4>Doctor asignado:</h4>
-                                <p>{consultation.Doctor}</p>
+                                {
+                                    consultation.DoctorName.length !== 0 ? (
+                                        <p>{consultation.DoctorName}</p>
+
+                                    ) : (
+                                        <p>Pendiente</p>
+                                    )
+                                }
                             </div>
                             <div className={`${styles.information}`}>
                                 <h4>Prescripción:</h4>
@@ -106,26 +172,18 @@ const DetalleConsulta = () => {
                             <h4>Preguntas</h4>
                             {
                                 consultation.Preguntas.length !== 0 ? (
-                                    consultation.Preguntas.map(question => (
-                                        <div className={`${styles.question}`}>
+                                    consultation.Preguntas.map((question, i) => (
+                                        <div className={`${styles.question}`} key={i}>
                                             <p>{question.pregunta}</p>
                                             <div className={`${styles.textArea_format} input_format`}>
                                                 <textarea
                                                     name="Detalles"
                                                     placeholder="Ingrese la respuesta"
                                                     autoComplete="off"
-                                                // ref={
-                                                //     register({
-                                                //         required: { value: true, message: 'Necesitas escribir el detalle' },
-                                                //         minLength: { value: 3, message: '3 letras minimas' }
-                                                //     })
-                                                // }
-                                                // className={`${errors.Detalles?.message ? 'input-invalid' : ''}`}
-                                                // value={HistorialMedico.Detalle}
-                                                // onChange={(e) => onChangeNoChanges(e)}
+                                                    value={question.respuesta}
+                                                    onChange={(e) => onChangeAnswers(e, i)}
                                                 >
                                                 </textarea>
-                                                {/* <div className="error-message">{errors.Detalles?.message}</div> */}
                                             </div>
                                         </div>
                                     ))
@@ -135,7 +193,13 @@ const DetalleConsulta = () => {
                             }
                         </div>
                         <div className={`${styles.contenedorButton} button__content`}>
-                            <button type="submit" className="button"> Registrar</button>
+                            <button
+                                type="submit"
+                                className="button"
+                                onClick={() => updateAnswers()}
+                            >
+                                Registrar
+                            </button>
                         </div>
                     </div>
                 </section>

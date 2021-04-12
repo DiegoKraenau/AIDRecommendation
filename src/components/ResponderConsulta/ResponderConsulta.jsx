@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getConsultation } from "../../redux/consultationDucks";
+import { addingQuestionsAndObservations, getConsultation } from "../../redux/consultationDucks";
 import { getInfoUser } from "../../redux/userDucks";
 import Navbar from "../Navbar/Navbar";
 import styles from './_ResponderConsulta.module.scss';
@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 import InformacionConsulta from "../InformacionConsulta/InformaciónConsulta";
 import ObservacionConsulta from "../ObservacionConsulta/ObservacionConsulta";
 import PreguntasConsulta from "../PreguntasConsulta/PreguntasConsulta";
+import { useHistory, useParams } from "react-router";
 
 const ResponderConsulta = () => {
 
@@ -18,12 +19,12 @@ const ResponderConsulta = () => {
     const userInfo = useSelector(store => store.usuario.userInside)
     const consultationInformation = useSelector(store => store.consultation.consultationDetail)
     const [inputsPreguntas, setInputsPreguntas] = useState([])
-
-
+    let { id } = useParams();//Obtain param from URL
+    
     //States
     const [consultation, setConsultation] = useState({
         id: '',
-        Fecha: '',
+        createdAt: '',
         Dolencia: '',
         EstaDeConsulta: '',
         DoctorNombre: '',
@@ -32,6 +33,7 @@ const ResponderConsulta = () => {
         Preguntas: [],
         updated: false
     })
+    const history = useHistory();
     const [inputObservation, setInputObservation] = useState(false)
     const [textObservation, setTextObservation] = useState('')
 
@@ -73,26 +75,38 @@ const ResponderConsulta = () => {
         if (userInfo === null) {
             distpach(getInfoUser())
         } else {
-            distpach(getConsultation(userInfo.id, consultationInformation))
+            distpach(getConsultation(userInfo.patientOdoctor.id, id))
             // distpach(getDiseases())
         }
     }, [])
 
     useEffect(() => {
         if (userInfo !== null) {
-            distpach(getConsultation(userInfo.id, consultationInformation))
+            distpach(getConsultation(userInfo.patientOdoctor.id, id))
         }
     }, [userInfo])
 
     useEffect(() => {
         if (consultationInformation !== null) {
             setConsultation(consultationInformation)
+
         }
     }, [consultationInformation])
 
     useEffect(() => {
         if (consultation.updated === true) {
-            console.log(consultation)
+            Swal.fire(
+                'Buen Trabajo',
+                'Envio sus preguntas y observaciones correctamente',
+                'success'
+            ).then((result) => {
+                if (result.isConfirmed) {
+                    // console.log(consultation)
+                    // console.log(consultation)
+                    distpach(addingQuestionsAndObservations(userInfo.patientOdoctor.id, consultation))
+                    history.push('/misConsultas')
+                }
+            })
         }
     }, [consultation])
 

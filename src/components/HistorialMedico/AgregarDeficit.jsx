@@ -34,7 +34,7 @@ const AgregarDeficit = () => {
         //dispatch(addDeficit(userInfo.id, HistorialMedico))
         // console.log(HistorialMedico)
         // console.log("hola entro aqui")
-        dispatch(addDeficit(userInfo.id, HistorialMedico))
+        dispatch(addDeficit(userInfo.patientOdoctor.id, HistorialMedico))
         e.target.reset()
         setHistorialMedico({
             ...HistorialMedico,
