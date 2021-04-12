@@ -187,7 +187,6 @@ textarea {
 i {
   color: $white;
   padding: 0px 4px;
-
 }
 
 button {
@@ -206,7 +205,7 @@ button {
     width: auto;
     margin: 0 auto;
 
-    :not(:last-child){
+    :not(:last-child) {
       margin-right: 2px;
     }
 
@@ -216,13 +215,17 @@ button {
   }
 }
 
-
-.center{
+.center {
   text-align: center;
   font-size: 20px;
 }
 
-.btn_plus{
+.btn_plus {
   height: 30px;
   border-radius: 50%;
+}
+
+.disabled {
+  background: $grey !important;
+  
 }

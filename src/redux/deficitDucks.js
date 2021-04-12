@@ -106,7 +106,7 @@ export const listDeficits = (userId) => async (distpach, getState) => {
 }
 
 
-export const addDeficit = (userId, deficit) => async (distpach, getState) => {
+export const addDeficit = (patientOdoctorId, deficit) => async (distpach, getState) => {
 
     let loading = true;
     try {
@@ -114,12 +114,11 @@ export const addDeficit = (userId, deficit) => async (distpach, getState) => {
             type: 'LOADING',
             payload: loading
         })
-        await axios.post(`http://localhost:5000/api/patients/${userId}/medicalHistories/1/deficits`,
+        await axios.post(`http://localhost:5000/api/patients/${patientOdoctorId}/medicalHistories/${patientOdoctorId}/deficits`,
             deficit,
             { headers: { "token": `${localStorage.getItem('token')}` } })
             .then(response => {
                 if (response.data.payload) {
-                    console.log("ENTRANDOOOOOOO")
                     distpach({
                         type: 'ADD_DEFICIT_SUCCESS',
                         payload: response.data.payload

@@ -6,7 +6,7 @@ import '../../sass/styles.scss';
 import Paginator from "../Paginator/Paginator";
 import { useDispatch, useSelector } from "react-redux";
 import { getInfoUser } from "../../redux/userDucks";
-import { listConsultations } from "../../redux/consultationDucks";
+import { deleteconsultation, listConsultations } from "../../redux/consultationDucks";
 import LoadingScreen from 'loading-screen-kraenau';
 import { useHistory } from "react-router";
 import Swal from "sweetalert2";
@@ -38,7 +38,7 @@ const ListaConsultas = () => {
         history.push(`/detalleConsulta/${id}`)
     }
 
-    const deleteConsultation = (deficitId) => {
+    const deleteConsultation = (consultationId) => {
         Swal.fire({
             title: '¿Estas seguro de eliminar este Deficit?',
             text: "No podras revertirlo!",
@@ -48,14 +48,14 @@ const ListaConsultas = () => {
             cancelButtonColor: '#d33',
             confirmButtonText: 'Si, eliminar!'
         }).then((result) => {
-            // if (result.isConfirmed) {
-            //     distpach(deleteDeficit(userInfo.id, deficitId))
-            //     Swal.fire(
-            //         'Deleted!',
-            //         'Your file has been deleted.',
-            //         'success'
-            //     )
-            // }
+            if (result.isConfirmed) {
+                distpach(deleteconsultation(userInfo.patientOdoctor.id, consultationId))
+                Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                )
+            }
         })
     }
 
@@ -70,14 +70,14 @@ const ListaConsultas = () => {
             distpach(getInfoUser())
             //dispatch(listDeficits(userInfo.id))
         } else {
-            distpach(listConsultations(userInfo.id))
+            distpach(listConsultations(userInfo.patientOdoctor.id))
             //console.log(userInfo.id)
         }
     }, [])
 
     useEffect(() => {
         if (userInfo !== null) {
-            distpach(listConsultations(userInfo.id))
+            distpach(listConsultations(userInfo.patientOdoctor.id))
         }
 
     }, [userInfo])
@@ -121,13 +121,20 @@ const ListaConsultas = () => {
                                                 <td>{consultation.Dolencia}</td>
                                                 {
                                                     consultation.Estado !== 0 ? (
-                                                        <td>{consultation.Estado}</td>
+                                                        <td>Aceptado</td>
                                                     ) : (
 
                                                         <td>Pendiente</td>
                                                     )
                                                 }
-                                                <td>{consultation.Doctor}</td>
+
+                                                {
+                                                    consultation.doctorId === 1 ? (
+                                                        <td>Pendiente</td>
+                                                    ) : (
+                                                        <td>{consultation.DoctorName}</td>
+                                                    )
+                                                }
                                                 <td><button onClick={() => changeToDetails(consultation.id)}><i><FontAwesomeIcon icon="edit" /></i>Detalles</button></td>
                                                 <td><button onClick={() => deleteConsultation(consultation.id)}><i><FontAwesomeIcon icon="trash-alt" /></i>Eliminar</button></td>
                                             </tr>

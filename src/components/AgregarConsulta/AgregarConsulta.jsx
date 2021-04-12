@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Swal from 'sweetalert2';
 import { getInfoUser } from '../../redux/userDucks';
 import { addConsultationPacient } from '../../redux/consultationDucks'
+import { useHistory } from 'react-router';
 
 
 
@@ -29,6 +30,7 @@ const AgregarConsulta = () => {
         usuarioId: '',
         dolencias: []
     })
+    const history = useHistory();
 
 
     //Functions
@@ -101,7 +103,7 @@ const AgregarConsulta = () => {
         if (userInfo !== null) {
             setConsultation({
                 ...consultation,
-                usuarioId: userInfo.id
+                usuarioId: userInfo.patientOdoctor.id //AQUI PUEDE SER EL ERROR
             })
             distpach(getGroups())
             distpach(getDiseases())
@@ -110,15 +112,18 @@ const AgregarConsulta = () => {
 
     useEffect(() => {
         if (consultation.dolencias.length !== 0) {
-            distpach(addConsultationPacient(userInfo.id, consultation))
+            distpach(addConsultationPacient(userInfo.patientOdoctor.id, consultation))
             Swal.fire(
                 'Buena trabajo!',
                 'Agregaste tu consulta con éxito',
                 'success'
-            )
-            setInputFilter('')
-            setListDiseasesSelected([])
-            console.log(consultation)
+            ).then((result) => {
+                if (result.isConfirmed) {
+                    setInputFilter('')
+                    setListDiseasesSelected([])
+                    history.push('/consultasPacientes')
+                }
+            })
         }
     }, [consultation])
 

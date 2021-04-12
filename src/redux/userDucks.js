@@ -58,7 +58,6 @@ export const loginAction = (user) => async (distpach, getState) => {
                 if (response.status)
                     if (response.data.token) {
                         localStorage.setItem('token', response.data.token);
-
                         distpach({
                             type: LOGIN_SUCCESS,
                             payload: response.data

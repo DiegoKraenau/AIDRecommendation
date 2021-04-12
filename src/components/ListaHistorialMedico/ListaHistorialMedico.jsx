@@ -32,10 +32,11 @@ const ListaHistorialMedico = () => {
     useEffect(() => {
         // dispatch(listDeficits());
         if (userInfo === null) {
+            console.log("Entrando al if")
             dispatch(getInfoUser())
             //dispatch(listDeficits(userInfo.id))
         } else {
-            dispatch(listDeficits(userInfo.id))
+            dispatch(listDeficits(userInfo.patientOdoctor.id))
             //console.log(userInfo.id)
         }
     }, [])
@@ -44,7 +45,7 @@ const ListaHistorialMedico = () => {
     //User info with token
     useEffect(() => {
         if (userInfo !== null) {
-            dispatch(listDeficits(userInfo.id))
+            dispatch(listDeficits(userInfo.patientOdoctor.id))
         }
     }, [userInfo])
 
@@ -85,7 +86,7 @@ const ListaHistorialMedico = () => {
             confirmButtonText: 'Si, eliminar!'
         }).then((result) => {
             if (result.isConfirmed) {
-                dispatch(deleteDeficit(userInfo.id, deficitId))
+                dispatch(deleteDeficit(userInfo.patientOdoctor.id, deficitId))
                 Swal.fire(
                     'Deleted!',
                     'Your file has been deleted.',

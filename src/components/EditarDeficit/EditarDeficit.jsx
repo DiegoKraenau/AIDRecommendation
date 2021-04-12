@@ -39,7 +39,7 @@ const EditarDeficit = () => {
         if (userInfo === null) {
             dispatch(getInfoUser())
         } else {
-            dispatch(getDeficit(userInfo.id, deficitId))
+            dispatch(getDeficit(userInfo.patientOdoctor.id, deficitId))
         }
     }, [])
 
@@ -47,7 +47,7 @@ const EditarDeficit = () => {
     //If userInfo finish
     useEffect(() => {
         if (userInfo !== null) {
-            dispatch(getDeficit(userInfo.id, deficitId))
+            dispatch(getDeficit(userInfo.patientOdoctor.id, deficitId))
         }
     }, [userInfo])
 
@@ -71,7 +71,7 @@ const EditarDeficit = () => {
 
     //When the form is completed and push Edit
     const onSubmit = (data, e) => {
-        dispatch(updateDeficit(userInfo.id, HistorialMedico))
+        dispatch(updateDeficit(userInfo.patientOdoctor.id, HistorialMedico))
         e.target.reset()
     }
 
