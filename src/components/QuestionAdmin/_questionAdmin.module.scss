@@ -1,0 +1,23 @@
+@import "../../sass/styles.scss";
+
+.textArea_format {
+  width: 60% !important;
+  height: auto !important;
+  margin: 0 auto;
+  textarea {
+    height: 50px;
+    min-height: 50px;
+    max-height: 80px;
+    border-radius: 10px;
+    outline: none;
+    border: none;
+    -webkit-box-shadow: 0px 11px 11px -10px rgba(75, 75, 224, 1);
+    -moz-box-shadow: 0px 11px 11px -10px rgba(75, 75, 224, 1);
+    box-shadow: 0px 11px 11px -10px rgba(75, 75, 224, 1);
+  }
+
+  button {
+    display: block;
+    margin: 0 auto;
+  }
+}

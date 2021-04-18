@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import '../../sass/styles.scss';
 import LoadingScreen from 'loading-screen-kraenau';
 import { useDispatch, useSelector } from 'react-redux';
-import { addDeficit, getDeficit, resetDeficitUpdated, updateDeficit } from '../../redux/deficitDucks';
+import { getDeficit, resetDeficitUpdated, updateDeficit } from '../../redux/deficitDucks';
 import { getInfoUser } from '../../redux/userDucks';
 import Swal from 'sweetalert2';
 import { useHistory } from 'react-router';

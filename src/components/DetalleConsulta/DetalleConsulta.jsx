@@ -8,6 +8,7 @@ import { getConsultation, updateAnswersPacient, resetAnswersUpdated } from "../.
 import { useHistory, useParams } from "react-router";
 import { emptyInputs } from '../../Extras/Validations';
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 
 const DetalleConsulta = () => {
 
@@ -69,7 +70,7 @@ const DetalleConsulta = () => {
 
     useEffect(() => {
         if (userInfo !== null) {
-            distpach(getConsultation(userInfo.id, id))
+            distpach(getConsultation(userInfo.patientOdoctor.id, id))
         }
     }, [userInfo])
 
@@ -144,7 +145,7 @@ const DetalleConsulta = () => {
                                 <h4>Doctor asignado:</h4>
                                 {
                                     consultation.DoctorName.length !== 0 ? (
-                                        <p>{consultation.DoctorName}</p>
+                                        <Link to={`/informaciónDoctor/${consultation.doctorId}`}>{consultation.DoctorName +' '+consultation.DoctorApellido}</Link>
 
                                     ) : (
                                         <p>Pendiente</p>

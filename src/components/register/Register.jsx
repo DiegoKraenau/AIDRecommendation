@@ -206,7 +206,7 @@ const Register = () => {
                                         }
                                         className={`${errors.Correo?.message ? 'input-invalid' : ''}`}
                                     ></input>
-                                    <div className="error-message">{errors.Edad?.message}</div>
+                                    <div className="error-message">{errors.Correo?.message}</div>
                                 </div>
                                 <div className={`${styles.input}`}>
                                     <span>Usuario</span>
@@ -241,7 +241,7 @@ const Register = () => {
                                         }
                                         className={`${errors.Contrasenia?.message ? 'input-invalid' : ''}`}
                                     ></input>
-                                    <div className="error-message">{errors.Edad?.message}</div>
+                                    <div className="error-message">{errors.Contrasenia?.message}</div>
                                 </div>
                                 <div className={`${styles.input}`}>
                                     <span>Palabra secreta</span>
@@ -273,8 +273,8 @@ const Register = () => {
                                             }
                                             className={`${errors.Sexo?.message ? 'input-invalid' : 'select'}`}
                                         >
-                                            <option value="Hombre">Hombre</option>
-                                            <option value="Mujer">Mujer</option>
+                                            <option value="Masculino">Masculino</option>
+                                            <option value="Femenino">Femenino</option>
                                             <option value="Ambos">Ambos</option>
                                         </select>
                                         <div className="arrow">&#9660;</div>

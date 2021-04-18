@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Fragment, useState } from "react";
+import { Fragment , React } from "react";
 import { useForm } from "react-hook-form";
 import styles from './_ObservacionConsulta.module.scss';
 import '../../sass/styles.scss';
@@ -7,7 +7,7 @@ import '../../sass/styles.scss';
 const ObservacionConsulta = ({ consultation, inputObservation, setInputObservation, textObservation, setTextObservation }) => {
 
     //States
-    const { register, errors, handleSubmit } = useForm()
+    const { register} = useForm()
 
 
     //Functions

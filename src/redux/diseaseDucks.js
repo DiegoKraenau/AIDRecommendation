@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { diseasesSeeders, groupsSeeders } from '../Extras/seeders';
+
 
 const initialData = {
     list: null,
@@ -40,7 +40,7 @@ export const getGroups = () => async (distpach, getState) => {
             payload: loading
         })
 
-        await axios.get(`http://localhost:5000/api/categoriesDeseases`, { headers: { "token": `${localStorage.getItem('token')}` } })
+        await axios.get(`${process.env.REACT_APP_URL_BASE_BACKEND}/categoriesDeseases`, { headers: { "token": `${localStorage.getItem('token')}` } })
             .then(response => {
                 if (response.data.data) {
                     distpach({
@@ -73,7 +73,7 @@ export const getDiseases = () => async (distpach, getState) => {
 
 
 
-        await axios.get(`http://localhost:5000/api/categoriesDeseases/deseases`, { headers: { "token": `${localStorage.getItem('token')}` } })
+        await axios.get(`${process.env.REACT_APP_URL_BASE_BACKEND}/categoriesDeseases/deseases`, { headers: { "token": `${localStorage.getItem('token')}` } })
             .then(response => {
                 if (response.data.data) {
                     distpach({

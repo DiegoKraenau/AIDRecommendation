@@ -3,10 +3,9 @@ import Navbar from "../Navbar/Navbar";
 import '../../sass/styles.scss';
 import styles from './_ConsultaDoctores.module.scss';
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router";
 import Swal from "sweetalert2";
 import { getInfoUser } from "../../redux/userDucks";
-import { addConsultationSelected, listConsultations, pendingQueryList } from "../../redux/consultationDucks";
+import { addConsultationSelected, pendingQueryList } from "../../redux/consultationDucks";
 import LoadingScreen from 'loading-screen-kraenau';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Paginator from "../Paginator/Paginator";
@@ -18,7 +17,6 @@ const ConsultaDoctores = () => {
     const consultations = useSelector(store => store.consultation.pendingQueryList)
     const userInfo = useSelector(store => store.usuario.userInside)
     const loading = useSelector(store => store.global.loading);
-    const history = useHistory();
 
     //States
     const [currentPage, setcurrentPage] = useState(1)
@@ -120,7 +118,7 @@ const ConsultaDoctores = () => {
                                 <tbody>
                                     {
                                         <tr>
-                                            <td colSpan="5" className="center">No tiene ni una consulta registrada</td>
+                                            <td colSpan="6" className="center">No hay consultas por mostrar por el momento.</td>
                                         </tr>
                                     }
                                 </tbody>

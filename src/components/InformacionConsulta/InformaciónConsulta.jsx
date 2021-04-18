@@ -1,4 +1,5 @@
-import { Fragment } from "react";
+import { React } from "react";
+import { Link } from "react-router-dom";
 import styles from './_InformacionConsulta.module.scss';
 
 const InformacionConsulta = ({ consultation }) => {
@@ -23,8 +24,8 @@ const InformacionConsulta = ({ consultation }) => {
                 }
             </div>
             <div className={`${styles.information}`}>
-                <h4>Doctor asignado:</h4>
-                <p>{consultation.DoctorName}</p>
+                <h4>Paciente asignado:</h4>
+                <Link to={`/informaciónPaciente/${consultation.PacienteId}`}>{consultation.Paciente+' '+consultation.PacienteApellido}</Link>
             </div>
             <div className={`${styles.information}`}>
                 <h4>Prescripción:</h4>

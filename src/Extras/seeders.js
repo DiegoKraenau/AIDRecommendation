@@ -207,7 +207,7 @@ const consultationsSeeders = [
         Dolencia: 'Dolor de espalda',
         EstadoDeConsulta: 'Pendiente',
         DoctorNombre: 'Diego Kraenau',
-        Prescripcion:'Cetirizina todas las noches',
+        Prescripcion: 'Cetirizina todas las noches',
         Observaciones: 'Esto es una observación',
         Preguntas: [
             {
@@ -222,7 +222,7 @@ const consultationsSeeders = [
         Dolencia: 'Dolor de espalda',
         EstadoDeConsulta: 'Pendiente',
         DoctorNombre: 'Diego Kraenau',
-        Prescripcion:'Cetirizina todas las noches',
+        Prescripcion: 'Cetirizina todas las noches',
         Observaciones: '',
         Preguntas: []
     },
@@ -249,4 +249,74 @@ const consultationsSeeders = [
     }
 
 ]
-export { deficitsSeeders, groupsSeeders, diseasesSeeders, consultationsSeeders }
+
+const doctorSeeder = {
+    id: 1,
+    Nombre: 'Diego',
+    Apellido: 'Kraenau',
+    Edad: '20',
+    DNI: '72474638',
+    Correo: 'diegokraenau@gmail.com',
+    NumeroColegiatura: '123456',
+    Sexo: 'Masculino',
+    Especialidad: 'Dotita',
+    Usuario: 'testUsuario',
+    Contrasenia: 'testUsuario',
+    PalabraSecreta: 'keyword',
+    Colegiatura: 'Trilce'
+}
+
+const pacientSeeder = {
+    id: 1,
+    Nombre: 'Diego',
+    Apellido: 'Kraenau',
+    Edad: '20',
+    DNI: '72474638',
+    Correo: 'diegokraenau@gmail.com',
+    NumeroColegiatura: '123456',
+    Sexo: 'Masculino',
+    Especialidad: 'Dotita',
+    Usuario: 'testUsuario',
+    Contrasenia: 'testUsuario',
+    Deficits: [
+        {
+            id: '1',
+            Nombre: 'Diarrea',
+            Anio: '29'
+        },
+        {
+            id: '2',
+            Nombre: 'Ojeras',
+            Anio: '30'
+        },
+        {
+            id: '3',
+            Nombre: 'Covid 19',
+            Anio: '40'
+        }
+    ]
+}
+
+const questions = [
+    {
+        id:1,
+        question: '¿Hola como estas?',
+        answer: 'Obviamente mascota'
+    },
+    {
+        id:2,
+        question: '¿Hola como estas?',
+        answer: ''
+    },
+    {
+        id:3,
+        question: '¿Hola como estas?',
+        answer: 'aeaeaeaeae'
+    },
+    {
+        id:4,
+        question: '¿Hola como estas?',
+        answer: ''
+    }
+]
+export { deficitsSeeders, groupsSeeders, diseasesSeeders, consultationsSeeders, doctorSeeder, pacientSeeder,questions }

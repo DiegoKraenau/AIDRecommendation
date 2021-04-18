@@ -22,6 +22,8 @@ import DetalleConsulta from './components/DetalleConsulta/DetalleConsulta';
 import ConsultaDoctores from './components/ConsultaDoctores/ConsultaDoctores';
 import MisConsultas from './components/MisConsultas/MisConsultas';
 import ResponderConsulta from './components/ResponderConsulta/ResponderConsulta';
+import InfoDoctor from './components/informaciónDoctor/InfoDoctor';
+import InfoPaciente from './components/infoPaciente/InfoPacient';
 
 
 function App() {
@@ -61,9 +63,10 @@ function App() {
           path="/editarDeficit/:deficitId"
           component={EditarDeficit}
         ></ProtectedRoutes>
-        <Route path="/perfil" exact>
-          <Perfil></Perfil>
-        </Route>
+        <ProtectedRoutes
+          path="/perfil"
+          component={Perfil}
+        ></ProtectedRoutes>
         {
           /*
            <ProtectedRoutes
@@ -100,6 +103,14 @@ function App() {
         <ProtectedRoutes
           path="/validarConsulta/:id"
           component={ResponderConsulta}
+        ></ProtectedRoutes>
+        <ProtectedRoutes
+          path="/informaciónDoctor/:id"
+          component={InfoDoctor}
+        ></ProtectedRoutes>
+        <ProtectedRoutes
+          path="/informaciónPaciente/:id"
+          component={InfoPaciente}
         ></ProtectedRoutes>
       </Switch>
     </Router>

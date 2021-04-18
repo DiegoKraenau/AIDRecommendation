@@ -132,7 +132,7 @@ const ListaConsultas = () => {
                                                     consultation.doctorId === 1 ? (
                                                         <td>Pendiente</td>
                                                     ) : (
-                                                        <td>{consultation.DoctorName}</td>
+                                                        <td>{consultation.DoctorName +' '+consultation.DoctorApellido}</td>
                                                     )
                                                 }
                                                 <td><button onClick={() => changeToDetails(consultation.id)}><i><FontAwesomeIcon icon="edit" /></i>Detalles</button></td>
@@ -157,7 +157,7 @@ const ListaConsultas = () => {
                                 <tbody>
                                     {
                                         <tr>
-                                            <td colSpan="6" className="center">No tiene ni una consulta registrada</td>
+                                            <td colSpan="6" className="center">No tiene ni una consulta registrada.</td>
                                         </tr>
                                     }
                                 </tbody>

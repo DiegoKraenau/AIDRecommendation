@@ -227,5 +227,68 @@ button {
 
 .disabled {
   background: $grey !important;
-  
+}
+
+a {
+  text-decoration: none;
+  color: blue;
+}
+
+.slider {
+  width: 80%;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+.card-container {
+  height: auto;
+  width: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .card {
+    width: 30%;
+    height: 90px;
+    margin: 30px auto;
+    border-radius: 30px;
+    box-shadow: 0 5px 10px rgba(154, 160, 185, 0.05),
+      0 15px 40px rgba(166, 173, 201, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .card-information {
+      width: 90%;
+      height: 80%;
+      p {
+        text-align: center;
+      }
+    }
+  }
+}
+
+.slick-prev:before,
+.slick-next:before {
+  color: $PrimaryColorDark !important;
+}
+
+.secondary-btn {
+  outline: none;
+  border: none;
+  cursor: pointer;
+  font-family: "Poppins", sans-serif;
+  border-radius: 30px;
+  color: $PrimaryColorDark;
+  -webkit-box-shadow: 0px 11px 11px -10px rgba(75, 75, 224, 1);
+  -moz-box-shadow: 0px 11px 11px -10px rgba(75, 75, 224, 1);
+  box-shadow: 0px 11px 11px -10px rgba(75, 75, 224, 1);
+  background: white;
+  border: 1px solid $PrimaryColorDark;
+  transition: 300ms all ease-in-out;
+
+  &:hover {
+    background: $PrimaryColorDark;
+    color: $white;
+  }
 }
