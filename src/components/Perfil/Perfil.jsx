@@ -5,7 +5,7 @@ import '../../sass/styles.scss';
 import Men from '../../img/man.svg';
 import Woman from '../../img/women.svg';
 import { useDispatch, useSelector } from "react-redux";
-import { getInfoUser, getProfile } from "../../redux/userDucks";
+import { editProfile, getInfoUser, getProfile } from "../../redux/userDucks";
 import LoadingScreen from 'loading-screen-kraenau';
 import { useForm } from "react-hook-form";
 
@@ -42,7 +42,8 @@ const Perfil = () => {
         //         history.push('/')
         //     }
         // })
-        console.log(user)
+        distpach(editProfile(userInfo.id,user))
+        
     }
     //Hooks
     useEffect(() => {

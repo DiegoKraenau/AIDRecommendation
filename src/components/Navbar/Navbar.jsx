@@ -2,7 +2,7 @@ import { React, useEffect, useState } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
 import '../../sass/styles.scss';
 import styles from './_navbar.module.scss';
-import Logo from '../../img/logo.svg';
+import Logo from '../../img/AidRec.png';
 import '../../sass/styles.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch, useSelector } from 'react-redux'
