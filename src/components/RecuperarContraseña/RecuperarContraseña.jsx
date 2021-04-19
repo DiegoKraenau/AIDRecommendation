@@ -13,7 +13,9 @@ import Swal from 'sweetalert2';
 const RecuperarContraseña = () => {
 
     const { register, errors, handleSubmit } = useForm();
-    const [palabraSecreta, setPalabraSecreta] = useState('')
+    const [PalabraSecreta, setPalabraSecreta] = useState({
+        PalabraSecreta:''
+    })
     const passwordForget = useSelector(store => store.usuario.passwordForget)
     const history = useHistory()
     const distpach = useDispatch()
@@ -21,7 +23,10 @@ const RecuperarContraseña = () => {
 
     const onChange = (e) => {
         setPalabraSecreta(
-            e.target.value
+            {
+                ...PalabraSecreta,
+                PalabraSecreta:e.target.value
+            }
         )
     };
 
@@ -30,12 +35,11 @@ const RecuperarContraseña = () => {
     }
 
     const onSubmit = (data, e) => {
-        console.log(data)
         validarKeyWord()
     }
 
     const validarKeyWord = () => {
-        distpach(getPassword(palabraSecreta))
+        distpach(getPassword(PalabraSecreta))
     }
 
     useEffect(() => {
@@ -77,7 +81,7 @@ const RecuperarContraseña = () => {
                                 })
                             }
                             className={`${errors.palabraSecreta?.message ? 'input-invalid' : ''}`}
-                            value={palabraSecreta}
+                            value={PalabraSecreta.PalabraSecreta}
                             onChange={(e) => onChange(e)}
                         ></input>
                         <div className="error-message">{errors.palabraSecreta?.message}</div>

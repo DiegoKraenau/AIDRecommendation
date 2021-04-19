@@ -61,6 +61,11 @@ export default function userReducer(state = initialData, action) {
                 ...state,
                 passwordForget: action.payload
             }
+        case EDIT_PROFILE:
+            return {
+                ...state,
+                profile: action.payload
+            }
         default:
             return state
     }
@@ -72,69 +77,39 @@ export const getPassword = (keyWord) => async (distpach, getState) => {
     let loading = true
     try {
         turnLoading(loading, distpach)
-        distpach({
-            type: GET_PASSWORD,
-            payload: keyWord
-        })
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'No se encontró una contraseña'
-        })
+        await axios.post(`${process.env.REACT_APP_URL_BASE_BACKEND}/user/password`, keyWord)
+            .then(response => {
+                if (response.status)
+                    if (response.data.data) {
+                        distpach({
+                            type: GET_PASSWORD,
+                            payload: response.data.data
+                        })
+                        loading = false
+                        turnLoading(loading, distpach)
 
 
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'No se encontró una contraseña'
+                        })
+                    }
 
-        // await axios.post(`${process.env.REACT_APP_URL_BASE_BACKEND}/login`, user)
-        //     .then(response => {
-        //         if (response.status)
-        //             if (response.data.token) {
-        //                 localStorage.setItem('token', response.data.token);
-        //                 distpach({
-        //                     type: LOGIN_SUCCESS,
-        //                     payload: response.data
-        //                 })
+            })
+            .catch(error => {
+                console.log(error)
+                loading = false
+                turnLoading(loading, distpach)
+                showPopUpError()
+            })
 
-        //                 distpach({
-        //                     type: GET_INFO_USER,
-        //                     payload: response.data.data
-        //                 })
-
-        //                 loading = false
-        //                 distpach({
-        //                     type: 'LOADING',
-        //                     payload: loading
-        //                 })
-        //             } else {
-        //                 Swal.fire({
-        //                     icon: 'Error',
-        //                     title: 'Oops...',
-        //                     text: 'Contraseña o usuario incorrecto'
-        //                 })
-        //             }
-
-        //     })
-        //     .catch(error => {
-        //         console.log(error)
-        //         loading = false
-        //         distpach({
-        //             type: 'LOADING',
-        //             payload: loading
-        //         })
-
-        //         Swal.fire({
-        //             icon: 'error',
-        //             title: 'Oops...',
-        //             text: 'Usuario o contraseña incorrecto'
-        //         })
-        //     })
-
-        loading = false
-        turnLoading(loading, distpach)
 
     } catch (error) {
+        console.log(error)
         loading = false
         turnLoading(loading, distpach)
-        console.log(error)
         showPopUpError()
     }
 }
@@ -336,20 +311,15 @@ export const editProfile = (id, user) => async (distpach, getState) => {
             user,
             { headers: { "token": `${localStorage.getItem('token')}` } })
             .then(response => {
-                if (response.data.data) {
-                    distpach({
-                        type: EDIT_PROFILE,
-                        payload: response.data.data
-                    })
-
+                if (response.data.payload) {
                     loading = false;
                     turnLoading(loading, distpach)
 
-                    Swal.fire(
-                        'Buen Trabajo',
-                        'Se modificó el perfil con éxito',
-                        'success'
-                    )
+                    // Swal.fire(
+                    //     'Buen Trabajo',
+                    //     'Se modificó el perfil con éxito',
+                    //     'success'
+                    // )
                 }
             })
             .catch(error => {

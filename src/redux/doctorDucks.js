@@ -76,32 +76,27 @@ export const getRankingDoctores = () => async (distpach, getState) => {
     let loading = true
     try {
         turnLoading(loading, distpach)
-        // await axios.get(`${process.env.REACT_APP_URL_BASE_BACKEND}/doctors/${doctorId}`, { headers: { "token": `${localStorage.getItem('token')}` } })
-        //     .then(response => {
-        //         console.log(response.data)
-        //         if (response.data.data) {
-        //             distpach({
-        //                 type: 'GET_DOCTOR_BY_ID',
-        //                 payload: response.data.data
-        //             })
-        //             loading = false
-        //             turnLoading(loading, distpach)
-        //         }
+        await axios.get(`${process.env.REACT_APP_URL_BASE_BACKEND}/doctors/rankings`, { headers: { "token": `${localStorage.getItem('token')}` } })
+            .then(response => {
+                console.log(response.data)
+                if (response.data.data) {
+                    distpach({
+                        type: 'GET_RANKING_DOCTORES',
+                        payload: response.data.data
+                    })
+                    loading = false
+                    turnLoading(loading, distpach)
+                }
 
-        //     }
-        //     )
-        //     .catch(error => {
-        //         loading = false
-        //         turnLoading(loading, distpach)
-        //         showPopUpError()
-        //         console.log(error)
-        //     })
-        distpach({
-            type: 'GET_RANKING_DOCTORES',
-            payload: doctoresRankingSeeders
-        })
-        loading = false
-        turnLoading(loading, distpach)
+            }
+            )
+            .catch(error => {
+                loading = false
+                turnLoading(loading, distpach)
+                showPopUpError()
+                console.log(error)
+            })
+
 
     } catch (error) {
         console.log(error)

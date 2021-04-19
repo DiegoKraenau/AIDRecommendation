@@ -60,7 +60,7 @@ const Login = () => {
     useEffect(() => {
 
         if (localStorage.getItem('token')) {
-            history.push('/perfil')
+            history.push('/foro')
 
 
             const Toast = Swal.mixin({
