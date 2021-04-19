@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React } from "react";
 import './_Paginator.scss';
 
 const Paginator = ({array,arrayPerPage,onChangeValue}) => {

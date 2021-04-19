@@ -1,8 +1,7 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState, React } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
-import Swal from "sweetalert2";
-import { addConsultationSelected, consultationsDoctor, pendingQueryList } from "../../redux/consultationDucks";
+import { consultationsDoctor } from "../../redux/consultationDucks";
 import { getInfoUser } from "../../redux/userDucks";
 import Navbar from "../Navbar/Navbar";
 import LoadingScreen from 'loading-screen-kraenau';
@@ -22,7 +21,7 @@ const MisConsultas = () => {
 
     //States
     const [currentPage, setcurrentPage] = useState(1)
-    const [consultationsPerPage] = useState(3);
+    const [consultationsPerPage] = useState(7);
 
 
 
@@ -88,7 +87,7 @@ const MisConsultas = () => {
                                             <tr key={consultation.id}>
                                                 <td>{consultation.createdAt}</td>
                                                 <td>{consultation.Dolencia}</td>
-                                                <td>{consultation.Paciente}</td>
+                                                <td>{consultation.Paciente + ' '+ consultation.PacienteApellido}</td>
                                                 <td>{consultation.Prescripcion}</td>
                                                 <td><button onClick={() => validConsultation(consultation)}><i><FontAwesomeIcon icon="edit" /></i>Responder</button></td>
                                             </tr>
@@ -111,7 +110,7 @@ const MisConsultas = () => {
                                 <tbody>
                                     {
                                         <tr>
-                                            <td colSpan="5" className="center">No tiene ni una consulta registrada</td>
+                                            <td colSpan="6" className="center">No tiene ni una consulta registrada</td>
                                         </tr>
                                     }
                                 </tbody>

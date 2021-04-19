@@ -1,7 +1,6 @@
 // import axios from 'axios';
 // import Swal from 'sweetalert2';
 import axios from 'axios';
-import { consultationsSeeders } from '../Extras/seeders';
 import { showPopUpError } from '../Extras/Validations';
 
 const initialData = {
@@ -27,6 +26,7 @@ const GET_CONSULTATIONSPENDING_SUCCESS = "GET_CONSULTATIONSPENDING_SUCCESS"
 const ADD_CONSULTATION_SELECTED = "ADD_CONSULTATION_SELECTED"
 const GET_CONSULTATIONS_DOCTOR = "GET_CONSULTATIONS_DOCTOR"
 const ADD_QUESTIONS_OBSERVATIONS = "ADD_QUESTIONS_OBSERVATIONS"
+const FINISH_CONSULTATION = "FINISH_CONSULTATION"
 
 
 export default function consultationReducer(state = initialData, action) {
@@ -87,6 +87,11 @@ export default function consultationReducer(state = initialData, action) {
                 ...state,
                 consultationUpdated: action.payload
             }
+        case FINISH_CONSULTATION:
+            return {
+                ...state,
+                list: action.payload
+            }
         default:
             return state
     }
@@ -108,7 +113,7 @@ export const listConsultations = (patientOdoctorId) => async (distpach, getState
             type: 'LOADING',
             payload: loading
         })
-        await axios.get(`http://localhost:5000/api/patients/${patientOdoctorId}/medicalHistories/${patientOdoctorId}/medicalConsultations`, { headers: { "token": `${localStorage.getItem('token')}` } })
+        await axios.get(`${process.env.REACT_APP_URL_BASE_BACKEND}/patients/${patientOdoctorId}/medicalHistories/${patientOdoctorId}/medicalConsultations`, { headers: { "token": `${localStorage.getItem('token')}` } })
             .then(response => {
                 if (response.data.data) {
                     distpach({
@@ -148,7 +153,7 @@ export const pendingQueryList = (doctorId) => async (distpach, getState) => {
     try {
         turnLoading(loading, distpach)
 
-        await axios.get(`http://localhost:5000/api/doctors/${doctorId}/medicalConsultations`, { headers: { "token": `${localStorage.getItem('token')}` } })
+        await axios.get(`${process.env.REACT_APP_URL_BASE_BACKEND}/doctors/${doctorId}/medicalConsultations`, { headers: { "token": `${localStorage.getItem('token')}` } })
             .then(response => {
                 if (response.data.data) {
                     distpach({
@@ -182,7 +187,7 @@ export const consultationsDoctor = (patientOdoctorId) => async (distpach, getSta
     try {
         turnLoading(loading, distpach)
 
-        await axios.get(`http://localhost:5000/api/doctors/${patientOdoctorId}/acceptedMedicalConsultations`, { headers: { "token": `${localStorage.getItem('token')}` } })
+        await axios.get(`${process.env.REACT_APP_URL_BASE_BACKEND}/doctors/${patientOdoctorId}/acceptedMedicalConsultations`, { headers: { "token": `${localStorage.getItem('token')}` } })
             .then(response => {
                 if (response.data.data) {
                     distpach({
@@ -217,7 +222,7 @@ export const addConsultationPacient = (patientOdoctorId, consultation) => async 
             type: 'LOADING',
             payload: loading
         })
-        await axios.post(`http://localhost:5000/api/patients/${patientOdoctorId}/medicalHistories/${patientOdoctorId}/medicalConsultations`,
+        await axios.post(`${process.env.REACT_APP_URL_BASE_BACKEND}/patients/${patientOdoctorId}/medicalHistories/${patientOdoctorId}/medicalConsultations`,
             consultation,
             { headers: { "token": `${localStorage.getItem('token')}` } })
             .then(response => {
@@ -257,7 +262,7 @@ export const getConsultation = (pacientId, consultationId) => async (distpach, g
     let loading = true;
     try {
         turnLoading(loading, distpach)
-        await axios.get(`http://localhost:5000/api/patients/${pacientId}}/medicalHistories/1/medicalConsultations/${consultationId}`, { headers: { "token": `${localStorage.getItem('token')}` } })
+        await axios.get(`${process.env.REACT_APP_URL_BASE_BACKEND}/patients/${pacientId}/medicalHistories/${pacientId}/medicalConsultations/${consultationId}`, { headers: { "token": `${localStorage.getItem('token')}` } })
             .then(response => {
                 if (response.data.data) {
                     distpach({
@@ -288,7 +293,7 @@ export const addingQuestionsAndObservations = (patientOdoctorId, consultation) =
     console.log(consultation)
     try {
         turnLoading(loading, distpach)
-        await axios.put(`http://localhost:5000/api/doctors/${patientOdoctorId}/medicalConsultations/${consultation.id}/questions`, consultation, { headers: { "token": `${localStorage.getItem('token')}` } })
+        await axios.put(`${process.env.REACT_APP_URL_BASE_BACKEND}/doctors/${patientOdoctorId}/medicalConsultations/${consultation.id}/questions`, consultation, { headers: { "token": `${localStorage.getItem('token')}` } })
             .then(response => {
                 if (response.data.data) {
                     distpach({
@@ -321,7 +326,7 @@ export const addConsultationSelected = (patientOdoctorId, consultation) => async
     const pendingList = getState().consultation.pendingQueryList;
     try {
         turnLoading(loading, distpach)
-        await axios.put(`http://localhost:5000/api/doctors/${patientOdoctorId}/medicalConsultations/${consultation.id}`,
+        await axios.put(`${process.env.REACT_APP_URL_BASE_BACKEND}/doctors/${patientOdoctorId}/medicalConsultations/${consultation.id}`,
             consultation,
             { headers: { "token": `${localStorage.getItem('token')}` } })
             .then(response => {
@@ -358,46 +363,29 @@ export const deleteconsultation = (pacientId, consultationId) => async (distpach
     let loading = true;
     try {
         turnLoading(loading, distpach);
-        distpach({
-            type: 'DELETE_CONSULTATIONS_SUCCES',
-            payload: {
-                deleted: 1,
-                list: getState().consultation.list.filter(x => x.id !== consultationId)
-            }
-        })
 
-        loading = false;
-        turnLoading(loading, distpach);
+        await axios.delete(`${process.env.REACT_APP_URL_BASE_BACKEND}/patients/${pacientId}/medicalHistories/${pacientId}/medicalConsultations/${consultationId}`, { headers: { "token": `${localStorage.getItem('token')}` } })
+            .then(response => {
+                if (response.data.data) {
+                    distpach({
+                        type: 'DELETE_CONSULTATIONS_SUCCES',
+                        payload: {
+                            deleted: 1,
+                            list: getState().consultation.list.filter(x => x.id !== consultationId)
+                        }
+                    })
+                    loading = false
+                    turnLoading(loading, distpach)
+                }
+            })
+            .catch(error => {
+                console.log(error)
+                loading = false
+                turnLoading(loading, distpach)
+                showPopUpError()
+            })
 
-        // await axios.delete(`http://localhost:5000/api/patients/${pacientId}/medicalHistories/1/consultations/${consultationId}`, { headers: { "token": `${localStorage.getItem('token')}` } })
-        //     .then(response => {
-        //         if (response.data.payload) {
-        //             distpach({
-        //                 type: 'DELETE_consultation_SUCCES',
-        //                 payload: {
-        //                     deleted:1,
-        //                     list:getState().consultation.list.filter(x=>x.id!==consultationId)
-        //                 }
-        //             })
-        //             loading = false
-        //             distpach({
-        //                 type: 'LOADING',
-        //                 payload: loading
-        //             })
-        //             deleted = true;
-        //         }
-        //     })
-        //     .catch(error => {
-        //         console.log(error)
-        //     })
 
-        // if (deleted === false) {
-        //     Swal.fire({
-        //         icon: 'error',
-        //         title: 'Oops...',
-        //         text: 'Ocurrior un error'
-        //     })
-        // }
 
     } catch (error) {
         console.log(error);
@@ -414,7 +402,7 @@ export const updateAnswersPacient = (patientOdoctorId, consultation) => async (d
     let loading = true;
     try {
         turnLoading(loading, distpach);
-        await axios.put(`http://localhost:5000/api/patients/${patientOdoctorId}/medicalHistories/${patientOdoctorId}/medicalConsultations/${consultation.id}/questions`,
+        await axios.put(`${process.env.REACT_APP_URL_BASE_BACKEND}/patients/${patientOdoctorId}/medicalHistories/${patientOdoctorId}/medicalConsultations/${consultation.id}/questions`,
             consultation, { headers: { "token": `${localStorage.getItem('token')}` } })
             .then(response => {
                 if (response.data.data) {
@@ -432,6 +420,52 @@ export const updateAnswersPacient = (patientOdoctorId, consultation) => async (d
                 console.log(error)
                 showPopUpError()
             })
+    } catch (error) {
+        console.log(error);
+        loading = false
+        turnLoading(loading, distpach)
+        // showPopUpError()
+    }
+
+
+}
+
+export const finishConsultation = (patientOdoctorId, consultation) => async (distpach, getState) => {
+
+    let loading = true;
+    try {
+        turnLoading(loading, distpach);
+        let listUpdated = getState().consultation.list
+        listUpdated.forEach((element, index) => {
+            if (element.id === consultation.id) {
+                console.log("ENTRANDOOOOOOOOOOOOO")
+                listUpdated[index].Estado = 2;
+            }
+        });
+        distpach({
+            type: 'FINISH_CONSULTATION',
+            payload: listUpdated
+        })
+        loading = false
+        turnLoading(loading, distpach)
+        // await axios.put(`${process.env.REACT_APP_URL_BASE_BACKEND}/patients/${patientOdoctorId}/medicalHistories/${patientOdoctorId}/medicalConsultations/${consultation.id}/questions`,
+        //     consultation, { headers: { "token": `${localStorage.getItem('token')}` } })
+        //     .then(response => {
+        //         if (response.data.data) {
+        //             distpach({
+        //                 type: 'UPDATE_CONSULTATIONS_SUCCESS',
+        //                 payload: 1
+        //             })
+        //             loading = false
+        //             turnLoading(loading, distpach)
+        //         }
+        //     })
+        //     .catch(error => {
+        //         loading = false
+        //         turnLoading(loading, distpach)
+        //         console.log(error)
+        //         showPopUpError()
+        //     })
     } catch (error) {
         console.log(error);
         loading = false

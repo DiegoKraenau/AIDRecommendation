@@ -10,8 +10,6 @@
     width: 100%;
     height: 85%;
 
-  
-
     h2 {
       width: 100%;
       text-align: center;
@@ -27,9 +25,9 @@
         padding: 15px;
         background-color: $white;
         color: $grey;
-        
 
         button {
+          width: 130px;
           display: block;
           margin: 0 auto;
           padding: 5px 10px;
@@ -58,16 +56,14 @@
   text-align: right;
 }
 
-
-.content_nothing{
-    
-  width: 100%; 
+.content_nothing {
+  width: 100%;
   height: 50vh;
   display: flex;
   justify-content: center;
   align-items: center;
 
-  p{
+  p {
     width: 100%;
     height: 35px;
     text-align: center;

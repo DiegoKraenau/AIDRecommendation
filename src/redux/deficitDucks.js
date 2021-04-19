@@ -1,6 +1,5 @@
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { deficitsSeeders } from '../Extras/seeders';
 
 const initialData = {
     list: [],
@@ -72,7 +71,7 @@ export const listDeficits = (userId) => async (distpach, getState) => {
             payload: loading
         })
 
-        await axios.get(`http://localhost:5000/api/patients/${userId}/medicalHistories/1/deficits`, { headers: { "token": `${localStorage.getItem('token')}` } })
+        await axios.get(`${process.env.REACT_APP_URL_BASE_BACKEND}/patients/${userId}/medicalHistories/1/deficits`, { headers: { "token": `${localStorage.getItem('token')}` } })
             .then(response => {
                 if (response.data.data) {
                     distpach({
@@ -114,7 +113,7 @@ export const addDeficit = (patientOdoctorId, deficit) => async (distpach, getSta
             type: 'LOADING',
             payload: loading
         })
-        await axios.post(`http://localhost:5000/api/patients/${patientOdoctorId}/medicalHistories/${patientOdoctorId}/deficits`,
+        await axios.post(`${process.env.REACT_APP_URL_BASE_BACKEND}/patients/${patientOdoctorId}/medicalHistories/${patientOdoctorId}/deficits`,
             deficit,
             { headers: { "token": `${localStorage.getItem('token')}` } })
             .then(response => {
@@ -163,7 +162,7 @@ export const getDeficit = (pacientId, deficitId) => async (distpach, getState) =
             type: 'LOADING',
             payload: loading
         })
-        await axios.get(`http://localhost:5000/api/patients/${pacientId}/medicalHistories/1/deficits/${deficitId}`, { headers: { "token": `${localStorage.getItem('token')}` } })
+        await axios.get(`${process.env.REACT_APP_URL_BASE_BACKEND}/patients/${pacientId}/medicalHistories/1/deficits/${deficitId}`, { headers: { "token": `${localStorage.getItem('token')}` } })
             .then(response => {
                 if (response.data.payload) {
                     distpach({
@@ -199,14 +198,14 @@ export const updateDeficit = (pacientId, deficit) => async (distpach, getState) 
             type: 'LOADING',
             payload: loading
         })
-        await axios.put(`http://localhost:5000/api/patients/${pacientId}/medicalHistories/1/deficits/${deficit.id}`,
+        await axios.put(`${process.env.REACT_APP_URL_BASE_BACKEND}/patients/${pacientId}/medicalHistories/${pacientId}/deficits/${deficit.id}`,
             deficit,
             { headers: { "token": `${localStorage.getItem('token')}` } })
             .then(response => {
-                if (response.data.payload) {
+                if (response.data.data) {
                     distpach({
                         type: 'UPDATE_DEFICIT_SUCCESS',
-                        payload: response.data.payload
+                        payload: response.data.data
                     })
                     loading = false
                     distpach({
@@ -252,9 +251,9 @@ export const deleteDeficit = (pacientId, deficitId) => async (distpach, getState
             type: 'LOADING',
             payload: loading
         })
-        await axios.delete(`http://localhost:5000/api/patients/${pacientId}/medicalHistories/1/deficits/${deficitId}`, { headers: { "token": `${localStorage.getItem('token')}` } })
+        await axios.delete(`${process.env.REACT_APP_URL_BASE_BACKEND}/patients/${pacientId}/medicalHistories/1/deficits/${deficitId}`, { headers: { "token": `${localStorage.getItem('token')}` } })
             .then(response => {
-                if (response.data.payload) {
+                if (response.data.data) {
                     distpach({
                         type: 'DELETE_DEFICIT_SUCCES',
                         payload: {

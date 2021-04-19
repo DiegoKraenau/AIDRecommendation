@@ -22,7 +22,7 @@ const ListaConsultas = () => {
 
     //States
     const [currentPage, setcurrentPage] = useState(1)
-    const [consultationsPerPage] = useState(3);
+    const [consultationsPerPage] = useState(7);
 
 
 
@@ -61,6 +61,27 @@ const ListaConsultas = () => {
 
     const addConsultation = () => {
         history.push('/agregarConsulta')
+    }
+
+    const renderState = (param) => {
+        switch (param) {
+            case 0:
+                return (
+                    <td>Pendiente</td>
+                );
+            case 1:
+                return (
+                    <td>Aceptado</td>
+                );
+            case 2:
+                return (
+                    <td>Finalizado</td>
+                );
+            default:
+                return (
+                    <td>Pendiente</td>
+                );
+        }
     }
 
     //Rendered finished
@@ -120,19 +141,14 @@ const ListaConsultas = () => {
                                                 <td>{consultation.createdAt}</td>
                                                 <td>{consultation.Dolencia}</td>
                                                 {
-                                                    consultation.Estado !== 0 ? (
-                                                        <td>Aceptado</td>
-                                                    ) : (
-
-                                                        <td>Pendiente</td>
-                                                    )
+                                                    renderState(consultation.Estado)
                                                 }
 
                                                 {
                                                     consultation.doctorId === 1 ? (
                                                         <td>Pendiente</td>
                                                     ) : (
-                                                        <td>{consultation.DoctorName}</td>
+                                                        <td>{consultation.DoctorName + ' ' + consultation.DoctorApellido}</td>
                                                     )
                                                 }
                                                 <td><button onClick={() => changeToDetails(consultation.id)}><i><FontAwesomeIcon icon="edit" /></i>Detalles</button></td>
@@ -157,7 +173,7 @@ const ListaConsultas = () => {
                                 <tbody>
                                     {
                                         <tr>
-                                            <td colSpan="6" className="center">No tiene ni una consulta registrada</td>
+                                            <td colSpan="6" className="center">No tiene ni una consulta registrada.</td>
                                         </tr>
                                     }
                                 </tbody>

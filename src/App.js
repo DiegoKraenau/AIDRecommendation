@@ -22,6 +22,10 @@ import DetalleConsulta from './components/DetalleConsulta/DetalleConsulta';
 import ConsultaDoctores from './components/ConsultaDoctores/ConsultaDoctores';
 import MisConsultas from './components/MisConsultas/MisConsultas';
 import ResponderConsulta from './components/ResponderConsulta/ResponderConsulta';
+import InfoDoctor from './components/informaciónDoctor/InfoDoctor';
+import InfoPaciente from './components/infoPaciente/InfoPacient';
+import RankingDoctores from './components/RankingDoctores/RankingDoctores';
+import RecuperarContraseña from './components/RecuperarContraseña/RecuperarContraseña';
 
 
 function App() {
@@ -40,7 +44,9 @@ function App() {
         <Route path="/register" exact>
           <Register></Register>
         </Route>
-
+        <Route path="/recuperarContraseña" exact>
+          <RecuperarContraseña></RecuperarContraseña>
+        </Route>
         <ProtectedRoutes
           path="/consultas"
           component={Consultas}
@@ -61,9 +67,10 @@ function App() {
           path="/editarDeficit/:deficitId"
           component={EditarDeficit}
         ></ProtectedRoutes>
-        <Route path="/perfil" exact>
-          <Perfil></Perfil>
-        </Route>
+        <ProtectedRoutes
+          path="/perfil"
+          component={Perfil}
+        ></ProtectedRoutes>
         {
           /*
            <ProtectedRoutes
@@ -100,6 +107,18 @@ function App() {
         <ProtectedRoutes
           path="/validarConsulta/:id"
           component={ResponderConsulta}
+        ></ProtectedRoutes>
+        <ProtectedRoutes
+          path="/informaciónDoctor/:id"
+          component={InfoDoctor}
+        ></ProtectedRoutes>
+        <ProtectedRoutes
+          path="/informaciónPaciente/:id"
+          component={InfoPaciente}
+        ></ProtectedRoutes>
+        <ProtectedRoutes
+          path="/rankingDoctores"
+          component={RankingDoctores}
         ></ProtectedRoutes>
       </Switch>
     </Router>

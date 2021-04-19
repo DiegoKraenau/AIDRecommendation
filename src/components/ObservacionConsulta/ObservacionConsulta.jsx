@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Fragment, useState } from "react";
+import { Fragment, React } from "react";
 import { useForm } from "react-hook-form";
 import styles from './_ObservacionConsulta.module.scss';
 import '../../sass/styles.scss';
@@ -7,7 +7,7 @@ import '../../sass/styles.scss';
 const ObservacionConsulta = ({ consultation, inputObservation, setInputObservation, textObservation, setTextObservation }) => {
 
     //States
-    const { register, errors, handleSubmit } = useForm()
+    const { register } = useForm()
 
 
     //Functions
@@ -19,6 +19,8 @@ const ObservacionConsulta = ({ consultation, inputObservation, setInputObservati
     const onChange = (e) => {
         setTextObservation(e.target.value)
     };
+
+
 
 
     return (
@@ -51,7 +53,12 @@ const ObservacionConsulta = ({ consultation, inputObservation, setInputObservati
                                 <p>No tiene observaciones por el momento</p>
                             )
                         }
-                        <button className="btn_plus" onClick={() => addObservation()}><FontAwesomeIcon icon={`${inputObservation ? 'trash-alt' : 'plus'}`}></FontAwesomeIcon></button>
+                        {
+                            consultation.Estado !==2 && (
+                                <button className="btn_plus" onClick={() => addObservation()}><FontAwesomeIcon icon={`${inputObservation ? 'trash-alt' : 'plus'}`}></FontAwesomeIcon></button>
+
+                            )
+                        }
                     </Fragment>
                 )
             }

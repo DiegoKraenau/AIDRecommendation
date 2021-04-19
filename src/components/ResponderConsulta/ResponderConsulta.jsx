@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addingQuestionsAndObservations, getConsultation } from "../../redux/consultationDucks";
 import { getInfoUser } from "../../redux/userDucks";
@@ -20,7 +20,7 @@ const ResponderConsulta = () => {
     const consultationInformation = useSelector(store => store.consultation.consultationDetail)
     const [inputsPreguntas, setInputsPreguntas] = useState([])
     let { id } = useParams();//Obtain param from URL
-    
+
     //States
     const [consultation, setConsultation] = useState({
         id: '',
@@ -43,7 +43,7 @@ const ResponderConsulta = () => {
     const updateConsultation = () => {
 
         let found = false;
-        inputsPreguntas.map(x => {
+        inputsPreguntas.forEach(x => {
             if (x.pregunta.length === 0) {
                 found = true;
             }

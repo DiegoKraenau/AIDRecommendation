@@ -31,5 +31,7 @@ const turnLoading = (loading, distpach) => {
     })
 }
 
+const BASE_URL= 'http://localhost:5000/api'
 
-export { showPopUpError, emptyInputs,turnLoading }
+
+export { showPopUpError, emptyInputs,turnLoading , BASE_URL }
