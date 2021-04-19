@@ -253,7 +253,7 @@ export const deleteDeficit = (pacientId, deficitId) => async (distpach, getState
         })
         await axios.delete(`${process.env.REACT_APP_URL_BASE_BACKEND}/patients/${pacientId}/medicalHistories/1/deficits/${deficitId}`, { headers: { "token": `${localStorage.getItem('token')}` } })
             .then(response => {
-                if (response.data.payload) {
+                if (response.data.data) {
                     distpach({
                         type: 'DELETE_DEFICIT_SUCCES',
                         payload: {

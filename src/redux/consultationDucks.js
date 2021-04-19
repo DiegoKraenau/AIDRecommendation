@@ -26,6 +26,7 @@ const GET_CONSULTATIONSPENDING_SUCCESS = "GET_CONSULTATIONSPENDING_SUCCESS"
 const ADD_CONSULTATION_SELECTED = "ADD_CONSULTATION_SELECTED"
 const GET_CONSULTATIONS_DOCTOR = "GET_CONSULTATIONS_DOCTOR"
 const ADD_QUESTIONS_OBSERVATIONS = "ADD_QUESTIONS_OBSERVATIONS"
+const FINISH_CONSULTATION = "FINISH_CONSULTATION"
 
 
 export default function consultationReducer(state = initialData, action) {
@@ -85,6 +86,11 @@ export default function consultationReducer(state = initialData, action) {
             return {
                 ...state,
                 consultationUpdated: action.payload
+            }
+        case FINISH_CONSULTATION:
+            return {
+                ...state,
+                list: action.payload
             }
         default:
             return state
@@ -360,7 +366,7 @@ export const deleteconsultation = (pacientId, consultationId) => async (distpach
 
         await axios.delete(`${process.env.REACT_APP_URL_BASE_BACKEND}/patients/${pacientId}/medicalHistories/${pacientId}/medicalConsultations/${consultationId}`, { headers: { "token": `${localStorage.getItem('token')}` } })
             .then(response => {
-                if (response.data.payload) {
+                if (response.data.data) {
                     distpach({
                         type: 'DELETE_CONSULTATIONS_SUCCES',
                         payload: {
@@ -414,6 +420,52 @@ export const updateAnswersPacient = (patientOdoctorId, consultation) => async (d
                 console.log(error)
                 showPopUpError()
             })
+    } catch (error) {
+        console.log(error);
+        loading = false
+        turnLoading(loading, distpach)
+        // showPopUpError()
+    }
+
+
+}
+
+export const finishConsultation = (patientOdoctorId, consultation) => async (distpach, getState) => {
+
+    let loading = true;
+    try {
+        turnLoading(loading, distpach);
+        let listUpdated = getState().consultation.list
+        listUpdated.forEach((element, index) => {
+            if (element.id === consultation.id) {
+                console.log("ENTRANDOOOOOOOOOOOOO")
+                listUpdated[index].Estado = 2;
+            }
+        });
+        distpach({
+            type: 'FINISH_CONSULTATION',
+            payload: listUpdated
+        })
+        loading = false
+        turnLoading(loading, distpach)
+        // await axios.put(`${process.env.REACT_APP_URL_BASE_BACKEND}/patients/${patientOdoctorId}/medicalHistories/${patientOdoctorId}/medicalConsultations/${consultation.id}/questions`,
+        //     consultation, { headers: { "token": `${localStorage.getItem('token')}` } })
+        //     .then(response => {
+        //         if (response.data.data) {
+        //             distpach({
+        //                 type: 'UPDATE_CONSULTATIONS_SUCCESS',
+        //                 payload: 1
+        //             })
+        //             loading = false
+        //             turnLoading(loading, distpach)
+        //         }
+        //     })
+        //     .catch(error => {
+        //         loading = false
+        //         turnLoading(loading, distpach)
+        //         console.log(error)
+        //         showPopUpError()
+        //     })
     } catch (error) {
         console.log(error);
         loading = false

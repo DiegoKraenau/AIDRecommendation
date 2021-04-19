@@ -104,9 +104,12 @@ export const addQuestion = (newQuestion) => async (distpach, getState) => {
         //     .catch(error => {
         //         console.log(error)
         //     })
+        let arrayUpdated = getState().question.list
+        arrayUpdated.push(newQuestion)
+        console.log(arrayUpdated)
         distpach({
             type: 'ADD_QUESTION',
-            payload: newQuestion
+            payload: arrayUpdated
         })
 
         loading = false

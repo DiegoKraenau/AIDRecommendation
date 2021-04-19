@@ -20,7 +20,7 @@ const ResponderConsulta = () => {
     const consultationInformation = useSelector(store => store.consultation.consultationDetail)
     const [inputsPreguntas, setInputsPreguntas] = useState([])
     let { id } = useParams();//Obtain param from URL
-    
+
     //States
     const [consultation, setConsultation] = useState({
         id: '',

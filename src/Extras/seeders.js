@@ -299,24 +299,52 @@ const pacientSeeder = {
 
 const questions = [
     {
-        id:1,
+        id: 1,
         question: '¿Hola como estas?',
         answer: 'Obviamente mascota'
     },
     {
-        id:2,
+        id: 2,
         question: '¿Hola como estas?',
         answer: ''
     },
     {
-        id:3,
+        id: 3,
         question: '¿Hola como estas?',
         answer: 'aeaeaeaeae'
     },
     {
-        id:4,
+        id: 4,
         question: '¿Hola como estas?',
         answer: ''
     }
 ]
-export { deficitsSeeders, groupsSeeders, diseasesSeeders, consultationsSeeders, doctorSeeder, pacientSeeder,questions }
+
+
+const doctoresRankingSeeders = [
+    {
+        id: 1,
+        Nombre: 'Diego',
+        Apellido: 'Kraenau',
+        Puntuacion: 7
+    },
+    {
+        id: 2,
+        Nombre: 'Diego',
+        Apellido: 'Kraenau',
+        Puntuacion: 7
+    },
+    {
+        id: 3,
+        Nombre: 'Diego',
+        Apellido: 'Kraenau',
+        Puntuacion: 7
+    },
+    {
+        id: 4,
+        Nombre: 'Diego',
+        Apellido: 'Kraenau',
+        Puntuacion: 7
+    }
+]
+export { deficitsSeeders, groupsSeeders, diseasesSeeders, consultationsSeeders, doctorSeeder, pacientSeeder, questions , doctoresRankingSeeders}

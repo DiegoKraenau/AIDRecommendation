@@ -1,7 +1,6 @@
 // import axios from 'axios';
 // import Swal from 'sweetalert2';
 import axios from 'axios';
-import { pacientSeeder } from '../Extras/seeders';
 import { showPopUpError, turnLoading } from '../Extras/Validations';
 
 const initialData = {

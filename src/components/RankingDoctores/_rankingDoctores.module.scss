@@ -1,6 +1,6 @@
 @import "../../sass/styles.scss";
 
-.listaConsultas {
+.ranking {
   width: 100%;
   height: 85vh;
   min-height: 840px;
@@ -10,14 +10,12 @@
     width: 100%;
     height: 85%;
 
-  
-
     h2 {
       width: 100%;
       text-align: center;
     }
 
-    .list_consultation {
+    .list_ranking {
       background: $grey;
       width: 60%;
       margin: 20px auto;
@@ -27,12 +25,10 @@
         padding: 15px;
         background-color: $white;
         color: $grey;
-        
 
         button {
           display: block;
           margin: 0 auto;
-          width: 130px;
           padding: 5px 10px;
           color: $white;
           background: $PrimaryColorDark;
@@ -50,28 +46,5 @@
         }
       }
     }
-  }
-}
-
-.button_add_section {
-  margin: 0 auto;
-  width: 60%;
-  text-align: right;
-}
-
-
-.content_nothing{
-    
-  width: 100%; 
-  height: 50vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  p{
-    width: 100%;
-    height: 35px;
-    text-align: center;
-    font-size: 30px;
   }
 }

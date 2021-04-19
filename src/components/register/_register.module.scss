@@ -44,6 +44,7 @@
         display: block;
         text-align: center;
         color: black;
+        margin-top: 40px;
       }
 
       .register_roles {
@@ -51,14 +52,14 @@
         width: 70%;
         height: 110px;
         margin-bottom: 10px;
-
         .pacient,
         .doctor {
           text-align: center;
           cursor: pointer;
           color: $black;
+          width: 40%;
           img {
-            width: 30%;
+            width: 60%;
             height: 70%;
           }
         }

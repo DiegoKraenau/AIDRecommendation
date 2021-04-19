@@ -21,7 +21,7 @@ const MisConsultas = () => {
 
     //States
     const [currentPage, setcurrentPage] = useState(1)
-    const [consultationsPerPage] = useState(3);
+    const [consultationsPerPage] = useState(7);
 
 
 
@@ -87,7 +87,7 @@ const MisConsultas = () => {
                                             <tr key={consultation.id}>
                                                 <td>{consultation.createdAt}</td>
                                                 <td>{consultation.Dolencia}</td>
-                                                <td>{consultation.Paciente}</td>
+                                                <td>{consultation.Paciente + ' '+ consultation.PacienteApellido}</td>
                                                 <td>{consultation.Prescripcion}</td>
                                                 <td><button onClick={() => validConsultation(consultation)}><i><FontAwesomeIcon icon="edit" /></i>Responder</button></td>
                                             </tr>

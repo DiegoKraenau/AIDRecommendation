@@ -31,7 +31,7 @@ const Navbar = () => {
     }, [])
 
     useEffect(() => {
-        if (userInfo!==null) {
+        if (userInfo !== null) {
             setRol(userInfo.Rol)
         }
     }, [userInfo])
@@ -79,22 +79,13 @@ const Navbar = () => {
                             <NavLink activeClassName='active' to={`/recomendaciones`} defaultChecked>Recomendaciones COVID 19</NavLink>
                         </li>
                     }
-                    {
-                        (userInfo?.Rol === 1) ? (
-                            <li>
-                                <NavLink activeClassName='active' to='/foro' defaultChecked>Foro COVID 19</NavLink>
-                            </li>
-
-                        ) : (
-                            <li>
-                                <NavLink activeClassName='active' to='/foroDoctores' defaultChecked>Foro COVID 19</NavLink>
-                            </li>
-                        )
-                    }
+                    <li>
+                        <NavLink activeClassName='active' to='/foro' defaultChecked>Foro COVID 19</NavLink>
+                    </li>
                     {
                         (userInfo?.Rol === 2) &&
                         <li>
-                            <NavLink activeClassName='active' to='/foro' defaultChecked>Ranking doctores</NavLink>
+                            <NavLink activeClassName='active' to='/rankingDoctores' defaultChecked>Ranking doctores</NavLink>
                         </li>
                     }
                     <li>

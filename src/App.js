@@ -24,6 +24,8 @@ import MisConsultas from './components/MisConsultas/MisConsultas';
 import ResponderConsulta from './components/ResponderConsulta/ResponderConsulta';
 import InfoDoctor from './components/informaciónDoctor/InfoDoctor';
 import InfoPaciente from './components/infoPaciente/InfoPacient';
+import RankingDoctores from './components/RankingDoctores/RankingDoctores';
+import RecuperarContraseña from './components/RecuperarContraseña/RecuperarContraseña';
 
 
 function App() {
@@ -42,7 +44,9 @@ function App() {
         <Route path="/register" exact>
           <Register></Register>
         </Route>
-
+        <Route path="/recuperarContraseña" exact>
+          <RecuperarContraseña></RecuperarContraseña>
+        </Route>
         <ProtectedRoutes
           path="/consultas"
           component={Consultas}
@@ -111,6 +115,10 @@ function App() {
         <ProtectedRoutes
           path="/informaciónPaciente/:id"
           component={InfoPaciente}
+        ></ProtectedRoutes>
+        <ProtectedRoutes
+          path="/rankingDoctores"
+          component={RankingDoctores}
         ></ProtectedRoutes>
       </Switch>
     </Router>

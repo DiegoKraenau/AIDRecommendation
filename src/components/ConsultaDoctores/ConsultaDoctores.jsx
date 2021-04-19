@@ -39,7 +39,7 @@ const ConsultaDoctores = () => {
             'success'
         ).then((result) => {
             if (result.isConfirmed) {
-                distpach(addConsultationSelected(userInfo.patientOdoctor.id,consultation))
+                distpach(addConsultationSelected(userInfo.patientOdoctor.id, consultation))
                 // history.push('/historialmedico')
                 console.log("ACEPTO")
             }
@@ -95,7 +95,7 @@ const ConsultaDoctores = () => {
                                             <tr key={consultation.id}>
                                                 <td>{consultation.createdAt}</td>
                                                 <td>{consultation.Dolencia}</td>
-                                                <td>{consultation.Paciente}</td>
+                                                <td>{consultation.Paciente + ' ' + consultation.PacienteApellido}</td>
                                                 <td>{consultation.Prescripcion}</td>
                                                 <td><button onClick={() => selectConsultation(consultation)}><i><FontAwesomeIcon icon="edit" /></i>Seleccionar</button></td>
                                             </tr>

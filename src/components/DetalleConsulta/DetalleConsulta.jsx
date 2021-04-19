@@ -4,7 +4,7 @@ import styles from './_DetalleConsulta.module.scss';
 import '../../sass/styles.scss';
 import { useDispatch, useSelector } from "react-redux";
 import { getInfoUser } from "../../redux/userDucks";
-import { getConsultation, updateAnswersPacient, resetAnswersUpdated } from "../../redux/consultationDucks";
+import { getConsultation, updateAnswersPacient, resetAnswersUpdated, finishConsultation } from "../../redux/consultationDucks";
 import { useHistory, useParams } from "react-router";
 import { emptyInputs } from '../../Extras/Validations';
 import Swal from "sweetalert2";
@@ -35,6 +35,52 @@ const DetalleConsulta = () => {
 
     //Functions
 
+    const endConsultation = (consultation) => {
+        Swal.fire({
+            title: '¿Como calificarías tu consulta?',
+            icon: 'question',
+            input: 'range',
+            inputLabel: 'Tu puntaje nos importa',
+            inputAttributes: {
+                min: 0,
+                max: 10,
+                step: 1
+            },
+            inputValue: 10
+        }).then((result) => {
+            if (result.isConfirmed) {
+                consultationInformation.Estado = 2
+                consultationInformation.Puntuacion = result.value
+                distpach(finishConsultation(userInfo.patientOdoctor.id, consultationInformation))
+                let timerInterval
+                Swal.fire({
+                    title: 'Se esta finalizando la consulta',
+                    html: 'Espere porfavor...',
+                    timer: 4000,
+                    timerProgressBar: true,
+                    didOpen: () => {
+                        Swal.showLoading()
+                        timerInterval = setInterval(() => {
+                            const content = Swal.getContent()
+                            if (content) {
+                                const b = content.querySelector('b')
+                                if (b) {
+                                    b.textContent = Swal.getTimerLeft()
+                                }
+                            }
+                        }, 100)
+                    },
+                    willClose: () => {
+                        clearInterval(timerInterval)
+                    }
+                }).then((result) => {
+                    if (result.dismiss === Swal.DismissReason.timer) {
+                        history.goBack()
+                    }
+                })
+            }
+        })
+    }
 
 
     const updateAnswers = () => {
@@ -103,6 +149,28 @@ const DetalleConsulta = () => {
         }
     }, [consultationUpdated])
 
+    const renderState = (param) => {
+        switch (param) {
+            case 0:
+                return (
+                    <p>Pendiente</p>
+                );
+            case 1:
+                return (
+                    <p>Aceptado</p>
+                );
+            case 2:
+                return (
+                    <p>Finalizado</p>
+                );
+            default:
+                return (
+                    <p>Pendiente</p>
+                );
+        }
+    }
+
+
     //Validations
     const onChangeAnswers = (e, position) => {
         let newArr = [...consultation.Preguntas];
@@ -134,18 +202,14 @@ const DetalleConsulta = () => {
                             <div className={`${styles.information}`}>
                                 <h4>Estado de la consulta:</h4>
                                 {
-                                    consultation.Estado === 0 ? (
-                                        <p>Pendiente</p>
-                                    ) : (
-                                        <p>Positivo</p>
-                                    )
+                                    renderState(consultation.Estado)
                                 }
                             </div>
                             <div className={`${styles.information}`}>
                                 <h4>Doctor asignado:</h4>
                                 {
                                     consultation.DoctorName.length !== 0 ? (
-                                        <Link to={`/informaciónDoctor/${consultation.doctorId}`}>{consultation.DoctorName +' '+consultation.DoctorApellido}</Link>
+                                        <Link to={`/informaciónDoctor/${consultation.doctorId}`}>{consultation.DoctorName + ' ' + consultation.DoctorApellido}</Link>
 
                                     ) : (
                                         <p>Pendiente</p>
@@ -183,6 +247,7 @@ const DetalleConsulta = () => {
                                                     autoComplete="off"
                                                     value={question.respuesta}
                                                     onChange={(e) => onChangeAnswers(e, i)}
+                                                    disabled={`${consultation.Estado === 2 ? 'disable' : ''}`}
                                                 >
                                                 </textarea>
                                             </div>
@@ -193,15 +258,34 @@ const DetalleConsulta = () => {
                                 )
                             }
                         </div>
-                        <div className={`${styles.contenedorButton} button__content`}>
-                            <button
-                                type="submit"
-                                className="button"
-                                onClick={() => updateAnswers()}
-                            >
-                                Registrar
-                            </button>
-                        </div>
+                        {
+                            consultation.Estado !== 2 && (
+                                <div className={`${styles.botones} flex flex-jc-c flex-ai-c`}>
+                                    <div className={`${styles.contenedorButton} button__content`}>
+                                        <button
+                                            type="submit"
+                                            className="button"
+                                            onClick={() => updateAnswers()}
+                                        >
+                                            Responder
+                                     </button>
+                                    </div>
+                                    {
+                                        consultation.Estado === 1 && (
+                                            <div className={`${styles.contenedorButton} button__content`}>
+                                                <button
+                                                    type="submit"
+                                                    className="button"
+                                                    onClick={() => endConsultation()}
+                                                >
+                                                    Finalizar
+                                         </button>
+                                            </div>
+                                        )
+                                    }
+                                </div>
+                            )
+                        }
                     </div>
                 </section>
             </section>

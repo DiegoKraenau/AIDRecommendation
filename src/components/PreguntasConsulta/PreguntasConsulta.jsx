@@ -24,6 +24,7 @@ const PreguntasConsulta = ({ consultation, inputsPreguntas, setInputsPreguntas }
         }
     }
 
+
     //Validations
     const onChangeQuestions = (e, position) => {
         let newArr = [...inputsPreguntas];
@@ -74,14 +75,22 @@ const PreguntasConsulta = ({ consultation, inputsPreguntas, setInputsPreguntas }
                                 value={x.pregunta}
                                 onChange={(e) => onChangeQuestions(e, i)}
                             ></input>
-                            <button className="btn_plus" onClick={() => deleteQuestion(i)}><FontAwesomeIcon icon="trash-alt"></FontAwesomeIcon></button>
+                            {
+                                consultation.Estado !== 2 && (
+                                    <button className="btn_plus" onClick={() => deleteQuestion(i)}><FontAwesomeIcon icon="trash-alt"></FontAwesomeIcon></button>
+                                )
+                            }
                         </div>
 
                     ))
 
                 }
             </Fragment>
-            <button className="btn_plus" ref={btnAddQuestions} onClick={() => addQuestion()}><FontAwesomeIcon icon="plus"></FontAwesomeIcon></button>
+            {
+                consultation.Estado !== 2 && (
+                    <button className="btn_plus" ref={btnAddQuestions} onClick={() => addQuestion()}><FontAwesomeIcon icon="plus"></FontAwesomeIcon></button>
+                )
+            }
         </div>
     );
 }

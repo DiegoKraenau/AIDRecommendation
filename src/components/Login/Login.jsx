@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form';
 import { React, useState, useEffect, Fragment } from 'react';
 import '../../sass/styles.scss';
 import LoadingScreen from 'loading-screen-kraenau';
+import Swal from 'sweetalert2';
 
 
 
@@ -32,7 +33,7 @@ const Login = () => {
 
     const onSubmit = async (data, e) => {
         dispatch(loginAction(user))
-       // console.log(localStorage.getItem('token'))
+        // console.log(localStorage.getItem('token'))
     }
 
     /*Validations */
@@ -60,6 +61,24 @@ const Login = () => {
 
         if (localStorage.getItem('token')) {
             history.push('/perfil')
+
+
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+
+            Toast.fire({
+                icon: 'success',
+                title: 'Logueo éxitoso'
+            })
         }
 
     }, [test])
@@ -69,10 +88,10 @@ const Login = () => {
     return (
         <Fragment>
             {
-                
+
                 loading === true &&
                 <LoadingScreen></LoadingScreen>
-                
+
             }
             <section className={`${styles.login} flex flex-jc-c flex-ai-c`}>
                 <img className={`${styles.abs_img}`} src={abslogin} alt="abs"></img>
@@ -129,8 +148,9 @@ const Login = () => {
                                 ></input>
                                 <div className="error-message">{errors.Contrasenia?.message}</div>
                             </div>
+                            <p className="forgetpass">¿Olvidaste tu contraseña? <Link to="/recuperarContraseña">click aquí</Link></p>
                             <button type="submit" className="button">Log in</button>
-                            <p>Si no tienes una cuenta , <Link to="/register">click aquí</Link></p>
+                            <p className="forgetpass">Si no tienes una cuenta , <Link to="/register">click aquí</Link></p>
                         </form>
                     </div>
                 </section>
