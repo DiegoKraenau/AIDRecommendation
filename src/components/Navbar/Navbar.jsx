@@ -61,9 +61,11 @@ const Navbar = () => {
                             </li>
 
                         ) : (
-                            <li>
-                                <NavLink activeClassName='active' to='/consultaDoctores' defaultChecked>Consultas</NavLink>
-                            </li>
+                            userInfo?.Rol !== 3 && (
+                                <li>
+                                    <NavLink activeClassName='active' to='/consultaDoctores' defaultChecked>Consultas</NavLink>
+                                </li>
+                            )
 
                         )
                     }
@@ -88,9 +90,13 @@ const Navbar = () => {
                             <NavLink activeClassName='active' to='/rankingDoctores' defaultChecked>Ranking doctores</NavLink>
                         </li>
                     }
-                    <li>
-                        <NavLink activeClassName='active' to='/perfil' defaultChecked>Mi perfil</NavLink>
-                    </li>
+                    {
+                        (userInfo?.Rol !== 3) && (
+                            <li>
+                                <NavLink activeClassName='active' to='/perfil' defaultChecked>Mi perfil</NavLink>
+                            </li>
+                        )
+                    }
                     <li>
                         <i className="icon"><FontAwesomeIcon icon="sign-out-alt" onClick={() => exit()} /></i>
                     </li>

@@ -43,7 +43,11 @@ const Foro = () => {
                     <section className={`${styles.foro}  flex flex-jc-c flex-ai-c`}>
                         <section className={`${styles.foro__content} container`}>
                             <h2>Foro de Consultas</h2>
-                            <QuestionAdmin></QuestionAdmin>
+                            {
+                                userInfo.Rol === 3 && (
+                                    <QuestionAdmin></QuestionAdmin>
+                                )
+                            }
                             <ListQuestions questions={questions} rol={userInfo.Rol}></ListQuestions>
 
                         </section>

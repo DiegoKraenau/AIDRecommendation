@@ -435,42 +435,38 @@ export const finishConsultation = (patientOdoctorId, consultation) => async (dis
     let loading = true;
     try {
         turnLoading(loading, distpach);
-        let listUpdated = getState().consultation.list
-        listUpdated.forEach((element, index) => {
-            if (element.id === consultation.id) {
-                console.log("ENTRANDOOOOOOOOOOOOO")
-                listUpdated[index].Estado = 2;
-            }
-        });
-        distpach({
-            type: 'FINISH_CONSULTATION',
-            payload: listUpdated
-        })
+
         loading = false
         turnLoading(loading, distpach)
-        // await axios.put(`${process.env.REACT_APP_URL_BASE_BACKEND}/patients/${patientOdoctorId}/medicalHistories/${patientOdoctorId}/medicalConsultations/${consultation.id}/questions`,
-        //     consultation, { headers: { "token": `${localStorage.getItem('token')}` } })
-        //     .then(response => {
-        //         if (response.data.data) {
-        //             distpach({
-        //                 type: 'UPDATE_CONSULTATIONS_SUCCESS',
-        //                 payload: 1
-        //             })
-        //             loading = false
-        //             turnLoading(loading, distpach)
-        //         }
-        //     })
-        //     .catch(error => {
-        //         loading = false
-        //         turnLoading(loading, distpach)
-        //         console.log(error)
-        //         showPopUpError()
-        //     })
+        await axios.put(`${process.env.REACT_APP_URL_BASE_BACKEND}/patients/${patientOdoctorId}/medicalHistories/${patientOdoctorId}/medicalConsultations/${consultation.id}`,
+            consultation, { headers: { "token": `${localStorage.getItem('token')}` } })
+            .then(response => {
+                if (response.data.data) {
+                    let listUpdated = getState().consultation.list
+                    listUpdated.forEach((element, index) => {
+                        if (element.id === consultation.id) {
+                            listUpdated[index].Estado = 2;
+                        }
+                    });
+                    distpach({
+                        type: 'FINISH_CONSULTATION',
+                        payload: listUpdated
+                    })
+                    loading = false
+                    turnLoading(loading, distpach)
+                }
+            })
+            .catch(error => {
+                loading = false
+                turnLoading(loading, distpach)
+                console.log(error)
+                showPopUpError()
+            })
     } catch (error) {
         console.log(error);
         loading = false
         turnLoading(loading, distpach)
-        // showPopUpError()
+        showPopUpError()
     }
 
 

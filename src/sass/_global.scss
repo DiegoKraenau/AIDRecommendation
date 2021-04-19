@@ -299,3 +299,17 @@ a {
   font-size: 10px;
   text-align: center;
 }
+
+.marca-agua{
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  color: rgba(128, 128, 128, 0.357);
+}
+
+.message_center{
+  text-align: center;
+  margin-top: 40px;
+  font-size: 25px;
+  color: $grey;
+}

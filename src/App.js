@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Switch,
   Route
 } from "react-router-dom";
@@ -26,7 +26,7 @@ import InfoDoctor from './components/informaciónDoctor/InfoDoctor';
 import InfoPaciente from './components/infoPaciente/InfoPacient';
 import RankingDoctores from './components/RankingDoctores/RankingDoctores';
 import RecuperarContraseña from './components/RecuperarContraseña/RecuperarContraseña';
-
+import './sass/styles.scss';
 
 function App() {
 
@@ -37,6 +37,7 @@ function App() {
 
 
     <Router>
+      <p className="marca-agua">Designed by @DiegoKraenau</p>
       <Switch>
         <Route path="/" exact>
           <Login></Login>
