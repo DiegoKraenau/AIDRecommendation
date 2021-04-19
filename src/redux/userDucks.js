@@ -20,6 +20,7 @@ const GET_INFO_USER = "GET_INFO_USER"
 const GET_PROFILE = "GET_PROFILE"
 const GET_PASSWORD = "GET_PASSWORD"
 const RESET_PASSWORD_FORGET = "RESET_PASSWORD_FORGET"
+const EDIT_PROFILE = "EDIT_PROFILE"
 
 export default function userReducer(state = initialData, action) {
     switch (action.type) {
@@ -295,44 +296,76 @@ export const getProfile = (id) => async (distpach, getState) => {
     try {
         turnLoading(loading, distpach)
 
-        // await axios.get(`${process.env.REACT_APP_URL_BASE_BACKEND}/user/idByToken/${token}`)
-        //     .then(response => {
-        //         //console.log(response.data.user)
-        //         distpach({
-        //             type: GET_INFO_USER,
-        //             payload: response.data.user
-        //         })
+        await axios.get(`${process.env.REACT_APP_URL_BASE_BACKEND}/user/${id}`)
+            .then(response => {
+                if (response.data.data) {
+                    distpach({
+                        type: GET_PROFILE,
+                        payload: response.data.data
+                    })
 
-        //         loading = false
-        //         distpach({
-        //             type: 'LOADING',
+                    loading = false;
+                    turnLoading(loading, distpach)
+                }
+            })
+            .catch(error => {
+                console.log(error)
+                loading = false
+                turnLoading(loading, distpach)
+                showPopUpError()
+            })
 
-        //         })
-        //     })
-        //     .catch(error => {
-        //         console.log(error)
-        //         loading = false
-        //         distpach({
-        //             type: 'LOADING',
-
-        //         })
-        //     })
-        distpach({
-            type: GET_PROFILE,
-            payload: doctorSeeder
-        })
-
-        loading = false;
-        turnLoading(loading, distpach)
 
 
     } catch (error) {
         console.log(error)
         loading = false
-        distpach({
-            type: 'LOADING',
+        turnLoading(loading, distpach)
+        showPopUpError()
+    }
+}
 
-        })
+
+
+export const editProfile = (id, user) => async (distpach, getState) => {
+    let loading = true
+    try {
+        turnLoading(loading, distpach)
+
+        await axios.put(`${process.env.REACT_APP_URL_BASE_BACKEND}/user/${id}`,
+            user,
+            { headers: { "token": `${localStorage.getItem('token')}` } })
+            .then(response => {
+                if (response.data.data) {
+                    distpach({
+                        type: EDIT_PROFILE,
+                        payload: response.data.data
+                    })
+
+                    loading = false;
+                    turnLoading(loading, distpach)
+
+                    Swal.fire(
+                        'Buen Trabajo',
+                        'Se modificó el perfil con éxito',
+                        'success'
+                    )
+                }
+            })
+            .catch(error => {
+                console.log(error)
+                loading = false
+                turnLoading(loading, distpach)
+                showPopUpError()
+            })
+
+
+
+    } catch (error) {
+        console.log(error)
+        loading = false
+        turnLoading(loading, distpach)
+        showPopUpError()
     }
 }
 
