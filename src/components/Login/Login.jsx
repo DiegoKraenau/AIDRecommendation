@@ -9,6 +9,7 @@ import { React, useState, useEffect, Fragment } from 'react';
 import '../../sass/styles.scss';
 import LoadingScreen from 'loading-screen-kraenau';
 import Swal from 'sweetalert2';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 
@@ -154,8 +155,13 @@ const Login = () => {
                         </form>
                     </div>
                 </section>
-
             </section>
+            <a href="https://api.whatsapp.com/send?phone=51941432379&text=Hola%21%20Quisiera%20m%C3%A1s%20informaci%C3%B3n%20sobre%20Varela%202." className="float" target="_blank">
+                <i className="my-float"><FontAwesomeIcon  icon="phone"></FontAwesomeIcon></i>
+            </a>
+            {
+                /*Probando deploy */
+            }
         </Fragment>
     );
 }
