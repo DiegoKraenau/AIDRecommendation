@@ -160,7 +160,7 @@ const Login = () => {
                 <i className="my-float"><FontAwesomeIcon  icon="phone"></FontAwesomeIcon></i>
             </a>
             {
-                /*Probando deploy con puerto*/
+                /*Probando deploy con puerto 8080*/
             }
         </Fragment>
     );
