@@ -7,10 +7,11 @@ import pacientface from '../../img/pface.svg';
 import abslogin from '../../img/abslogin.svg';
 import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import LoadingScreen from 'loading-screen-kraenau';
 import { registerUser } from '../../redux/userDucks';
+import Terms from '../../docs/TYC.pdf';
 
 const Register = () => {
 
@@ -28,6 +29,8 @@ const Register = () => {
         "DNI": '',
         "Edad": null,
         "Correo": '',
+        "Telefono": null,
+        "Direccion": '',
         "Usuario": '',
         "Contrasenia": '',
         "PalabraSecreta": '',
@@ -209,6 +212,40 @@ const Register = () => {
                                     <div className="error-message">{errors.Correo?.message}</div>
                                 </div>
                                 <div className={`${styles.input}`}>
+                                    <span>Teléfono</span>
+                                    <input
+                                        name="Telefono"
+                                        type="number"
+                                        placeholder="Ingrese un Teléfono"
+                                        autoComplete="off"
+                                        ref={
+                                            register({
+                                                required: { value: true, message: 'Necesitas un telefono' },
+                                                minLength: { value: 5, message: '5 letras minimas' }
+                                            })
+                                        }
+                                        className={`${errors.Correo?.Telefono ? 'input-invalid' : ''}`}
+                                    ></input>
+                                    <div className="error-message">{errors.Correo?.message}</div>
+                                </div>
+                                <div className={`${styles.input}`}>
+                                    <span>Dirección</span>
+                                    <input
+                                        name="Direccion"
+                                        type="text"
+                                        placeholder="Ingrese una direccion "
+                                        autoComplete="off"
+                                        ref={
+                                            register({
+                                                required: { value: true, message: 'Necesitas una dirección' },
+                                                minLength: { value: 5, message: '5 letras minimas' }
+                                            })
+                                        }
+                                        className={`${errors.Direccion?.message ? 'input-invalid' : ''}`}
+                                    ></input>
+                                    <div className="error-message">{errors.Direccion?.message}</div>
+                                </div>
+                                <div className={`${styles.input}`}>
                                     <span>Usuario</span>
                                     <input
                                         name="Usuario"
@@ -324,6 +361,10 @@ const Register = () => {
                                         className={`${errors.Colegiatura?.message ? 'input-invalid' : ''}`}
                                     ></input>
                                     <div className="error-message">{errors.Colegiatura?.message}</div>
+                                </div>
+                                <div className="terminos">
+                                    <input type="checkbox" id="cbox2" />
+                                    <label for="cbox2">Acepto los </label><a href={Terms} download="Terminos y Condiciones">terminos y condiciones</a>
                                 </div>
                                 <div className="button__content">
                                     <button type="submit" className="button"> Registrar</button>
