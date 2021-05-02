@@ -112,11 +112,13 @@ const DetalleConsulta = () => {
             distpach(getConsultation(userInfo.patientOdoctor.id, id))
             // distpach(getDiseases())
         }
+        alert("Los medicamentos recomendados por la aplicación son una sugerencia mas no se asegura su efectiva en todos los casos en un 100% , de presentar una molestia consultar con el doctor")
     }, [])
 
     useEffect(() => {
         if (userInfo !== null) {
             distpach(getConsultation(userInfo.patientOdoctor.id, id))
+          
         }
     }, [userInfo])
 

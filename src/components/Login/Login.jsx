@@ -121,7 +121,7 @@ const Login = () => {
                                     ref={
                                         register({
                                             required: { value: true, message: 'Necesitas un usuario' },
-                                            minLength: { value: 6, message: '6 letras minimas' }
+                                            minLength: { value: 5, message: '5 letras minimas' }
                                         })
                                     }
                                     className={`${errors.Usuario?.message ? 'input-invalid' : ''}`}
