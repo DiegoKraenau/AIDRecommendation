@@ -106,7 +106,7 @@ const Login = () => {
                             <img src={doctorLogin} alt="login-img"></img>
                         </div>
                         <div className={`${styles.login_description}`}>
-                            <p>Somos una aplicación web dedicada a las consultas médicas a través de la recolección de información de las historas médicas de los pacientes para que así estos puedan brindarle una mejor información sobre qué es lo que se busca en el momento a los doctores</p>
+                            <p>Somos una aplicación web dedicada al tratamiento de consultas médicas y la prescripción de recetas médicas automáticas a través de la recolección de información de las historias médicas de los pacientes con la finalidad de brindarles una mejor atención.</p>
                         </div>
                     </div>
                     <div className={`${styles.login__content__right} flex flex-jc-c flex-ai-c`}>

@@ -27,6 +27,8 @@ import InfoPaciente from './components/infoPaciente/InfoPacient';
 import RankingDoctores from './components/RankingDoctores/RankingDoctores';
 import RecuperarContraseña from './components/RecuperarContraseña/RecuperarContraseña';
 import './sass/styles.scss';
+import ListaDoctores from './components/ListaDoctores/ListaDoctores';
+import ListaPacientes from './components/ListaPacientes/ListaPacientes';
 
 function App() {
 
@@ -59,6 +61,14 @@ function App() {
         <ProtectedRoutes
           path="/recomendaciones"
           component={Recomendaciones}
+        ></ProtectedRoutes>
+         <ProtectedRoutes
+          path="/listaDoctores"
+          component={ListaDoctores}
+        ></ProtectedRoutes>
+         <ProtectedRoutes
+          path="/listaPacientes"
+          component={ListaPacientes}
         ></ProtectedRoutes>
         <ProtectedRoutes
           path="/foro"

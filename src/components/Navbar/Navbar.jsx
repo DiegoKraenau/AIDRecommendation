@@ -97,6 +97,20 @@ const Navbar = () => {
                             </li>
                         )
                     }
+                    {
+                        userInfo?.Rol === 3 && (
+                            <li>
+                                <NavLink activeClassName='active' to='/listaDoctores' defaultChecked>Lista Doctores</NavLink>
+                            </li>
+                        )
+                    }
+                     {
+                        userInfo?.Rol === 3 && (
+                            <li>
+                                <NavLink activeClassName='active' to='/listaPacientes' defaultChecked>Lista Pacientes</NavLink>
+                            </li>
+                        )
+                    }
                     <li>
                         <i className="icon"><FontAwesomeIcon icon="sign-out-alt" onClick={() => exit()} /></i>
                     </li>
