@@ -29,6 +29,7 @@ import RecuperarContraseña from './components/RecuperarContraseña/RecuperarCon
 import './sass/styles.scss';
 import ListaDoctores from './components/ListaDoctores/ListaDoctores';
 import ListaPacientes from './components/ListaPacientes/ListaPacientes';
+import VerRespuestas from './components/VerRespuestas/VerRespuestas';
 
 function App() {
 
@@ -61,6 +62,10 @@ function App() {
         <ProtectedRoutes
           path="/recomendaciones"
           component={Recomendaciones}
+        ></ProtectedRoutes>
+        <ProtectedRoutes
+          path="/respuestas/:id"
+          component={VerRespuestas}
         ></ProtectedRoutes>
          <ProtectedRoutes
           path="/listaDoctores"

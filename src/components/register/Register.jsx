@@ -1,5 +1,5 @@
 import styles from './_register.module.scss';
-import { Fragment, React, useState } from 'react';
+import { Fragment, React, useEffect, useState } from 'react';
 import '../../sass/styles.scss';
 import profile from '../../img/profile.svg';
 import doctorface from '../../img/dface3.svg';
@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import LoadingScreen from 'loading-screen-kraenau';
-import { registerUser } from '../../redux/userDucks';
+import { registerUser , resetUserRegistered } from '../../redux/userDucks';
 import Terms from '../../docs/TYC.pdf';
 
 const Register = () => {
@@ -41,6 +41,24 @@ const Register = () => {
     })
     const loading = useSelector(store => store.global.loading);
 
+    const userRegistered = useSelector(store => store.usuario.userRegistered)
+
+    useEffect(() => {
+        if (userRegistered !== null) {
+            
+            Swal.fire(
+                'Buen Trabajo',
+                'Te has registrado con exito',
+                'success'
+            ).then((result) => {
+                if (result.isConfirmed) {
+                    history.push('/')
+                    dispatch(resetUserRegistered())
+                }
+            })
+        }
+    }, [userRegistered])
+
     const changeToDoctor = () => {
         setRolSelect(2)
     }
@@ -48,6 +66,7 @@ const Register = () => {
     const changeToPacient = () => {
         setRolSelect(1)
     }
+
 
     const onSubmit = (data, e) => {
 
@@ -57,18 +76,18 @@ const Register = () => {
         }
 
         /*Make if to use the endpoint */
-        e.target.reset()
+        //e.target.reset()
         dispatch(registerUser(data));
         /*Alert success */
-        Swal.fire(
-            'Buen Trabajo',
-            'Te has registrado con exito',
-            'success'
-        ).then((result) => {
-            if (result.isConfirmed) {
-                history.push('/')
-            }
-        })
+        // Swal.fire(
+        //     'Buen Trabajo',
+        //     'Te has registrado con exito',
+        //     'success'
+        // ).then((result) => {
+        //     if (result.isConfirmed) {
+        //         history.push('/')
+        //     }
+        // })
     }
 
     /*Validations */

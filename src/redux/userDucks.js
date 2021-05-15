@@ -6,7 +6,7 @@ import { showPopUpError, turnLoading } from '../Extras/Validations';
 
 const initialData = {
     token: '',
-    userRegistered: {},
+    userRegistered: null,
     userInside: null,
     profile: null,
     passwordForget: null
@@ -196,17 +196,31 @@ export const registerUser = (user) => async (distpach, getState) => {
 
         await axios.post(`${process.env.REACT_APP_URL_BASE_BACKEND}/register`, user)
             .then(response => {
-                console.log(response.data)
-                distpach({
-                    type: REGISTER_SUCCESS,
-                    payload: response.data
-                })
+                if (response.data.message) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Ya existe un usuario con esa palabra secreta!',
+                        footer: ''
+                    })
 
-                loading = false
-                distpach({
-                    type: 'LOADING',
+                    loading = false
+                    distpach({
+                        type: 'LOADING',
 
-                })
+                    })
+                } else {
+                    distpach({
+                        type: REGISTER_SUCCESS,
+                        payload: response.data
+                    })
+
+                    loading = false
+                    distpach({
+                        type: 'LOADING',
+
+                    })
+                }
             })
             .catch(error => {
                 console.log(error)
@@ -343,6 +357,13 @@ export const editProfile = (id, user) => async (distpach, getState) => {
 export const resetPasswordForget = () => async (distpach, getState) => {
     distpach({
         type: RESET_PASSWORD_FORGET,
+        payload: null
+    })
+}
+
+export const resetUserRegistered = () => async (distpach, getState) => {
+    distpach({
+        type: REGISTER_SUCCESS,
         payload: null
     })
 }
