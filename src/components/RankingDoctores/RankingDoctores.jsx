@@ -64,7 +64,8 @@ const RankingDoctores = () => {
                                 <thead>
                                     <tr>
                                         <th>Nombre Completo</th>
-                                        <th>Puntaje</th>
+                                        <th>Puntaje(1 al 10)</th>
+                                        <th>Nro. consultas</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -73,6 +74,7 @@ const RankingDoctores = () => {
                                             <tr key={doctor.id}>
                                                 <td>{doctor.Nombre + ' ' + doctor.Apellido}</td>
                                                 <td>{doctor.PromedioPuntuacion} puntos</td>
+                                                <td>{doctor.consultas} consultas</td>
                                             </tr>
                                         ))
                                     }
@@ -84,6 +86,7 @@ const RankingDoctores = () => {
                                     <tr>
                                         <th>Nombre Completo</th>
                                         <th>Puntaje(1 al 10)</th>
+                                        <th>Nro. consultas</th>
                                     </tr>
                                 </thead>
                                 <tbody>

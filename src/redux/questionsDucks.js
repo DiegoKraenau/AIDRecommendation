@@ -5,7 +5,9 @@ import { questions } from '../Extras/seeders';
 import { showPopUpError, turnLoading } from '../Extras/Validations';
 
 const initialData = {
-    list: null
+    list: null,
+    listAnswersForo: null,
+    answerRecently: null
 }
 
 
@@ -13,6 +15,7 @@ const initialData = {
 const GET_QUESTIONS = "GET_QUESTIONS"
 const ADD_QUESTION = "ADD_QUESTION"
 const ANSWER_QUESTION = "ANSWER_QUESTION"
+const GET_ANSWERS_FORO = "GET_ANSWERS_FORO"
 
 
 export default function questionReducer(state = initialData, action) {
@@ -30,7 +33,12 @@ export default function questionReducer(state = initialData, action) {
         case ANSWER_QUESTION:
             return {
                 ...state,
-                list: action.payload
+                answerRecently: action.payload
+            }
+        case GET_ANSWERS_FORO:
+            return {
+                ...state,
+                listAnswersForo: action.payload
             }
         default:
             return state
@@ -106,23 +114,17 @@ export const addQuestion = (newQuestion) => async (distpach, getState) => {
     }
 }
 
-export const answerQuestion = (question, doctorId) => async (distpach, getState) => {
+export const answerQuestion = (answer) => async (distpach, getState) => {
 
     let loading = true
     try {
         turnLoading(loading, distpach)
-        await axios.put(`${process.env.REACT_APP_URL_BASE_BACKEND}/foros/${question.id}`, question, { headers: { "token": `${localStorage.getItem('token')}` } })
+        await axios.post(`${process.env.REACT_APP_URL_BASE_BACKEND}/answer`, answer, { headers: { "token": `${localStorage.getItem('token')}` } })
             .then(response => {
                 if (response.data.data) {
-                    let updatedList = [...getState().question.list]
-                    updatedList.forEach((element, index) => {
-                        if (element.id === question.id) {
-                            updatedList[index] = question;
-                        }
-                    });
                     distpach({
                         type: 'ANSWER_QUESTION',
-                        payload: updatedList
+                        payload: response.data.data
                     })
 
                     loading = false
@@ -147,6 +149,47 @@ export const answerQuestion = (question, doctorId) => async (distpach, getState)
     }
 }
 
+export const getAnswersForo = (foroId) => async (distpach, getState) => {
 
+    let loading = true
+    try {
+        turnLoading(loading, distpach)
+        await axios.get(`${process.env.REACT_APP_URL_BASE_BACKEND}/answer/foro/${foroId}`, { headers: { "token": `${localStorage.getItem('token')}` } })
+            .then(response => {
+                if (response.data.data) {
+                    distpach({
+                        type: 'GET_ANSWERS_FORO',
+                        payload: response.data.data
+                    })
+
+                    loading = false
+                    turnLoading(loading, distpach)
+                }
+
+            }
+            )
+            .catch(error => {
+                console.log(error)
+                loading = false
+                turnLoading(loading, distpach)
+                showPopUpError()
+            })
+
+
+    } catch (error) {
+        console.log(error)
+        loading = false
+        turnLoading(loading, distpach)
+        showPopUpError()
+    }
+}
+
+export const resetAnswersQuestion = () => async (distpach, getState) => {
+
+    distpach({
+        type: 'ANSWER_QUESTION',
+        payload: null
+    })
+}
 
 
