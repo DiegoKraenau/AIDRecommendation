@@ -37,6 +37,7 @@ const VerRespuestas = () => {
         text: '',
         foroId: id
     })
+    //Commit
 
     const onSubmit = (data, e) => {
         e.target.reset()
